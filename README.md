@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/BackofenLab/MEMERIS.svg?branch=master)](https://travis-ci.org/BackofenLab/MEMERIS)
 # MEMERIS
 MEMERIS is an extension of the MEME (Bailey and Elkan (1994)) motif finder. 
 MEMERIS integrates information about RNA secondary structures into the motif search to guide the search towards single-stranded regions. 

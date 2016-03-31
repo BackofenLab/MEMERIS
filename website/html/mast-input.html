@@ -1,0 +1,252 @@
+<!---
+##
+## $Id: mast-input.html,v 1.1.1.1 2005/07/31 20:14:46 nadya Exp $
+##
+## $Log: mast-input.html,v $
+## Revision 1.1.1.1  2005/07/31 20:14:46  nadya
+## Importing from meme-3.0.14, and adding configure/make
+##
+##
+--->
+
+<HTML>
+<HEAD>
+<BODY BACKGROUND="images/bkg.jpg">
+<TITLE> MAST - Input</TITLE>
+</HEAD>
+
+<H1>MAST -- Motif Alignment and Search Tool</H1>
+<H2><I>Motif search tool</I></H2>
+
+<HR>
+
+<B>The input to MAST contains the following fields.</B>
+
+<UL>
+
+<A NAME="e-mail">
+<LI>	<B>e-mail address</B>
+	<BR>
+	Enter the email address where you want MAST to send 
+	the confirmation message and your search results.
+	Be sure that this is a valid e-mail address.
+
+<A NAME="description">
+<LI>	<B>description</B>
+	<BR>
+	This will be included in the subject lines of the messages MAST
+	will send you.  This field is optional so you may leave it blank if
+	you wish.
+
+<A NAME="motif-file">
+<LI>	<B>motifs</B>
+	<BR> 
+        This is the name of a file on your computer that contains
+        one or more of motifs that characterize a group of related sequences.
+        This can be the name of a file that contains the results of a
+        <A HREF=meme-intro.html><B>MEME</B></A> analysis, one or
+	more profiles in GCG format, or a motifs from any other source 
+        as long as they are in the correct
+        <A HREF=motif-format.html><B>format</B>.</A>
+        You can create a motif file by saving the e-mail message MEME
+        sends you to a file.
+        How you save an e-mail message to a file depends on
+        the e-mail program you use--consult your system manager if you need
+        help.  A "browse" button is provided by MAST to help you locate
+        the motif file you wish to use.  If you use profiles, the gap
+	opening and extension penalties will be ignored.
+	
+<A NAME="databases">
+<LI>	<B>sequence database</B>
+	<BR>
+	This is the name
+	of the sequence database
+	you wish to search for sequences containing your motifs.
+	You may either
+	<UL>
+          <LI> select a 
+		<A HREF="mast-databases.html"><B>MAST database</B></A> 
+		from a pull-down menu of available databases, 
+		or,
+          <LI> specify the name of a <A HREF="#FASTA">FASTA</A> 
+		file of sequences on your 
+		computer that MAST will <B>upload</B> and search.
+        </UL>
+	<B>Note 1: </B>If you specify a file on your computer, the selection in the
+	pull-down menu will be ignored.
+        <BR>
+	<B>Note 2: </B>Make sure that you specify the right kind of database for your
+	motifs.  MAST can only search protein databases with protein motifs.
+	It can search DNA databases with DNA motifs or with protein motifs
+	if you so specify in the "DNA-ONLY OPTIONS" section.  
+
+<A NAME="FASTA">
+<LI>	<B>FASTA format</B>
+	<BR>
+	If you specify a sequence file to be uploaded and searched
+	by MAST, it must be in FASTA format.  The sequence(s) it
+	contains must use either the MEME protein or MEME DNA
+	<A HREF=help_alphabet.html>alphabet</A>.  
+	<BR>
+	FASTA sequences start with a header line followed by
+	sequence lines.  A header line has
+	the character ``>'' in position one, followed by
+	an unique name without any spaces, followed by
+	(optional) descriptive text.  After the header line come
+	the actual sequence lines.  Spaces and blank lines are
+	ignored.  Sequences may be in capital or lowercase or
+	both.
+	Here is an example of FASTA format:
+<UL>
+                        ><B>ICYA_MANSE</B> INSECTICYANIN A FORM
+                        (BLUE BILIPROTEIN) <BR>
+                        GDIFYPGYCPDVKPVNDFDLSAFAGAWHEIAK <BR>
+                        LPLENENQGKCTIAEYKYDGKKASVYNSFVSNGVKEYMEGDLEIAPDA <BR>
+                        ><B>LACB_BOVIN</B> BETA-LACTOGLOBULIN PRECURSOR
+                        (BETA-LG) <BR>
+                        MKCLLLALALTCGAQALIVTQTMKGLDI <BR>
+                        QKVAGTWYSLAMAASDISLLDAQSAPLRVYVEELKPTPEGDLEILLQKW <BR>
+</UL>
+
+<A NAME="strands">
+<LI>	<B>treatment of reverse complement strands</B>
+	<BR>
+	MAST can automatically generate the reverse complement strand for
+	each <B>nucleotide</B> sequence in the database and treat it in 
+	three different ways.  ("Given strand" refers to the sequence as it
+	appears in the database MAST is searching.):
+	<OL>
+	  <LI> <B>combine with given strand</B>
+		<BR>
+		MAST searches for motif occurrences on either the
+		given strand or its reverse complement <B>together</B>, 
+		not allowing occurrences on the two strands to overlap 
+		each other, and displays them together as a single sequence.
+		This allows motifs to occur on either strand and still count
+		toward the overall <I>E</I>-value of the match.
+		(The given strand is the sequence as it appears in the 
+		database MAST is searching.)
+	  <LI> <B>treat as separate sequence </B>
+		<BR>
+		MAST to search for motifs in both
+		the given strand and its reverse complement, treating 
+		them as two, independent sequences.  The results are 
+		displayed separately for the two strands, as though both
+		had occurred in the database.
+	  <LI>  <B>none</B>
+		<BR>
+		MAST searches only the given strand of each sequence in
+		the database.
+	</OL>
+	<B>Note</B>: this field has no effect when the database contains protein
+	sequences.
+
+<A NAME="use_seq_comp">
+<LI>	<B>use individual sequence compostion in 
+	<I>E</I>-and <I>p</I>-value</B> calculation
+	<BR>
+	This option can improve search selectivity
+	when erroneous matches are due to <B>biased sequence composition</B>.
+	MAST normally computes <I>E</I>-values and <I>p</I>-values</B> using a 
+	random sequence model based on the <B>overall</B> letter composition 
+	of the <B>database</B> being searched.  Selecting this option will 
+	cause MAST to use a <B>different</B> random model for 
+	<B>each target sequence</B>.  
+	The random model for each target sequence will be based on its 
+	letter composition, not that of the entire database.  
+	Using this option will tend to give more accurate <I>E</I>-values and
+	increase the <I>E</I>-values of compositionally biased sequences.
+	This option may <B>increase search times substantially</B> if used in 
+	conjunction with <A HREF="#ev"><I>E</I>-value display thresholds</A> 
+	over 10, since MAST must compute a new set of motif score 
+	distributions for each high-scoring sequence.
+
+<A NAME="mev">
+<LI>	<B>ignore motifs with high <I>E</I>-values</B>
+	<BR>
+	MAST can ignore motifs in the query with <I>E</I>-values above a 
+	threshold you select.
+	This is desirable because motifs with high <I>E</I>-values are unlikely
+	to be biologically significant.  The default threshold
+	will cause MAST to use <B>all</B> motifs in the query, 
+	regardless of their <I>E</I>-values.
+	<BR>
+	<B>Note:</B> This option is only available for motifs generated by 
+	MEME 3.0 and above.
+
+<A NAME="dna">
+<LI>	<B>search nucleotide database with protein motifs</B>
+	<BR>
+	Choosing this option will cause
+	MAST to search the nucleotide version of the selected sequence database,
+ 	converting the nucleotide sequences to protein sequences in all six 
+	reading frames.  By default, MAST searches the protein version of the 
+	selected database when you give it a file of protein motifs.  
+
+<A NAME="use_seq_p">
+<LI>	<B>scale motif display threshold by sequence length</B>
+	<BR>
+	MAST displays motifs that score above a threshold for all high-scoring 
+	sequences.  By default, this threshold is based on the probability
+	of the motifs without regard to the length of the sequence.  The
+	threshold was chosen with protein sequences of average length in
+	mind.  Consequently, many positions in very long sequences may match 
+	motifs with scores above this threshold by chance, making the results 
+	difficult to interpret.  Selecting this option causes the motif
+	display threshold to take sequence length into account.
+	This will reduce the number of weak motifs displayed in long sequences 
+	and minimize the size of the output file.
+
+<A NAME="ev">
+<LI>	<B><I>E</I>-value display threshold</B>  
+	<BR>
+	MAST only displays sequences matching your query 
+	with <I>E</I>-values below the given threshold you specify here.
+	By default, sequences in the database with matches with <I>E</I>-values
+	less than 10 are displayed.  If your motifs are very short or have
+	low information content (are not very specific), it may be impossible
+	for any sequence to achieve a low <I>E</I>-value.  If your MAST search
+	returns no hits, you may wish to increase the 
+	<I>E</I>-value display threshold and repeat the search.
+
+<A NAME="rank">
+<LI>	<B>rank of first match returned</B>
+	<BR>
+	In order to prevent excessively large results files that cannot
+	be emailed, a maximum of 500 matching sequences is returned.
+	By default, results for the 500 best-matching sequences are returned.
+	If you wish to see further results, you can resubmit your query
+	to MAST and specify a <B>rank</B> larger than 1.  For example,
+	specifying 501 will cause the 500 best-matching sequences to be
+	omitted and the results will start with the 501st best-matching 
+	sequence.
+	
+<A NAME="text">
+<LI>	<B>text output format</B>
+	<BR>
+	Choosing this option will cause MAST to produce plain text (ASCII)
+	output.  By default, MAST output is in hypertext (HTML) format.
+
+</UL>
+<P>
+	Clicking on the <B>Start search</B> button 
+	causes your motifs to be sent to
+	<A HREF="http://www.sdsc.edu/">San Diego Supercomputer Center</A> (SDSC)
+	and used to search the database you selected.
+<P>
+	The results of the MAST search are sent to you by e-mail.
+<P>
+	No copies of your motifs or search results are saved at SDSC after
+	the results have been sent to you.
+
+<HR>
+
+<A HREF="mast.html"><B>Search using MAST</B></A>
+<BR>
+<A href="mast-intro.html"><B>MAST introduction</B></A>
+<BR>
+<A HREF="intro.html"><B>MEME SYSTEM introduction</B></A>
+<HR>
+
+</BODY>
+</HTML>

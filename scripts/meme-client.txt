@@ -1,0 +1,156 @@
+#!/bin/csh
+#
+# $Id: meme-client.txt,v 1.4 2005/10/05 06:18:35 nadya Exp $
+# $Log: meme-client.txt,v $
+# Revision 1.4  2005/10/05 06:18:35  nadya
+# use full path for "rm". Asssume everybody has /bin/rm.
+#
+# Revision 1.3  2005/10/02 05:41:17  nadya
+# add sourcing file to set all the environment
+# use variables when calling real binaries.
+#
+# Revision 1.2  2005/10/02 05:01:49  nadya
+# remove ".csh" from the name. Use extension ".bin" to call a real executable
+#
+# Revision 1.1.1.1  2005/07/30 02:21:51  nadya
+# Importing from meme-3.0.14, and adding configure/make
+#
+#
+
+# This script was created by the MEME install command
+set pgm = $0
+set pgm = $pgm:t
+
+# set the environment 
+setenv CONF @MEMEDIR@/etc/meme_config.csh
+if ( -f $CONF) then
+    source $CONF
+else
+    echo "$CONF does not exist. Meme installation is incomplete"
+    exit 1
+endif
+
+
+#
+# check for no arguments
+#
+if ($#argv < 1) then
+  usage:
+  cat << USAGE
+  USAGE:
+	meme-client <datafile> [<host> <port>]
+	<datafile>		file to send to server
+	[<host> <port>]		ping this host on this port
+
+	Pings server on first CPU if <datafile> is "__PING__" and exits with
+	status 0 if it is running.  If arguments follow the first argument 
+	"__PING__", pings a single host.
+
+USAGE
+exit
+endif
+
+#
+# execute the binary version of the program with the arguments given
+# during install and the arguments on the command line
+# 
+@ i = 1
+set args = ""
+# protect each argument with single quotes so they won't get lumped
+while ($i <= $#argv)
+ set a = \'"$argv[$i]"\'
+ set args = "$args $a"
+ @ i++
+end
+
+#
+# initialize names of available cpus and port numbers
+#
+set cpus = (@HOST_NAME@); set sockets = (@MEMEPORT@);
+set ncpus = $#cpus
+
+#
+# initialize semaphore stuff
+#
+set patience = 10				# wait up to 10 seconds for
+set down = $pgm.cpunum.down			# down semaphore file name
+set up = $pgm.cpunum.up				# up semaphore file name
+						# semaphore
+#
+# test-and-set a semaphore file containing the next cpu number
+# quit after $patience tries to prevent lockout and to create the
+# semaphore the first time
+#
+@ i = 1						# patience counter
+loop1:
+mv -f $down $up >& /dev/null			# test-and-set
+if ($status && $i <= $patience) then		# wait 1 second then loop
+  sleep 1					
+  @ i++						# bump patience counter
+  goto loop1
+endif 
+
+#
+# get the number of the cpu to use
+#
+if ($i > $patience) then			# test-and-set failed 
+  set cpunum = 1				# use first cpu
+else						# test and set succeeded
+  @ cpunum = `cat $up`				# get cpu number from semaphore
+endif
+
+#
+# see if cpu is running server; if not, loop until a living cpu is found or all
+# have been tried
+#
+if ($cpunum > $ncpus) set cpunum = 1		# in case fewer cpus than before
+set first = $cpunum
+set ping = $pgm.$$.ping.tmp
+echo "ping" > $ping
+set exe_status = 0
+onintr cleanup
+while (1)
+  set cpu = $cpus[$cpunum]			# name of cpu
+  if ($#argv == 3 && $1 == __PING__) then
+    set cpus = ($2)
+    set sockets = ($3)
+    set ncpus = 1
+  endif
+  # ping the server
+  $MEME_BIN/$MEME_CLIENT_EXEC $sockets[$cpunum] $cpus[$cpunum] $ping 1
+  set exe_status = $status			# save the status
+  if ($1 == __PING__) goto cleanup		# exit if this was a ping
+  if ($exe_status == 0) break;			# server is alive
+
+  # server is dead; get next cpu number mod n and loop
+  @ cpunum++	 				
+  if ($cpunum > $ncpus) @ cpunum = 1
+  # check to see if out of cpus to try
+  if ($cpunum == $first) then			# tried them all
+    mv -f $up $down >& /dev/null		# clear the semaphore
+    echo "Sorry. No server is currently running."
+    goto cleanup                                # quit
+  endif
+end
+
+#
+# clear the semaphore setting next cpu number to use
+#
+@ next = $cpunum + 1				# next number
+if ($next > $ncpus) @ next = 1			# modulo n 
+echo $next >! $up				# store next cpu number
+chmod 777 $up					# so I can read it
+mv -f $up $down					# clear semaphore
+
+#
+# execute the client
+#
+eval $MEME_BIN/$MEME_CLIENT_EXEC $sockets[$cpunum] $cpus[$cpunum] $args
+set exe_status = $status			# save the status
+
+#
+# cleanup temporary files
+#
+cleanup:
+if (-e $ping) /bin/rm -f $ping			# delete the ping file
+exit $exe_status

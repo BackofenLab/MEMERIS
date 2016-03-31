@@ -1,0 +1,399 @@
+#!/bin/csh
+#
+# $Id: mast.txt,v 1.7 2005/10/07 05:33:55 nadya Exp $
+# $Log: mast.txt,v $
+# Revision 1.7  2005/10/07 05:33:55  nadya
+# keep uniform name MEME_LOGS throughout scripts.
+#
+# Revision 1.6  2005/10/05 06:18:35  nadya
+# use full path for "rm". Asssume everybody has /bin/rm.
+#
+# Revision 1.5  2005/10/02 05:54:33  nadya
+# add sourcing meme_config.csh to set all the environment.
+# use variables when calling real binaries
+#
+# Revision 1.4  2005/09/16 22:24:10  nadya
+# put temp files in LOGS
+#
+# Revision 1.3  2005/08/31 04:17:13  nadya
+# move usage part to etc/*.doc file
+#
+# Revision 1.2  2005/08/24 00:00:47  nadya
+# quote strings
+#
+# Revision 1.1.1.1  2005/07/30 01:19:13  nadya
+# Importing from meme-3.0.14, and adding configure/make
+#
+#
+
+set args = "$*"
+
+# set the environment 
+setenv CONF @MEMEDIR@/etc/meme_config.csh
+if ( -f $CONF) then
+    source $CONF
+else
+    echo "$CONF does not exist. Meme installation is incomplete" 
+    exit 1
+endif
+
+# check for no arguments
+if ($#argv < 1) then
+  usage:
+  set tmp = $MEME_LOGS/mast.usage.$$.tmp
+  cat << USAGE > $tmp
+ USAGE:
+	mast <mfile> [optional arguments ...]
+
+	<mfile>		file containing motifs to use; may be a MEME output
+			file or a file with the format given below 
+	[<database>] 	or 
+	[-d <database>] database to search with motifs or
+	[-stdin]	read database from standard input; 
+			Default: reads database specified inside <mfile>
+	[-c <count>]	only use the first <count> motifs
+	[-a <alphabet>]	<mfile> is assumed to contain motifs in the
+			format output by make_logodds
+			and <alphabet> is their alphabet; -d <database>
+			or -stdin must be specified when this option is used
+	[-stdout]	print output to standard output instead of file
+	[-text]		output in text (ASCII) format;
+			(default: hypertext (HTML) format)
+USAGE
+
+  # run mast with no arguments to get its usage message
+  # mast.doc made from running mast without args, and the section
+  # made from mast-intro.html, mast-output.html and motif-format.html.  
+  # Cut and paste here if any of those files changes.
+  cat $MEME_DIRECTORY/etc/mast.doc >> $tmp
+  more $tmp
+  /bin/rm -f $tmp
+  exit 1
+endif
+
+onintr cleanup
+set exe_status = 0
+
+# get input arguments 
+set mfile = $1
+shift
+
+# initialize optional arguments
+set mast2html = " $MEME_BIN/mast2html "
+set html = ".html"
+set mastargs = ""
+set mf = "$mfile"
+set df = ""
+set database = "" 
+set ds = "" 
+set count = "" 
+set cs = "" 
+set ranks = ""
+set evs = "" 
+set mt = ""
+set motifs = "" 
+set mevs = ""
+set ms = "" 
+set mx = "" 
+set strs = ""
+set rs = ""
+set ks = ""
+set bs = ""
+set bfs = ""
+set ss = ""
+set ww = ""
+set ps = ""
+set diag = ""
+set diags = ""
+set sonlys = ""
+set lumps = ""
+set posonly = ""
+set usemg = ""
+
+while ("$1" != "")
+  switch ($1)
+  case -text:
+	set mast2html = " cat "
+	set html = ""
+        breaksw
+  case -diag:
+	set diag = "$1 $2"
+	shift
+	set diags = .diag
+        breaksw
+  case -d:
+    	shift 
+  case -stdin:
+    	set database = $1
+	set ds = .$database:t 
+	breaksw
+  case -best:
+	set mastargs = "$mastargs $1"
+        breaksw
+  case -dna:
+        set mastargs = "$mastargs $1"
+	breaksw
+  case -sep:
+        set mastargs = "$mastargs $1"
+        set strs = .sep 
+	breaksw
+  case -norc:
+        set mastargs = "$mastargs $1"
+        set strs = .norc
+	breaksw
+  case -usemg:
+        set mastargs = "$mastargs $1"
+	breaksw
+  case -rank:
+        set mastargs = "$mastargs $1 $2"
+        shift
+	set ranks = .rank$1
+        breaksw
+  case -smax:
+        set mastargs = "$mastargs $1 $2"
+        shift
+        breaksw
+  case -ev:
+        set mastargs = "$mastargs $1 $2"
+        shift
+	set evs = .evs$1
+        breaksw
+  case -mt:
+        set mastargs = "$mastargs $1 $2"
+        shift
+	set mt = .mt$1
+        breaksw
+  case -bfile:
+	set mastargs = "$mastargs $1 $2"
+        shift 
+        set bfs = .bf.$1
+        breaksw
+  case -c:
+    	shift 
+	set count = "-c $1" 
+	set cs = ".c$1" 
+	breaksw
+  case -mev:
+        set mastargs = "$mastargs $1 $2"
+    	shift 
+        set mevs = $mevs.mev$1
+	breaksw
+  case -m:
+	set mastargs = "$mastargs $1 $2"
+    	shift 
+        set ms = $ms.m$1
+	breaksw
+  case -maxsum:
+	set mastargs = "$mastargs $1"
+	set mx = ".maxsum"
+	breaksw
+  case -r:
+	set mastargs = "$mastargs $1 $2"
+    	shift 
+	set rs = .r$1
+	breaksw
+  case -k:
+    	shift 
+	set kmfile = $1 
+	set ks = .k$1
+	breaksw
+  case -mf:
+	set mf = "$2"
+	shift
+	breaksw
+  case -df:
+	set df = "$2"
+	shift
+	breaksw
+  case -a:
+	shift
+	set alphabet = "$1"
+	breaksw
+  case -stdout:
+	set stdout = $1
+	set mastargs = "$mastargs"
+	breaksw
+  case -b:
+    	set mastargs = "$mastargs $1" 
+	set bs = ".b"
+	breaksw
+  case -w:
+	set mastargs = "$mastargs $1"
+	set ww = ".w"
+	breaksw
+  case -seqp:
+	set mastargs = "$mastargs $1"
+	set ps = ".seqp"
+	breaksw
+  case -comp:
+	set mastargs = "$mastargs $1"
+	breaksw
+  case -shuffle:
+	set mastargs = "$mastargs $1"
+	set ss = ".shuffle"
+	breaksw
+  case -sonly:
+	set mastargs = "$mastargs $1"
+	set sonlys = ".sonly"
+	breaksw
+  case -lump:
+	set mastargs = "$mastargs $1"
+	set lumps = ".lump"
+	breaksw
+  case -hit_list:
+	set mastargs = "$mastargs $1"
+	set mast2html = " cat "
+	set html = ""
+	breaksw
+  case -deb:
+	set mastargs = "$mastargs $1"
+	set mast2html = " cat "
+	set html = ""
+	breaksw
+  case -q:
+	set mastargs = "$mastargs $1 $2"
+        shift
+	breaksw
+  case -nostatus:
+	set mastargs = "$mastargs $1"
+        breaksw
+  case -brief:
+	set mastargs = "$mastargs $1"
+	breaksw
+  case -ralpha:
+	set mastargs = "$mastargs $1 $2"
+	shift
+	breaksw
+  case -minseqs:
+	set mastargs = "$mastargs $1 $2"
+	shift
+	breaksw
+  case -remcorr:
+	set mastargs = "$mastargs $1"
+	breaksw
+  default:
+        if ("$database" == "") then
+    	  set database = $1
+	  set ds = .$database:t 
+	else
+    	  goto usage
+	endif
+  endsw
+  shift
+end
+
+# check that the meme output file exist and is readable
+if (!(-e $mfile)) then 
+  echo File $mfile does not exist.
+  set exe_status = 1
+  goto cleanup
+endif 
+if (!(-r $mfile)) then 
+  echo You do not have read acces to file $mfile.
+  set exe_status = 1
+  goto cleanup
+endif
+
+# get the log-odds matrix file, training set name and alphabet
+if (!($?alphabet)) then
+  set logodds = $MEME_LOGS/mast.logodds.$$.tmp
+  set tmp = `$MEME_BIN/make_logodds $mfile $logodds $count`
+  if ($status || $#tmp < 1) then
+    # print the error message from make_logodds
+    echo $tmp | awk '{ \
+      for (i=1; i<=NF; i++) { \
+        last = substr($i,length($i),1);\
+        if (last == ".") printf "%s\n", $i; else printf "%s ", $i; \
+      } \
+    }'
+    set exe_status = 1
+    goto cleanup
+  endif
+  set alphabet = $tmp[1]
+  if ($#tmp == 2) then
+    set old_database = $tmp[2]
+  endif
+else
+  # alphabet was specified so <mfile> is a log-odds matrix file
+  set logodds = $mfile
+  if ("$database" == "") then
+    echo "You must specify -d \<database\> when you use -a \<alphabet\>."
+    set exe_status = 1
+    goto cleanup
+  endif
+endif
+
+# search training set by default
+if ("$database" == "") then
+  if ($?old_database) then
+    set database = $old_database
+  else
+    echo 'You must specify a database to search with -d <database>'
+    echo 'or one must be specified in your motif file with DATAFILE= <database>'
+    set exe_status = 1
+    goto cleanup
+  endif
+endif
+
+# set up destination for output
+if (!($?stdout)) then 
+  if (-e RESULTS) then
+    set R = "RESULTS/"
+  else
+    set R = ""
+  endif
+  set mfile_t = $mfile:t
+  if ($mfile_t:e == "html") set mfile_t = $mfile_t:r
+  set output = ${R}mast.$mfile_t$ds$strs$cs$mevs$ms$ranks$evs$mt$bfs$mx$rs$ks$bs$ww$ps$ss$diags$sonlys$lumps$html
+  echo "Writing to file $output"
+endif
+
+# set motif file if roc given
+if ($rs != "" && !($?kmfile)) then
+  set kmfile = $old_database:r
+  set kmfile = $kmfile.tag
+endif
+
+# check for existence of known motifs file
+if ($?kmfile) then
+  if (!(-e $kmfile)) then
+    set kmfile = databases/$kmfile
+  endif
+  if (!(-e $kmfile)) then
+    echo File containing motifs \"$kmfile\" not found!
+    goto cleanup
+  endif
+  set mastargs = "$mastargs -k $kmfile"
+endif
+
+# set the name of the database to print
+if ("$df" == "") then
+  set df = $database
+endif
+
+# prepend switches to required arguments
+set logodds = "-logodds $logodds"
+if (!("$database" == "-stdin")) set database = "-database $database"
+set alphabet = "-alphabet $alphabet"
+
+# annotate the database using mast executable
+set exe = $MEME_BIN/$MAST_EXEC
+if ($?output) then
+  $exe "$MAST_EXEC $args" $logodds $database $alphabet \
+    $mastargs "$diag" -mf "$mf" -df "$df" | \
+    $mast2html >! $output
+  set exe_status = $status
+else
+  $exe "$MAST_EXEC $args" $logodds $database $alphabet \
+    $mastargs "$diag" -mf "$mf" -df "$df" | \
+    $mast2html
+  set exe_status = $status
+endif
+
+cleanup:
+if (-e $MEME_LOGS/mast.logodds.$$.tmp) /bin/rm -f $MEME_LOGS/mast.logodds.$$.tmp
+if ($exe_status && $?output) then
+  if (-e $output) /bin/rm -f $output	# remove output file 
+endif
+exit $exe_status 
+

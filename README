@@ -1,0 +1,146 @@
+
+                               README
+
+=============================================================================
+                           Introduction             
+=============================================================================
+The  MEME system provides online tools for discovering  and using protein and 
+DNA sequence motifs.  A motif is a pattern of nucleotides or amino acids that 
+appears repeatedly in a group of related  DNA or protein sequences.  The MEME 
+system represents motifs as position-dependent scoring matrices. 
+
+The MEME system consists of two programs which allow you to: 
+  meme - for discovery of motifs shared by a group of sequences and, 
+  mast - for search of databases for sequences containing these motifs. 
+
+You can download the ANSI C source code for MEME system from
+http://meme.nbcr.net/meme/website/meme-download.html
+
+You can also use the MEME system via its website at http://meme.nbcr.net
+
+If you use MEME in your research, please cite: 
+    Timothy  L. Bailey  and Charles Elkan,  "Fitting a mixture model
+    by expectation  maximization to discover  motifs in biopolymers",
+    Proceedings of the Second International Conference on Intelligent
+    Systems for Molecular Biology, (28-36), AAAI Press, 1994. 
+
+If you use MAST in your research, please cite: 
+    Timothy L. Bailey and Michael Gribskov, "Combining evidence using 
+    p-values: application to sequence homology searches", Bioinformatics, 
+    14(48-54), 1998.
+
+=============================================================================
+                          Prerequisite Software        
+=============================================================================
+Most of the software mentioned here is standrard on many UNIX systems.
+To build MEME/MAST you will need:
+
+   1  Perl (v.5.6.1 or higher) is needed to run some scripts. 
+      See http://www.perl.org for download and installation instructions.
+   2. The GNU Autoconf (version 2.53 or later)
+   3. The GNU Automake (version 1.6 or later)
+   4. Make
+   5. A C compiler
+   5. Gzip/gunzip 
+
+Optional software:
+
+   1. The CGI.pm perl module is needed if the web site is to be installed, 
+   2. A linux cluster running  Rocks (see http://www.rocksclusters.org) or
+      similar cluster environment.  Rocks provides all the required and 
+      optional software.
+   3. MPI implementation is needed to run parallel version of MEME. One of 
+      the following: 
+                     LAM (http://www.lam-mpi.org) 
+                     MPICH (http://www-unix.mcs.anl.gov/mpi/mpich).
+   4. Batch  scheduler is needed to run parallel  verison of MEME.  One of
+      the following:        
+                     SGE (http://gridengine.sunsource.net) 
+                     PBS (http://www.openpbs.org)
+
+
+=============================================================================
+                      Operating System Requirements
+=============================================================================
+The MEME system has been tested with the following UNIX operating systems:
+
+    Redhat Enterprise Linux
+    SunOS 5.9
+    
+System requirements:
+    Memory     10 Mb
+    Disk      100 Mb
+    Database  ~26 Gb  (needed if installing servers)
+
+
+=============================================================================
+                          Installation         
+=============================================================================
+See INSTALL file for installation instructions.
+
+
+=============================================================================
+                          Documentation 
+=============================================================================
+Documentation is available online at http://meme.nbcr.net/meme/website/meme
+If you did installation with the --enable-web switch, the html documentation
+will be installed in <install-path>/web/ directory. 
+
+
+=============================================================================
+                        Using MEME/MAST
+=============================================================================
+Before using MEME and mast, users must add a few environment variables.
+All needed variables are defined in meme.csh and meme.sh files.
+
+(1) if using csh and tcsh, execute the following command:
+    source $prefix/etc/meme.csh   
+
+To make the addition of these variabls automatic add a line to your .cshrc 
+or .tcshrc file:
+    source $prefix/etc/meme.csh     
+
+(2) if using sh or bash, execute the following command:
+    . $prefix/etc/meme.sh 
+
+To make the addition of these variabls automatic add a line to your .profile 
+or .bash_profile file:
+    . $prefix/etc/meme.sh   
+
+The $prefix should be a full path to the installation directory.
+To find out how to use MEME or MAST execute
+    meme
+    mast
+
+Both scripts print usage on stdout. 
+
+=============================================================================
+                      Problems and comments 
+=============================================================================
+Please address any problems or comments to: 
+    tbailey@imb.uq.edu.au
+or to 
+    meme@nbcr.net
+
+
+=============================================================================
+                          Release Notes 
+=============================================================================
+See file <install-path>/web/release_notes.html
+
+=============================================================================
+                          Developers Notes
+=============================================================================
+Check out from cvs ( you have to have read/write access to this cvs)
+cvs -d cvs.rocksclusters.org:/home/cvs/CVSROOT co nbcr/apps/meme-rocks.
+
+to create a distribution tar ball meme_VERSION.tar.gz
+    cd nbcr/apps/meme-rocks
+    ./bootstrap
+    ./configure
+    make dist
+
+Whenever databases are added to MAST:
+	1) add the database to website/mast.html
+	2) add the database to website/mast-databases.html
+	3) add the database to etc/mast_db.list or etc/mast_upstream_db.list 

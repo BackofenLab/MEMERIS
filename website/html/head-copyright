@@ -1,0 +1,21 @@
+<!---
+##
+## $Id: head-copyright,v 1.1.2.1 2006/01/24 21:15:35 nadya Exp $
+##
+## $Log: head-copyright,v $
+## Revision 1.1.2.1  2006/01/24 21:15:35  nadya
+## add header file for COPYRIGHT.html creation
+##
+##
+--->
+
+<HTML>
+<HEAD>
+<BODY BACKGROUND="images/bkg.jpg">
+<TITLE> MEME / MAST - COPYRIGHT NOTICE </TITLE>
+</HEAD>
+<PRE>
+
+     MEME / MAST    
+     Author: Timothy L. Bailey   
+                                

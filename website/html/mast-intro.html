@@ -1,0 +1,82 @@
+<!---
+##
+## $Id: mast-intro.html,v 1.1.1.1 2005/07/31 20:15:15 nadya Exp $
+##
+## $Log: mast-intro.html,v $
+## Revision 1.1.1.1  2005/07/31 20:15:15  nadya
+## Importing from meme-3.0.14, and adding configure/make
+##
+##
+--->
+
+<HTML>
+<HEAD>
+<BODY BACKGROUND="images/bkg.jpg">
+<TITLE>	MAST - Introduction</TITLE>
+</HEAD>
+
+<H1>MAST -- Motif Alignment and Search Tool</H1>
+<H2><I>Motif search tool</I></H2>
+
+<HR>
+<H3> Introduction </H3>
+
+<H4>
+	MAST is a tool for searching biological sequence databases for 
+	sequences that contain one or more of a group of known motifs.  
+
+<P>
+	A motif is a sequence pattern that occurs repeatedly in a group of 
+	related protein or DNA sequences. Motifs are represented as 
+	position-dependent scoring matrices that describe the 
+	score of each possible letter at each position in the pattern. 
+	Individual motifs may not contain gaps. Patterns with variable-length 
+	gaps must be split into two or more separate motifs before being
+	submitted as input to MAST.
+
+<P>
+	MAST takes as 
+	<A HREF="mast-input.html">input</A> 
+	a file containing the descriptions of one or more motifs
+ 	and searches a sequence database that you select for sequences 
+	that match the motifs.  The motif file can be the output of the
+	<A HREF=meme-intro.html>MEME</A> motif discovery tool 
+	or any file in the appropriate format.
+
+<P>
+	MAST <A HREF="mast-output.html">outputs</A> three things:
+
+<OL>
+<LI>	The names of the 
+        <A HREF="mast-output.html#names">high-scoring sequences</A>
+        sorted by the strength of the combined match of the sequence to all of 
+	the motifs in the group.
+<LI>	<A HREF="mast-output.html#diagrams">Motif diagrams</A>
+	showing the order and spacing of the motifs within each matching 
+	sequence. 
+<LI>	<A HREF="mast-output.html#annotation">Detailed annotation</A>
+	of each matching sequence showing the sequence and the locations 
+	and strengths of matches to the motifs.
+</OL>
+
+<P>
+	MAST works by calculating 
+	<A HREF="mast-output.html#score">match scores</A> for each
+	sequence in the database compared with each of the motifs in the
+	group of motifs you provide.  
+	For each sequence, the match scores are converted
+	into various types of <A HREF="mast-output.html#pvalues">p-values</A> 
+	and these
+	are used to determine the overall match of the sequence to the
+	group of motifs and the probable order and spacing of occurrences of
+	the motifs in the sequence.
+</H4>
+
+<HR>
+<H3><A HREF="mast.html">Search</A> using MAST.</H3>
+<HR>
+<H3>Return to <A href="intro.html"><B>MEME SYSTEM introduction</B></A>.</H3>
+<HR>
+
+
+</BODY></HTML>

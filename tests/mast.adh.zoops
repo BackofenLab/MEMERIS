@@ -1,0 +1,877 @@
+********************************************************************************
+MAST - Motif Alignment and Search Tool
+********************************************************************************
+	MAST version 3.5.1 (Release date: 2006/02/01 02:08:55)
+
+	For further information on how to interpret these results or to get
+	a copy of the MAST software please access http://meme.nbcr.net.
+********************************************************************************
+
+
+********************************************************************************
+REFERENCE
+********************************************************************************
+	If you use this program in your research, please cite:
+
+	Timothy L. Bailey and Michael Gribskov,
+	"Combining evidence using p-values: application to sequence homology
+	searches", Bioinformatics, 14(48-54), 1998.
+********************************************************************************
+
+
+********************************************************************************
+DATABASE AND MOTIFS
+********************************************************************************
+	DATABASE /home/meme/TEST/tests/adh.s (peptide)
+	Last updated on Tue Jan 31 18:16:52 2006
+	Database contains 33 sequences, 9996 residues
+
+	MOTIFS /home/meme/TEST/tests/meme.adh.zoops (peptide)
+	MOTIF WIDTH BEST POSSIBLE MATCH
+	----- ----- -------------------
+	  1    27   YSASKFAVRMLTRSMRREYAPHGIRVN
+	  2    25   QGKVVLITGCSSGIGKATAKHLHKE
+
+	PAIRWISE MOTIF CORRELATIONS:
+	MOTIF     1
+	----- -----
+	   2   0.27
+	No overly similar pairs (correlation > 0.60) found.
+
+	Random model letter frequencies (from non-redundant database):
+	A 0.073 C 0.018 D 0.052 E 0.062 F 0.040 G 0.069 H 0.022 I 0.056 K 0.058 
+	L 0.092 M 0.023 N 0.046 P 0.051 Q 0.041 R 0.052 S 0.074 T 0.059 V 0.064 
+	W 0.013 Y 0.033 
+********************************************************************************
+
+
+********************************************************************************
+SECTION I: HIGH-SCORING SEQUENCES
+********************************************************************************
+	- Each of the following 33 sequences has E-value less than 10.
+	- The E-value of a sequence is the expected number of sequences
+	  in a random database of the same size that would match the motifs as
+	  well as the sequence does and is equal to the combined p-value of the
+	  sequence times the number of sequences in the database.
+	- The combined p-value of a sequence measures the strength of the
+	  match of the sequence to all the motifs and is calculated by
+	    o finding the score of the single best match of each motif
+	      to the sequence (best matches may overlap),
+	    o calculating the sequence p-value of each score,
+	    o forming the product of the p-values,
+	    o taking the p-value of the product.
+	- The sequence p-value of a score is defined as the
+	  probability of a random sequence of the same length containing
+	  some match with as good or better a score.
+	- The score for the match of a position in a sequence to a motif
+	  is computed by by summing the appropriate entry from each column of
+	  the position-dependent scoring matrix that represents the motif.
+	- Sequences shorter than one or more of the motifs are skipped.
+	- The table is sorted by increasing E-value.
+********************************************************************************
+
+SEQUENCE NAME                      DESCRIPTION                   E-VALUE  LENGTH
+-------------                      -----------                   -------- ------
+YRTP_BACSU                         HYPOTHETICAL 25.3 KD PROT...    5.2e-34    238
+BUDC_KLETE                         ACETOIN(DIACETYL) REDUCTA...    7.4e-34    241
+AP27_MOUSE                         ADIPOCYTE P27 PROTEIN (AP...    3.7e-28    244
+FIXR_BRAJA                         FIXR PROTEIN                     2e-27    278
+DHII_HUMAN                         CORTICOSTEROID 11-BETA-DE...    9.7e-27    292
+DHGB_BACME                         GLUCOSE 1-DEHYDROGENASE B...      1e-26    262
+HDE_CANTR                          HYDRATASE-DEHYDROGENASE-E...    2.2e-26    906
+HDHA_ECOLI                         7-ALPHA-HYDROXYSTEROID DE...    2.3e-26    255
+NODG_RHIME                         NODULATION PROTEIN G (HOS...    6.1e-26    245
+YINL_LISMO                         HYPOTHETICAL 26.8 KD PROT...    1.2e-25    248
+RIDH_KLEAE                         RIBITOL 2-DEHYDROGENASE (...    6.7e-25    249
+HMTR_LEIMA                         no comment                     7.7e-25    287
+FVT1_HUMAN                         no comment                     1.8e-24    332
+DHMA_FLAS1                         N-ACYLMANNOSAMINE 1-DEHYD...    4.3e-24    270
+DHB2_HUMAN                         no comment                     5.7e-24    387
+3BHD_COMTE                         3-BETA-HYDROXYSTEROID DEH...    1.2e-23    253
+ENTA_ECOLI                         2,3-DIHYDRO-2,3-DIHYDROXY...    2.4e-23    248
+BA72_EUBSP                         7-ALPHA-HYDROXYSTEROID DE...    2.6e-23    249
+2BHD_STREX                         20-BETA-HYDROXYSTEROID DE...    3.7e-23    255
+BDH_HUMAN                          D-BETA-HYDROXYBUTYRATE DE...    7.5e-23    343
+DHES_HUMAN                         ESTRADIOL 17 BETA-DEHYDRO...    3.2e-22    327
+GUTD_ECOLI                         SORBITOL-6-PHOSPHATE 2-DE...    5.9e-22    259
+DHB3_HUMAN                         no comment                     7.5e-22    310
+BPHB_PSEPS                         BIPHENYL-CIS-DIOL DEHYDRO...    5.4e-20    275
+LIGD_PSEPA                         C ALPHA-DEHYDROGENASE (EC...    1.1e-19    305
+RFBB_NEIGO                         no comment                     1.1e-18    346
+DHCA_HUMAN                         no comment                       7e-17    276
+MAS1_AGRRA                         no comment                     8.5e-16    476
+PCR_PEA                            no comment                     1.3e-15    399
+ADH_DROME                          ALCOHOL DEHYDROGENASE (EC...    8.2e-15    255
+YURA_MYXXA                         no comment                     2.6e-12    258
+FABI_ECOLI                         no comment                       9e-10    262
+CSGA_MYXXA                         no comment                       6e-08    166
+
+********************************************************************************
+
+
+
+********************************************************************************
+SECTION II: MOTIF DIAGRAMS
+********************************************************************************
+	- The ordering and spacing of all non-overlapping motif occurrences
+	  are shown for each high-scoring sequence listed in Section I.
+	- A motif occurrence is defined as a position in the sequence whose
+	  match to the motif has POSITION p-value less than 0.0001.
+	- The POSITION p-value of a match is the probability of
+	  a single random subsequence of the length of the motif
+	  scoring at least as well as the observed match.
+	- For each sequence, all motif occurrences are shown unless there
+	  are overlaps.  In that case, a motif occurrence is shown only if its
+	  p-value is less than the product of the p-values of the other
+	  (lower-numbered) motif occurrences that it overlaps.
+	- The table also shows the E-value of each sequence.
+	- Spacers and motif occurences are indicated by
+	   o -d-    `d' residues separate the end of the preceding motif 
+		    occurrence and the start of the following motif occurrence
+	   o [n]  occurrence of motif `n' with p-value less than 0.0001.
+********************************************************************************
+
+SEQUENCE NAME                      E-VALUE   MOTIF DIAGRAM
+-------------                      --------  -------------
+YRTP_BACSU                          5.2e-34  4_[2]_125_[1]_57
+BUDC_KLETE                          7.4e-34  [2]_33_[1]_66_[1]_63
+AP27_MOUSE                          3.7e-28  5_[2]_118_[1]_69
+FIXR_BRAJA                            2e-27  34_[2]_129_[1]_63
+DHII_HUMAN                          9.7e-27  32_[2]_125_[1]_83
+DHGB_BACME                            1e-26  5_[2]_129_[1]_76
+HDE_CANTR                           2.2e-26  6_[2]_131_[1]_131_[2]_121_[1]_
+                                             235_[2]_153
+HDHA_ECOLI                          2.3e-26  9_[2]_80_[1]_17_[1]_70
+NODG_RHIME                          6.1e-26  4_[2]_122_[1]_67
+YINL_LISMO                          1.2e-25  3_[2]_125_[1]_68
+RIDH_KLEAE                          6.7e-25  12_[2]_122_[1]_63
+HMTR_LEIMA                          7.7e-25  4_[2]_163_[1]_68
+FVT1_HUMAN                          1.8e-24  30_[2]_130_[1]_120
+DHMA_FLAS1                          4.3e-24  12_[2]_127_[1]_79
+DHB2_HUMAN                          5.7e-24  80_[2]_126_[1]_129
+3BHD_COMTE                          1.2e-23  4_[2]_30_[1]_64_[1]_76
+ENTA_ECOLI                          2.4e-23  3_[2]_115_[1]_78
+BA72_EUBSP                          2.6e-23  4_[2]_35_[1]_65_[1]_66
+2BHD_STREX                          3.7e-23  4_[2]_122_[1]_77
+BDH_HUMAN                           7.5e-23  53_[2]_129_[1]_109
+DHES_HUMAN                          3.2e-22  [2]_129_[1]_146
+GUTD_ECOLI                          5.9e-22  [2]_128_[1]_79
+DHB3_HUMAN                          7.5e-22  46_[2]_126_[1]_86
+BPHB_PSEPS                          5.4e-20  3_[2]_124_[1]_96
+LIGD_PSEPA                          1.1e-19  4_[2]_127_[1]_122
+RFBB_NEIGO                          1.1e-18  4_[2]_135_[1]_155
+DHCA_HUMAN                            7e-17  2_[2]_34_[1]_104_[1]_57
+MAS1_AGRRA                          8.5e-16  243_[2]_123_[1]_58
+PCR_PEA                             1.3e-15  84_[2]_34_[1]_229
+ADH_DROME                           8.2e-15  4_[2]_122_[1]_77
+YURA_MYXXA                          2.6e-12  159_[1]_72
+FABI_ECOLI                            9e-10  4_[2]_129_[1]_77
+CSGA_MYXXA                            6e-08  87_[1]_52
+
+********************************************************************************
+
+
+
+********************************************************************************
+SECTION III: ANNOTATED SEQUENCES
+********************************************************************************
+	- The positions and p-values of the non-overlapping motif occurrences
+	  are shown above the actual sequence for each of the high-scoring
+	  sequences from Section I.
+	- A motif occurrence is defined as a position in the sequence whose
+	  match to the motif has POSITION p-value less than 0.0001 as 
+	  defined in Section II.
+	- For each sequence, the first line specifies the name of the sequence.
+	- The second (and possibly more) lines give a description of the 
+	  sequence.
+	- Following the description line(s) is a line giving the length, 
+	  combined p-value, and E-value of the sequence as defined in Section I.
+	- The next line reproduces the motif diagram from Section II.
+	- The entire sequence is printed on the following lines.
+	- Motif occurrences are indicated directly above their positions in the
+	  sequence on lines showing
+	   o the motif number of the occurrence,
+	   o the position p-value of the occurrence,
+	   o the best possible match to the motif, and
+	   o columns whose match to the motif has a positive score (indicated 
+	     by a plus sign).
+********************************************************************************
+
+
+YRTP_BACSU
+  HYPOTHETICAL 25.3 KD PROTEIN IN RTP 5'REGION (ORF238)
+  LENGTH = 238  COMBINED P-VALUE = 1.57e-35  E-VALUE =  5.2e-34
+  DIAGRAM: 4_[2]_125_[1]_57
+
+         [2]
+         2.0e-20
+         QGKVVLITGCSSGIGKATAKHLHKE
+         +++ +++++++++++++++++++++
+1    MQSLQHKTALITGGGRGIGRATALALAKEGVNIGLIGRTSANVEKVAEEVKALGVKAAFAAADVKDADQVNQAVA
+
+         [1]
+         2.0e-22
+         YSASKFAVRMLTRSMRREYAPHGIRVN
+         ++++++++ ++++++++++++++++++
+151  VTSAYSASKFAVLGLTESLMQEVRKHNIRVSALTPSTVASDMSIELNLTDGNPEKVMQPEDLAEYMVAQLKLDPR
+
+
+BUDC_KLETE
+  ACETOIN(DIACETYL) REDUCTASE (EC 1.1.1.5) (ACETOIN DEHYDROGENASE)
+  LENGTH = 241  COMBINED P-VALUE = 2.24e-35  E-VALUE =  7.4e-34
+  DIAGRAM: [2]_33_[1]_66_[1]_63
+
+     [2]                                                       [1]
+     1.5e-20                                                   7.7e-05
+     QGKVVLITGCSSGIGKATAKHLHKE                                 YSASKFAVRMLTRSMRR
+     +++++++++++++++++++++++++                                   +    + + ++ +++
+1    MQKVALVTGAGQGIGKAIALRLVKDGFAVAIADYNDATATAVAAEINQAGGRAVAIKVDVSRRDQVFAAVEQARK
+
+     
+     
+     EYAPHGIRVN
+      ++  ++ ++
+76   ALGGFNVIVNNAGIAPSTPIESITEEIVDRVYNINVKGVIWGMQAAVEAFKKEGHGGKIVNACSQAGHVGNPELA
+
+      [1]
+      3.9e-22
+      YSASKFAVRMLTRSMRREYAPHGIRVN
+      +++++++++++++++++++++++++++
+151  VYSSSKFAVRGLTQTAARDLAPLGITVNGFCPGIVKTPMWAEIDRQCRKRRANRWATARLNLPNASPLAACRSLK
+
+
+AP27_MOUSE
+  ADIPOCYTE P27 PROTEIN (AP27)
+  LENGTH = 244  COMBINED P-VALUE = 1.14e-29  E-VALUE =  3.7e-28
+  DIAGRAM: 5_[2]_118_[1]_69
+
+          [2]
+          7.6e-16
+          QGKVVLITGCSSGIGKATAKHLHKE
+          ++  ++++++++++++ ++++++++
+1    MKLNFSGLRALVTGAGKGIGRDTVKALHASGAKVVAVTRTNSDLVSLAKECPGIEPVCVDLGDWDATEKALGGIG
+
+                                                                              [1
+                                                                              4.
+                                                                              YS
+                                                                              ++
+76   PVDLLVNNAALVIMQPFLEVTKEAFDRSFSVNLRSVFQVSQMVARDMINRGVPGSIVNVSSMVAHVTFPNLITYS
+
+     ]
+     3e-21
+     ASKFAVRMLTRSMRREYAPHGIRVN
+     ++++++++++++++++++++ ++++
+151  STKGAMTMLTKAMAMELGPHKIRVNSVNPTVVLTDMGKKVSADPEFARKLKERHPLRKFAEVEDVVNSILFLLSD
+
+
+FIXR_BRAJA
+  FIXR PROTEIN
+  LENGTH = 278  COMBINED P-VALUE = 6.20e-29  E-VALUE =    2e-27
+  DIAGRAM: 34_[2]_129_[1]_63
+
+                                       [2]
+                                       1.7e-16
+                                       QGKVVLITGCSSGIGKATAKHLHKE
+                                       + ++++ +++++++++++++ + ++
+1    MGLDLPNDNLIRGPLPEAHLDRLVDAVNARVDRGEPKVMLLTGASRGIGHATAKLFSEAGWRIISCARQPFDGER
+
+                                           [1]
+                                           8.0e-20
+                                           YSASKFAVRMLTRSMRREYAPHGIRVN
+                                           +  +++++ ++++++++++++++++++
+151  APILLAQGLFDELRAASGSIVNVTSIAGSRVHPFAGSAYATSKAALASLTRELAHDYAPHGIRVNAIAPGEIRTD
+
+
+DHII_HUMAN
+  CORTICOSTEROID 11-BETA-DEHYDROGENASE (EC 1.1.1.146) (11-DH) (11-BETA- 
+  HYDROXYSTEROID DEHYDROGENASE) (11-BETA-HSD)
+  LENGTH = 292  COMBINED P-VALUE = 2.94e-28  E-VALUE =  9.7e-27
+  DIAGRAM: 32_[2]_125_[1]_83
+
+                                     [2]
+                                     7.5e-20
+                                     QGKVVLITGCSSGIGKATAKHLHKE
+                                     +++ +++++++++++++++++++++
+1    MAFMKKYLLPILGLFMAYYYYSANEEFRPEMLQGKKVIVTGASKGIGREMAYHLAKMGAHVVVTARSKETLQKVV
+
+                                     [1]
+                                     8.1e-16
+                                     YSASKFAVRMLTRSMRREYAPHGIRVN
+                                     +++++++++++ ++ +++++ ++++++
+151  TVAALPMLKQSNGSIVVVSSLAGKVAYPMVAAYSASKFALDGFFSSIRKEYSVSRVNVSITLCVLGLIDTETAMK
+
+
+DHGB_BACME
+  GLUCOSE 1-DEHYDROGENASE B (EC 1.1.1.47)
+  LENGTH = 262  COMBINED P-VALUE = 3.03e-28  E-VALUE =    1e-26
+  DIAGRAM: 5_[2]_129_[1]_76
+
+          [2]
+          1.3e-16
+          QGKVVLITGCSSGIGKATAKHLHKE
+          +++++++++++ +++++++++++++
+1    MYKDLEGKVVVITGSSTGLGKSMAIRFATEKAKVVVNYRSKEDEANSVLEEEIKKVGGEAIAVKGDVTVESDVIN
+
+              [1]
+              6.2e-19
+              YSASKFAVRMLTRSMRREYAPHGIRVN
+              + +++++++ +++++++++++++++++
+151  KIPWPLFVHYAASKGGMKLMTETLALEYAPKGIRVNNIGPGAINTPINAEKFADPEQRADVESMIPMGYIGEPEE
+
+
+HDE_CANTR
+  HYDRATASE-DEHYDROGENASE-EPIMERASE (HDE)
+  LENGTH = 906  COMBINED P-VALUE = 6.68e-28  E-VALUE =  2.2e-26
+  DIAGRAM: 6_[2]_131_[1]_131_[2]_121_[1]_235_[2]_153
+
+           [2]
+           7.4e-15
+           QGKVVLITGCSSGIGKATAKHLHKE
+           ++++++++++++++++ +++++++
+1    MSPVDFKDKVVIITGAGGGLGKYYSLEFAKLGAKVVVNDLGGALNGQGGNSKAADVVVDEIVKNGGVAVADYNNV
+
+                 [1]
+                 2.4e-13
+                 YSASKFAVRMLTRSMRREYAPHGIRVN
+                 + +++ ++ ++ ++++++ ++++++ +
+151  PAGLYGNFGQANYASAKSALLGFAETLAKEGAKYNIKANAIAPLARSRMTESILPPPMLEKLGPEKVAPLVLYLS
+
+                         [2]
+                         9.6e-19
+                         QGKVVLITGCSSGIGKATAKHLHKE
+                         +++++++++++ +++++++++++++
+301  TNEARKLPANDASGAPTVSLKDKVVLITGAGAGLGKEYAKWFAKYGAKVVVNDFKDATKTVDEIKAAGGEAWPDQ
+
+                     [1]
+                     1.3e-17
+                     YSASKFAVRMLTRSMRREYAPHGIRVN
+                     ++++++++ +++++++ + ++ +++++
+451  NITSTSGIYGNFGQANYSSSKAGILGLSKTMAIEGAKNNIKVNIVAPHAETAMTLTIFREQDKNLYHADQVAPLL
+
+                                                          [2]
+                                                          6.8e-05
+                                                          QGKVVLITGCSSGIGKATAKHL
+                                                          ++ ++++  +++ +     +
+676  FNSGKSQNSFAKLLRNFNPMLLLHGEHYLKVHSWPPPTEGEIKTTFEPIATTPKGTNVVIVHGSKSVDNKSGELI
+
+     
+     
+     HKE
+     +++
+751  YSNEATYFIRNCQADNKVYADRPAFATNQFLAPKRAPDYQVDVPVSEDLAALYRLSGDRNPLHIDPNFAKGAKFP
+
+
+HDHA_ECOLI
+  7-ALPHA-HYDROXYSTEROID DEHYDROGENASE (EC 1.1.1.159) (HSDH)
+  LENGTH = 255  COMBINED P-VALUE = 6.86e-28  E-VALUE =  2.3e-26
+  DIAGRAM: 9_[2]_80_[1]_17_[1]_70
+
+              [2]
+              3.6e-17
+              QGKVVLITGCSSGIGKATAKHLHKE
+              +++++++++++ +++++++++++++
+1    MFNSDNLRLDGKCAIITGAGAGIGKEIAITFATAGASVVVSDINADAANHVVDEIQQLGGQAFACRCDITSEQEL
+
+                                            [1]
+                                            6.9e-05
+                                            YSASKFAVRMLTRSMRREYAPHGIRVN
+                                            +    ++  ++++  + ++ + +  +
+76   SALADFAISKLGKVDILVNNAGGGGPKPFDMPMADFRRAYELNVFSFFHLSQLVAPEMEKNGGGVILTITSMAAE
+
+             [1]
+             5.3e-18
+             YSASKFAVRMLTRSMRREYAPHGIRVN
+             + +++++ +++++++++++++++++++
+151  NKNINMTSYASSKAAASHLVRNMAFDLGEKNIRVNGIAPGAILTDALKSVITPEIEQKMLQHTPIRRLGQPQDIA
+
+
+NODG_RHIME
+  NODULATION PROTEIN G (HOST-SPECIFICITY OF NODULATION PROTEIN C)
+  LENGTH = 245  COMBINED P-VALUE = 1.86e-27  E-VALUE =  6.1e-26
+  DIAGRAM: 4_[2]_122_[1]_67
+
+         [2]
+         1.6e-14
+         QGKVVLITGCSSGIGKATAKHLHKE
+         ++  ++++++++ ++ ++++ ++++
+1    MFELTGRKALVTGASGAIGGAIARVLHAQGAIVGLHGTQIEKLETLATELGDRVKLFPANLANRDEVKALGQRAE
+
+      [1]
+      3.6e-20
+      YSASKFAVRMLTRSMRREYAPHGIRVN
+      +++++++++++++++++++++++++++
+151  NYCASKAGMIGFSKSLAQEIATRNITVNCVAPGFIESAMTDKLNHKQKEKIMVAIPIHRMGTGTEVASAVAYLAS
+
+
+YINL_LISMO
+  HYPOTHETICAL 26.8 KD PROTEIN IN INLA 5'REGION (ORFA)
+  LENGTH = 248  COMBINED P-VALUE = 3.70e-27  E-VALUE =  1.2e-25
+  DIAGRAM: 3_[2]_125_[1]_68
+
+        [2]
+        7.5e-20
+        QGKVVLITGCSSGIGKATAKHLHKE
+        ++++++++++++++++++++ ++++
+1    MTIKNKVIIITGASSGIGKATALLLAEKGAKLVLAARRVEKLEKIVQIIKANSGEAIFAKTDVTKREDNKKLVEL
+
+        [1]
+        1.5e-14
+        YSASKFAVRMLTRSMRREYAPHGIRVN
+        +++++++++ +++ ++++ ++++ +++
+151  GAVYGATKWAVRDLMEVLRMESAQEGTNIRTATIYPAAINTELLETITDKETEQGMTSLYKQYGITPDRIASIVA
+
+
+RIDH_KLEAE
+  RIBITOL 2-DEHYDROGENASE (EC 1.1.1.56) (RDH)
+  LENGTH = 249  COMBINED P-VALUE = 2.03e-26  E-VALUE =  6.7e-25
+  DIAGRAM: 12_[2]_122_[1]_63
+
+                 [2]
+                 1.4e-16
+                 QGKVVLITGCSSGIGKATAKHLHKE
+                 +++++ +++++++++++++++++ +
+1    MKHSVSSMNTSLSGKVAAITGAASGIGLECARTLLGAGAKVVLIDREGEKLNKLVAELGENAFALQVDLMQADQV
+
+              [1]
+              4.4e-17
+              YSASKFAVRMLTRSMRREYAPHGIRVN
+              ++++++++++++++++++++++++++
+151  VVPVIWEPVYTASKFAVQAFVHTTRRQVAQYGVRVGAVLPGPVVTALLDDWPKAKMDEALANGSLMQPIEVAESV
+
+
+HMTR_LEIMA
+  no comment
+  LENGTH = 287  COMBINED P-VALUE = 2.34e-26  E-VALUE =  7.7e-25
+  DIAGRAM: 4_[2]_163_[1]_68
+
+         [2]
+         1.6e-14
+         QGKVVLITGCSSGIGKATAKHLHKE
+         + ++++++++++ +++++++ ++++
+1    MTAPTVPVALVTGAAKRLGRSIAEGLHAEGYAVCLHYHRSAAEANALSATLNARRPNSAITVQADLSNVATAPVS
+
+                                               [1]
+                                               3.3e-19
+                                               YSASKFAVRMLTRSMRREYAPHGIRVN
+                                               +++++++++++++++++++++++++++
+151  PYFLIKAFAHRSRHPSQASRTNYSIINMVDAMTNQPLLGYTIYTMAKGALEGLTRSAALELAPLQIRVNGVGPGL
+
+
+FVT1_HUMAN
+  no comment
+  LENGTH = 332  COMBINED P-VALUE = 5.43e-26  E-VALUE =  1.8e-24
+  DIAGRAM: 30_[2]_130_[1]_120
+
+                                   [2]
+                                   6.9e-16
+                                   QGKVVLITGCSSGIGKATAKHLHKE
+                                    + ++++++++++++++++++++++
+1    MLLLAAAFLVAFVLLLYMVSPLISPKPLALPGAHVVVTGGSSGIGKCIAIECYKQGAFITLVARNEDKLLQAKKE
+
+                                        [1]
+                                        1.3e-17
+                                        YSASKFAVRMLTRSMRREYAPHGIRVN
+                                        +++++++++++ +++++++++++++++
+151  YPSRAVITTMKERRVGRIVFVSSQAGQLGLFGFTAYSASKFAIRGLAEALQMEVKPYNVYITVAYPPDTDTPGFA
+
+
+DHMA_FLAS1
+  N-ACYLMANNOSAMINE 1-DEHYDROGENASE (EC 1.1.1.233) (NAM-DH) 
+  LENGTH = 270  COMBINED P-VALUE = 1.31e-25  E-VALUE =  4.3e-24
+  DIAGRAM: 12_[2]_127_[1]_79
+
+                 [2]
+                 1.2e-15
+                 QGKVVLITGCSSGIGKATAKHLHKE
+                  ++ +++++++++++++++++++++
+1    TTAGVSRRPGRLAGKAAIVTGAAGGIGRATVEAYLREGASVVAMDLAPRLAATRYEEPGAIPIACDLADRAAIDA
+
+                   [1]
+                   2.9e-17
+                   YSASKFAVRMLTRSMRREYAPHGIRVN
+                   + ++++++ +++++++++++++++ ++
+151  GSVNSFMAEPEAAAYVAAKGGVAMLTRAMAVDLARHGILVNMIAPGPVDVTGNNTGYSEPRLAEQVLDEVALGRP
+
+
+DHB2_HUMAN
+  no comment
+  LENGTH = 387  COMBINED P-VALUE = 1.72e-25  E-VALUE =  5.7e-24
+  DIAGRAM: 80_[2]_126_[1]_129
+
+
+          [2]
+          9.2e-16
+          QGKVVLITGCSSGIGKATAKHLHKE
+          +++ ++++++++++++++++++ +
+76   ELLPVDQKAVLVTGGDCGLGHALCKYLDELGFTVFAGVLNENGPGAEELRRTCSPRLSVLQMDITKPVQIKDAYS
+
+           [1]
+           2.3e-17
+           YSASKFAVRMLTRSMRREYAPHGIRVN
+           +++++++++++++ ++++++++++++
+226  MERLASYGSSKAAVTMFSSVMRLELSKWGIKVASIQPGGFLTNIAGTSDKWEKLEKDILDHLPAEVQEDYGQDYI
+
+
+3BHD_COMTE
+  3-BETA-HYDROXYSTEROID DEHYDROGENASE (EC 1.1.1.51)
+  LENGTH = 253  COMBINED P-VALUE = 3.78e-25  E-VALUE =  1.2e-23
+  DIAGRAM: 4_[2]_30_[1]_64_[1]_76
+
+         [2]                                                    [1]
+         5.5e-17                                                4.4e-05
+         QGKVVLITGCSSGIGKATAKHLHKE                              YSASKFAVRMLTRSMR
+         +++++++++++++++++ ++ ++ +                                ++ +  +  + + +
+1    TNRLQGKVALVTGGASGVGLEVVKLLLGEGAKVAFSDINEAAGQQLAAELGERSMFVRHDVSSEADWTLVMAAVQ
+
+     
+     
+     REYAPHGIRVN
+     + ++++++ ++
+76   RRLGTLNVLVNNAGILLPGDMETGRLEDFSRLLKINTESVFIGCQQGIAAMKETGGSIINMASVSSWLPIEQYAG
+
+     [1]
+     2.1e-15
+     YSASKFAVRMLTRSMRREYAPHGIRVN
+     +++++++++++++++++++++++  ++
+151  YSASKAAVSALTRAAALSCRKQGYAIRVNSIHPDGIYTPMMQASLPKGVSKEMVLHDPKLNRAGRAYMPERIAQL
+
+
+ENTA_ECOLI
+  2,3-DIHYDRO-2,3-DIHYDROXYBENZOATE DEHYDROGENASE (EC 1.3.1.28)
+  LENGTH = 248  COMBINED P-VALUE = 7.22e-25  E-VALUE =  2.4e-23
+  DIAGRAM: 3_[2]_115_[1]_78
+
+        [2]
+        4.2e-18
+        QGKVVLITGCSSGIGKATAKHLHKE
+        +++++++++++++++++++++++++
+1    MDFSGKNVWVTGAGKGIGYATALAFVEAGAKVTGFDQAFTQEQYPFATEVMDVADAAQVAQVCQRLLAETERLDA
+
+                                                                         [1]
+                                                                         5.7e-14
+                                                                         YSASKFA
+                                                                         +++++++
+76   LVNAAGILRMGATDQLSKEDWQQTFAVNVGGAFNLFQQTMNQFRRQRGGAIVTVASDAAHTPRIGMSAYGASKAA
+
+     
+     
+     VRMLTRSMRREYAPHGIRVN
+     ++++  +  ++++ ++++++
+151  LKSLALSVGLELAGSGVRCNVVSPGSTDTDMQRTLWVSDDAEEQRIRGFGEQFKLGIPLGKIARPQEIANTILFL
+
+
+BA72_EUBSP
+  7-ALPHA-HYDROXYSTEROID DEHYDROGENASE (EC 1.1.1.159) (BILE ACID 
+  7-DEHYDROXYLASE) (BILE ACID-INDUCIBLE PROTEIN)
+  LENGTH = 249  COMBINED P-VALUE = 7.76e-25  E-VALUE =  2.6e-23
+  DIAGRAM: 4_[2]_35_[1]_65_[1]_66
+
+         [2]                                                         [1]
+         3.2e-16                                                     1.1e-05
+         QGKVVLITGCSSGIGKATAKHLHKE                                   YSASKFAVRML
+         ++++ +++++ ++++++ ++ ++ +                                      +  ++ +
+1    MNLVQDKVTIITGGTRGIGFAAAKIFIDNGAKVSIFGETQEEVDTALAQLKELYPEEEVLGFAPDLTSRDAVMAA
+
+     
+     
+     TRSMRREYAPHGIRVN
+     +   ++ ++++ + ++
+76   VGQVAQKYGRLDVMINNAGITSNNVFSRVSEEEFKHIMDINVTGVFNGAWCAYQCMKDAKKGVIINTASVTGIFG
+
+           [1]
+           8.1e-16
+           YSASKFAVRMLTRSMRREYAPHGIRVN
+           + +++++++++++ + +++ ++++++
+151  SLSGVGYPASKASVIGLTHGLGREIIRKNIRVVGVAPGVVNTDMTNGNPPEIMEGYLKALPMKRMLEPEEIANVY
+
+
+2BHD_STREX
+  20-BETA-HYDROXYSTEROID DEHYDROGENASE (EC 1.1.1.53)
+  LENGTH = 255  COMBINED P-VALUE = 1.14e-24  E-VALUE =  3.7e-23
+  DIAGRAM: 4_[2]_122_[1]_77
+
+         [2]
+         4.8e-14
+         QGKVVLITGCSSGIGKATAKHLHKE
+         +++ +++++++++++ + +++ +++
+1    MNDLSGKTVIITGGARGLGAEAARQAVAAGARVVLADVLDEEGAATARELGDAARYQHLDVTIEEDWQRVVAYAR
+
+      [1]
+      7.5e-18
+      YSASKFAVRMLTRSMRREYAPHGIRVN
+      +++++++++++++ +++++++ +++++
+151  SYGASKWGVRGLSKLAAVELGTDRIRVNSVHPGMTYTPMTAETGIRQGEGNYPNTPMGRVGNEPGEIAGAVVKLL
+
+
+BDH_HUMAN
+  D-BETA-HYDROXYBUTYRATE DEHYDROGENASE PRECURSOR (EC 1.1.1.30) (BDH) 
+  (3-HYDROXYBUTYRATE DEHYDROGENASE) (FRAGMENT)
+  LENGTH = 343  COMBINED P-VALUE = 2.28e-24  E-VALUE =  7.5e-23
+  DIAGRAM: 53_[2]_129_[1]_109
+
+                                                          [2]
+                                                          3.5e-16
+                                                          QGKVVLITGCSSGIGKATAKHL
+                                                           ++ +++++++++ ++++++++
+1    GLRPPPPGRFSRLPGKTLSACDRENGARRPLLLGSTSFIPIGRRTYASAAEPVGSKAVLVTGCDSGFGFSLAKHL
+
+     
+     
+     HKE
+     +++
+76   HSKGFLVFAGCLMKDKGHDGVKELDSLNSDRLRTVQLNVFRSEEVEKVVGDCPFEPEGPEKGMWGLVNNAGISTF
+
+                                                              [1]
+                                                              1.1e-15
+                                                              YSASKFAVRMLTRSMRRE
+                                                              ++ +++++++++++++++
+151  GEVEFTSLETYKQVAEVNLWGTVRMTKSFLPLIRRAKGRVVNISSMLGRMANPARSPYCITKFGVEAFSDCLRYE
+
+     
+     
+     YAPHGIRVN
+     +++++++++
+226  MYPLGVKVSVVEPGNFIAATSLYNPESIQAIAKKMWEELPEVVRKDYGKKYFDEKIAKMETYCSSGSTDTSPVID
+
+
+DHES_HUMAN
+  ESTRADIOL 17 BETA-DEHYDROGENASE (EC 1.1.1.62) (20 ALPHA-HYDROXYSTEROID 
+  DEHYDROGENASE) (E2DH) (17-BETA-HSD) (PLACENTAL 17-BETA-HYDROXYSTEROID 
+  DEHYDROGENASE)
+  LENGTH = 327  COMBINED P-VALUE = 9.59e-24  E-VALUE =  3.2e-22
+  DIAGRAM: [2]_129_[1]_146
+
+     [2]
+     3.3e-15
+     QGKVVLITGCSSGIGKATAKHLHKE
+        ++++++++++++++++ +++++
+1    ARTVVLITGCSSGIGLHLAVRLASDPSQSFKVYATLRDLKTQGRLWEAARALACPPGSLETLQLDVRDSKSVAAA
+
+         [1]
+         5.4e-16
+         YSASKFAVRMLTRSMRREYAPHGIRVN
+         +++++++++++++++++ + + +++ +
+151  FNDVYCASKFALEGLCESLAVLLLPFGVHLSLIECGPVHTAFMEKVLGSPEEVLDRTDIHTFHRFYQYLAHSKQV
+
+
+GUTD_ECOLI
+  SORBITOL-6-PHOSPHATE 2-DEHYDROGENASE (EC 1.1.1.140) (GLUCITOL-6- PHOSPHATE 
+  DEHYDROGENASE) (KETOSEPHOSPHATE REDUCTASE)
+  LENGTH = 259  COMBINED P-VALUE = 1.80e-23  E-VALUE =  5.9e-22
+  DIAGRAM: [2]_128_[1]_79
+
+     [2]
+     3.5e-12
+     QGKVVLITGCSSGIGKATAKHLHKE
+     +++++++ ++++ ++  +++ ++++
+1    MNQVAVVIGGGQTLGAFLCHGLAAEGYRVAVVDIQSDKAANVAQEINAEYGESMAYGFGADATSEQSCLALSRGV
+
+        [1]
+        1.6e-18
+        YSASKFAVRMLTRSMRREYAPHGIRVN
+        +++++++  ++++++++++++++++++
+151  NSGYSAAKFGGVGLTQSLALDLAEYGITVHSLMLGNLLKSPMFQSLLPQYATKLGIKPDQVEQYYIDKVPLKRGC
+
+
+DHB3_HUMAN
+  no comment
+  LENGTH = 310  COMBINED P-VALUE = 2.28e-23  E-VALUE =  7.5e-22
+  DIAGRAM: 46_[2]_126_[1]_86
+
+                                                   [2]
+                                                   1.7e-16
+                                                   QGKVVLITGCSSGIGKATAKHLHKE
+                                                   +++++++++++ +++++++ +++++
+1    MGDVLEQFFILTGLLVCLACLAKCVRFSRCVLLNYYKVLPKSFLRSMGQWAVITGAGDGIGKAYSFELAKRGLNV
+
+                                                    [1]
+                                                    2.8e-14
+                                                    YSASKFAVRMLTRSMRREYAPHGIRVN
+                                                    ++++++++++++++++ +++ + + ++
+151  QSLIHCNITSVVKMTQLILKHMESRQKGLILNISSGIALFPWPLYSMYSASKAFVCAFSKALQEEYKAKEVIIQV
+
+
+BPHB_PSEPS
+  BIPHENYL-CIS-DIOL DEHYDROGENASE (EC 1.3.1.-)
+  LENGTH = 275  COMBINED P-VALUE = 1.63e-21  E-VALUE =  5.4e-20
+  DIAGRAM: 3_[2]_124_[1]_96
+
+        [2]
+        8.3e-16
+        QGKVVLITGCSSGIGKATAKHLHKE
+        ++  +++++++++++++++ +++++
+1    MKLKGEAVLITGGASGLGRALVDRFVAEAKVAVLDKSAERLAELETDLGDNVLGIVGDVRSLEDQKQAASRCVAR
+
+       [1]
+       5.9e-13
+       YSASKFAVRMLTRSMRREYAPHGIRVN
+       ++++++++ +++++++++++++  +
+151  PLYTAAKQAIVGLVRELAFELAPYVRVNGVGPGGMNSDMRGPSSLGMGSKAISTVPLADMLKSVLPIGRMPEVEE
+
+
+LIGD_PSEPA
+  C ALPHA-DEHYDROGENASE (EC -.-.-.-)
+  LENGTH = 305  COMBINED P-VALUE = 3.21e-21  E-VALUE =  1.1e-19
+  DIAGRAM: 4_[2]_127_[1]_122
+
+         [2]
+         9.8e-14
+         QGKVVLITGCSSGIGKATAKHLHKE
+         +++++ +++++++ ++ +++ + ++
+1    MKDFQDQVAFITGGASGAGFGQAKVFGQAGAKIVVADVRAEAVEKAVAELEGLGITAHGIVLDIMDREAYARAAD
+
+           [1]
+           8.0e-15
+           YSASKFAVRMLTRSMRREYAPHGIRVN
+           +++++++ +++++ +++ + ++++ ++
+151  SALAGPYSAAKAASINLMEGYRQGLEKYGIGVSVCTPANIKSNIAEASRLRPAKYGTSGYVENEESIASLHSIHQ
+
+
+RFBB_NEIGO
+  no comment
+  LENGTH = 346  COMBINED P-VALUE = 3.22e-20  E-VALUE =  1.1e-18
+  DIAGRAM: 4_[2]_135_[1]_155
+
+         [2]
+         1.7e-13
+         QGKVVLITGCSSGIGKATAKHLHKE
+          +++++++++++ ++ + +++ +++
+1    MQTEGKKNILVTGGAGFIGSAVVRHIIQNTRDSVVNLDKLTYAGNLESLTDIADNPRYAFEQVDICDRAELDRVF
+
+                   [1]
+                   3.7e-14
+                   YSASKFAVRMLTRSMRREYAPHGIRVN
+                   +++++++ +++++++++ ++   ++ +
+151  DLFTETTPYAPSSPYSASKAAADHLVRAWQRTYRLPSIVSNCSNNYGPRQFPEKLIPLMILNALSGKPLPVYGDG
+
+
+DHCA_HUMAN
+  no comment
+  LENGTH = 276  COMBINED P-VALUE = 2.12e-18  E-VALUE =    7e-17
+  DIAGRAM: 2_[2]_34_[1]_104_[1]_57
+
+       [2]                                                        [1]
+       1.1e-15                                                    2.5e-05
+       QGKVVLITGCSSGIGKATAKHLHKE                                  YSASKFAVRMLTRS
+         ++++++++++++++++++++++                                        ++++++ +
+1    SSGIHVALVTGGNKGIGLAIVRDLCRLFSGDVVLTARDVTRGQAAVQQLQAEGLSPRFHQLDIDDLQSIRALRDF
+
+     
+     
+     MRREYAPHGIRVN
+     ++++++ + + ++
+76   LRKEYGGLDVLVNNAGIAFKVADPTPFHIQAEVTMKTNFFGTRDVCTELLPLIKPQGRVVNVSSIMSVRALKSCS
+
+                                               [1]
+                                               6.7e-10
+                                               YSASKFAVRMLTRSMRREYAPHGIRVN
+                                               ++ ++ +++ +++ +++ +++++
+151  PELQQKFRSETITEEELVGLMNKFVEDTKKGVHQKEGWPSSAYGVTKIGVTVLSRIHARKLSEQRKGDKILLNAC
+
+
+MAS1_AGRRA
+  no comment
+  LENGTH = 476  COMBINED P-VALUE = 2.57e-17  E-VALUE =  8.5e-16
+  DIAGRAM: 243_[2]_123_[1]_58
+
+
+                       [2]
+                       1.3e-14
+                       QGKVVLITGCSSGIGKATAKHLHKE
+                       +++++++ +++++++++++++++++
+226  GRVLHFRRGFSHWTVEIHQSPVILVSGSNRGVGKAIAEDLIAHGYRLSLGARKVKDLEVAFGPQDEWLHYARFDA
+
+                     [1]
+                     2.4e-10
+                     YSASKFAVRMLTRSMRREYAPHGIRVN
+                     + ++++++ ++++++++  + +++
+376  NINSMSGQRVLNPLVGYNMTKHALGGLTKTTQHVGWDRRCAAIDICLGFVATDMSAWTDLIASKDMIQPEDIAKL
+
+
+PCR_PEA
+  no comment
+  LENGTH = 399  COMBINED P-VALUE = 3.93e-17  E-VALUE =  1.3e-15
+  DIAGRAM: 84_[2]_34_[1]_229
+
+
+              [2]                                                        [1]
+              7.6e-16                                                    8.7e-09
+              QGKVVLITGCSSGIGKATAKHLHKE                                  YSASKFA
+               + ++++++++++++++++++++++                                    ++  +
+76   SSSEGKKTLRKGNVVITGASSGLGLATAKALAESGKWHVIMACRDYLKAARAAKSAGLAKENYTIMHLDLASLDS
+
+     
+     
+     VRMLTRSMRREYAPHGIRVN
+     +++++++ +++ +++ + ++
+151  VRQFVDNFRRSEMPLDVLINNAAVYFPTAKEPSFTADGFEISVGTNHLGHFLLSRLLLEDLKKSDYPSKRLIIVG
+
+
+ADH_DROME
+  ALCOHOL DEHYDROGENASE (EC 1.1.1.1)
+  LENGTH = 255  COMBINED P-VALUE = 2.47e-16  E-VALUE =  8.2e-15
+  DIAGRAM: 4_[2]_122_[1]_77
+
+         [2]
+         1.1e-11
+         QGKVVLITGCSSGIGKATAKHLHKE
+         ++++++   + +++++ ++++++++
+1    SFTLTNKNVIFVAGLGGIGLDTSKELLKRDLKNLVILDRIENPAAIAELKAINPKVTVTFYPYDVTVPIAETTKL
+
+      [1]
+      1.0e-11
+      YSASKFAVRMLTRSMRREYAPHGIRVN
+      ++ +++++ ++++++++    ++++ +
+151  VYSGTKAAVVNFTSSLAKLAPITGVTAYTVNPGITRTTLVHKFNSWLDVEPQVAEKLLAHPTQPSLACAENFVKA
+
+
+YURA_MYXXA
+  no comment
+  LENGTH = 258  COMBINED P-VALUE = 7.99e-14  E-VALUE =  2.6e-12
+  DIAGRAM: 159_[1]_72
+
+
+              [1]
+              3.2e-17
+              YSASKFAVRMLTRSMRREYAPHGIRVN
+              +++++++++ ++++++++++ ++++++
+151  GFRGLPATRYSASKAFLSTFMESLRVDLRGTGVRVTCIYPGFVKSELTATNNFPMPFLMETHDAVELMGKGIVRG
+
+
+FABI_ECOLI
+  no comment
+  LENGTH = 262  COMBINED P-VALUE = 2.73e-11  E-VALUE =    9e-10
+  DIAGRAM: 4_[2]_129_[1]_77
+
+         [2]
+         2.4e-06
+         QGKVVLITGCSSGIGKATAKHLHKE
+         +++ +++++ ++ +  ++ ++ + +
+1    MGFLSGKRILVTGVASKLSIAYGIAQAMHREGAELAFTYQNDKLKGRVEEFAAQLGSDIVLQCDVAEDASIDTMF
+
+             [1]
+             7.0e-12
+             YSASKFAVRMLTRSMRREYAPHGIRVN
+             ++ +++++++ +++++  +++++++++
+151  RAIPNYNVMGLAKASLEANVRYMANAMGPEGVRVNAISAGPIRTLAASGIKDFRKMLAHCEAVTPIRRTVTIEDV
+
+
+CSGA_MYXXA
+  no comment
+  LENGTH = 166  COMBINED P-VALUE = 1.81e-09  E-VALUE =    6e-08
+  DIAGRAM: 87_[1]_52
+
+
+                 [1]
+                 2.6e-12
+                 YSASKFAVRMLTRSMRREYAPHGIRVN
+                 + ++++++ + ++++  ++++++ +
+76   SLAANTDGGAYAYRMSKAALNMAVRSMSTDLRPEGFVTVLLHPGWVQTDMGGPDATLPAPDSVRGMLRVIDGLNP
+
+********************************************************************************
+
+
+CPU: rocks-155.sdsc.edu
+Time 0.022996 secs.
+
+mast meme.adh.zoops

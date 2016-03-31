@@ -1,0 +1,356 @@
+<!---
+##
+## mast.html created from mast.in by make
+##
+## $Id: mast.in,v 1.3 2005/12/09 06:52:56 tbailey Exp $
+##
+## $Log: mast.in,v $
+## Revision 1.3  2005/12/09 06:52:56  tbailey
+## Added detailed instructions for downloading upstream databases.
+## Put "K12" after E. coli database name to make clear which strain it is.
+##
+## Revision 1.2  2005/09/14 00:39:52  nadya
+## add mast sample sequences
+##
+## Revision 1.1  2005/09/01 22:14:34  nadya
+## create template files to use version automatically
+##
+##
+## Revision 1.3  2005/08/20 04:29:22  nadya
+## rm commented line
+##
+## Revision 1.2  2005/08/18 05:14:36  nadya
+## added email checking
+##
+## Revision 1.1.1.1  2005/07/31 20:14:31  nadya
+## Importing from meme-3.0.14, and adding configure/make
+--->
+
+<HTML>
+
+<HEAD>
+<TITLE> MAST - Submission form</TITLE>
+
+<script language="javascript" type="text/javascript">
+<!--
+
+function check(form) {
+        var email = form.address.value;
+        var email_verify = form.address_verify.value;
+        if(!email_verify) {
+                alert("Please fill in the \"Re-enter email address\" field.");
+                return false;
+        }
+        if(!email.match(email_verify)) {
+                alert("Email addresses do not match.");
+                return false;
+        }
+        if(!email_verify.match(email)) {
+                alert("Email addresses do not match.");
+                return false;
+        }
+}
+
+
+-->
+</script>
+
+</HEAD>
+
+<BODY BACKGROUND="images/bkg.jpg">
+
+<FORM ENCTYPE = "multipart/form-data" METHOD = "POST" 
+   ACTION ="cgi-bin/mast.cgi">
+
+<TABLE>
+  <COL WIDTH="20%">
+  <THEAD VALIGN="CENTER">
+  <TR>
+    <TD><img src="images/mast.png" alt="MAST logo">
+    <TD><H3>Version @version@</H3>
+    <TD>
+    <TABLE>
+      <TR>
+      <TD> <H3>Hosted by </H3>
+      </TR>
+      <TR>
+      <TD><a href="http://www.nbcr.net">
+        <IMG src="images/host_logo.png" border="0" alt="[host logo]"><a>
+      </TR>
+    </TABLE>
+  </TR>
+</TABLE>
+
+<HR>
+
+<H3>Data Submission Form</H3>
+
+Use this form to submit motifs to <B>MAST</B> to be used in searching a sequence
+database.  Your data will be processed at the
+<A HREF="http://www.sdsc.edu/">San Diego Supercomputer Center</A>
+and the results will be sent to you via e-mail.
+<HR>
+
+<TABLE> 
+
+  <TR>
+    <TD>
+      Your <A HREF="mast-input.html#e-mail"><B>e-mail address:</B></A>
+      <br><INPUT TYPE = "TEXT" SIZE = 30 NAME = "address">
+      <br>Re-enter <b>e-mail address:</b>
+      <br><INPUT TYPE = "TEXT" SIZE = 30 NAME = "address_verify" >	
+	
+    <TD>
+      Your <A HREF="mast-input.html#motif-file"><B>motif</B></A> file:
+      <B><INPUT NAME="motifs" TYPE="file"></B>
+      <BR>
+      <A HREF="examples/sample-motif.dna">Sample DNA motif</A>, right click and "save target as" to download	
+
+  <TR>
+    <TD>
+      <A HREF="mast-input.html#databases">Sequence database</A> to search--select <B>one</B> of the following:
+      <UL>
+        <LI> 
+	  A <A HREF="mast-databases.html"><B>MAST database</B></A>:
+	  <SELECT NAME = "database">
+	    <OPTION SELECTED VALUE = "none none none">
+	    <OPTION VALUE = "none none none"> -----Assorted Databases-----
+	    <OPTION VALUE = "alu alu.aa alu.na"> alu
+	    <OPTION VALUE = "c_elegans c_elegans.aa c_elegans.na"> C. elegans (coding)
+	    <OPTION VALUE = "c_elegans_cosmids none c_elegans_cosmids.na"> C. elegans (all cosmids)
+	    <OPTION VALUE = "dicty_gen dicty_gen.aa dicty_gen.na"> D. discoideum (Genbank)
+	    <OPTION VALUE = "drosoph drosoph.aa drosoph.na"> Drosophila 
+	    <OPTION VALUE = "ecoli ecoli.aa ecoli.na"> E. coli
+	    <OPTION VALUE = "epd none epd"> epd
+	    <OPTION VALUE = "dbest none est"> est
+	    <OPTION VALUE = "est_human none est_human"> est (human)
+	    <OPTION VALUE = "est_mouse none est_mouse"> est (mouse)
+	    <OPTION VALUE = "est_others none est_others"> est (others)
+	    <OPTION VALUE = "genpept genpept none"> genpept
+	    <OPTION VALUE = "gss none gss"> gss
+	    <OPTION VALUE = "htg none htg"> htgs 
+	    <OPTION VALUE = "kabat kabat.aa kabat.na"> kabat 
+	    <OPTION VALUE = "mito mito.aa mito.na"> mito
+	    <OPTION VALUE = "month month.aa month.na"> month
+	    <OPTION VALUE = "nr nr.aa nr.na"> nr
+	    <OPTION VALUE = "pdb pdb.aa pdb.na"> pdb
+	    <OPTION VALUE = "dbsts none sts"> sts 
+	    <OPTION VALUE = "yeast yeast.aa yeast.na"> S. cerevisiae
+	    <OPTION VALUE = "swissprot swissprot none"> swissprot
+	    <OPTION VALUE = "vector none vector"> vector
+	    <OPTION VALUE = "none none none"> -----Genbank Single Organism Databases-----
+	     <OPTION VALUE = "Aeropyrum_pernix_K1 Aeropyrum_pernix_K1.aa Aeropyrum_pernix_K1.na"> Aeropyrum pernix K1
+	     <OPTION VALUE = "Archaeoglobus_fulgidus Archaeoglobus_fulgidus.aa Archaeoglobus_fulgidus.na"> Archaeoglobus fulgidus
+	     <OPTION VALUE = "Aquifex_aeolicus Aquifex_aeolicus.aa Aquifex_aeolicus.na"> Aquifex aeolicus
+	     <OPTION VALUE = "Aquifex_aeolicus_ece1 Aquifex_aeolicus_ece1.aa Aquifex_aeolicus_ece1.na"> Aquifex aeolicus ece1
+	     <OPTION VALUE = "Borrelia_burgdorferi Borrelia_burgdorferi.aa Borrelia_burgdorferi.na"> Borrelia burgdorferi
+	     <OPTION VALUE = "Borrelia_burgdorferi_11_plasmids Borrelia_burgdorferi_11_plasmids.aa Borrelia_burgdorferi_11_plasmids.na"> Borrelia burgdorferi 11 plasmids
+	     <OPTION VALUE = "Bacillus_subtilis Bacillus_subtilis.aa Bacillus_subtilis.na"> Bacillus subtilis
+	     <OPTION VALUE = "Chlamydia_trachomatis Chlamydia_trachomatis.aa Chlamydia_trachomatis.na"> Chlamydia trachomatis
+	     <OPTION VALUE = "Chlamydia_muridarum Chlamydia_muridarum.aa Chlamydia_muridarum.na"> Chlamydia muridarum
+	     <OPTION VALUE = "Chlamydia_pneumoniae Chlamydia_pneumoniae.aa Chlamydia_pneumoniae.na"> Chlamydia pneumoniae
+	     <OPTION VALUE = "Chlamydophila_pneumoniae_AR39 Chlamydophila_pneumoniae_AR39.aa Chlamydophila_pneumoniae_AR39.na"> Chlamydophila pneumoniae AR39
+	     <OPTION VALUE = "Chlamydophila_pneumoniae_J138 Chlamydophila_pneumoniae_J138.aa Chlamydophila_pneumoniae_J138.na"> Chlamydophila pneumoniae J138
+	     <OPTION VALUE = "Deinococcus_radiodurans_R1_chromosome_1 Deinococcus_radiodurans_R1_chromosome_1.aa Deinococcus_radiodurans_R1_chromosome_1.na"> Deinococcus radiodurans R1 chromosome 1
+	     <OPTION VALUE = "Escherichia_coli Escherichia_coli.aa Escherichia_coli.na"> Escherichia coli
+	     <OPTION VALUE = "Haemophilus_influenzae Haemophilus_influenzae.aa Haemophilus_influenzae.na"> Haemophilus influenzae
+	     <OPTION VALUE = "Helicobacter_pylori_26695 Helicobacter_pylori_26695.aa Helicobacter_pylori_26695.na"> Helicobacter pylori 26695
+	     <OPTION VALUE = "Helicobacter_pylori_strain_J99 Helicobacter_pylori_strain_J99.aa Helicobacter_pylori_strain_J99.na"> Helicobacter pylori strain J99
+	     <OPTION VALUE = "Mycoplasma_genitalium Mycoplasma_genitalium.aa Mycoplasma_genitalium.na"> Mycoplasma genitalium
+	     <OPTION VALUE = "Methanococcus_jannaschii Methanococcus_jannaschii.aa Methanococcus_jannaschii.na"> Methanococcus jannaschii
+	     <OPTION VALUE = "Methanococcus_jannaschii_large_extrachromosomal_element Methanococcus_jannaschii_large_extrachromosomal_element.aa Methanococcus_jannaschii_large_extrachromosomal_element.na"> Methanococcus jannaschii large extrachromosomal element
+	     <OPTION VALUE = "Methanococcus_jannaschii_small_extrachromosomal_element Methanococcus_jannaschii_small_extrachromosomal_element.aa Methanococcus_jannaschii_small_extrachromosomal_element.na"> Methanococcus jannaschii small extrachromosomal element
+	     <OPTION VALUE = "Mycoplasma_pneumoniae Mycoplasma_pneumoniae.aa Mycoplasma_pneumoniae.na"> Mycoplasma pneumoniae
+	     <OPTION VALUE = "Methanobacterium_thermoautotrophicum Methanobacterium_thermoautotrophicum.aa Methanobacterium_thermoautotrophicum.na"> Methanobacterium thermoautotrophicum
+	     <OPTION VALUE = "Mycobacterium_tuberculosis_H37Rv Mycobacterium_tuberculosis_H37Rv.aa Mycobacterium_tuberculosis_H37Rv.na"> Mycobacterium tuberculosis H37Rv
+	     <OPTION VALUE = "Neisseria_meningitidis_serogroup_B_strain_MC58 Neisseria_meningitidis_serogroup_B_strain_MC58.aa Neisseria_meningitidis_serogroup_B_strain_MC58.na"> Neisseria meningitidis serogroup B strain MC58
+	     <OPTION VALUE = "Neisseria_meningitidis_serogroup_A_strain_Z2491 Neisseria_meningitidis_serogroup_A_strain_Z2491.aa Neisseria_meningitidis_serogroup_A_strain_Z2491.na"> Neisseria meningitidis serogroup A strain Z2491
+	     <OPTION VALUE = "Pyrococcus_abyssi Pyrococcus_abyssi.aa Pyrococcus_abyssi.na"> Pyrococcus abyssi
+	     <OPTION VALUE = "Pyrococcus_horikoshii Pyrococcus_horikoshii.aa Pyrococcus_horikoshii.na"> Pyrococcus horikoshii
+	     <OPTION VALUE = "Rhizobium_sp._NGR234_complete_plasmid_sequence Rhizobium_sp._NGR234_complete_plasmid_sequence.aa Rhizobium_sp._NGR234_complete_plasmid_sequence.na"> Rhizobium sp. NGR234 complete plasmid sequence
+	     <OPTION VALUE = "Rickettsia_prowazekii_strain_Madrid_E Rickettsia_prowazekii_strain_Madrid_E.aa Rickettsia_prowazekii_strain_Madrid_E.na"> Rickettsia prowazekii strain Madrid E
+	     <OPTION VALUE = "Synechocystis_PCC6803 Synechocystis_PCC6803.aa Synechocystis_PCC6803.na"> Synechocystis PCC6803
+	     <OPTION VALUE = "Thermotoga_maritima Thermotoga_maritima.aa Thermotoga_maritima.na"> Thermotoga maritima
+	     <OPTION VALUE = "Treponema_pallidum Treponema_pallidum.aa Treponema_pallidum.na"> Treponema pallidum
+	     <OPTION VALUE = "Ureaplasma_urealyticum Ureaplasma_urealyticum.aa Ureaplasma_urealyticum.na"> Ureaplasma urealyticum
+	     <OPTION VALUE = "Xylella_fastidiosa Xylella_fastidiosa.aa Xylella_fastidiosa.na"> Xylella fastidiosa
+	    <OPTION VALUE = "none none none"> -----Upstream Sequence Databases-----
+	      <OPTION VALUE = "B.subtilis_upstream none bsubtilis_-500_50.na"> B. subtilis (upstream)
+	      <OPTION VALUE = "E.coli_upstream none ecoli_-500_50.na"> E. coli K12 (upstream)
+	      <OPTION VALUE = "S.cerevisiae_upstream none yeast_-950_50.na"> S. cerevisiae (upstream)
+              <OPTION VALUE = "human_upstream none hs.upstream.na"> Human (upstream)
+              <OPTION VALUE = "mouse_upstream none mouse.upstream.na"> Mouse (upstream)
+          </SELECT>
+        <LI>
+	Your <A HREF="mast-input.html#FASTA"><B>FASTA</B></A> 
+	sequence file (1,000,000 sequence characters maximum):<BR><A HREF="examples/sample-kabat.seq">Sample<A> DNA sequence, right click and "save target as" to download.
+        <BR>
+	<!-- Note: change $MAX_UPLOAD_SIZE in mast.cgi if you change this. -->
+	<B><INPUT NAME="upload_db" TYPE="file"></B>
+      </UL>
+
+   <TD>
+     <INPUT TYPE = "SUBMIT" value="Start search" onClick="return check(this.form)"> &nbsp &nbsp &nbsp
+     <INPUT TYPE = "RESET" value="Clear Input">
+
+  <TR>
+    <TH COLSPAN=2> <HR> OPTIONS <HR>
+
+  <TR>
+    <TD>
+      <INPUT TYPE = "CHECKBOX" NAME = "use_seq_p" value="-seqp -mt 0.01"> 
+      <A HREF="mast-input.html#use_seq_p"><B>Scale motif display threshold</B>
+      </A> by sequence length; <B>recommended</B> for
+      <B>nucleotide</B> searches
+
+    <TD>
+      <A HREF="mast-input.html#description"><B>Description</B></A>
+      of your motifs:
+      <INPUT TYPE = "TEXT" SIZE = 40 NAME = "subject">
+
+  <TR>
+    <TD>
+      <INPUT TYPE = "CHECKBOX" NAME = "use_seq_comp" value="-comp"> 
+      <A HREF="mast-input.html#use_seq_comp"><B>
+      Use individual sequence composition</B></A> <BR>
+      in <I>E</I>- and <I>p</I>-value calculation
+
+    <TD>
+      <A HREF="mast-input.html#ev">
+      <B>Display sequences with <I>E</I>-value below:</B></A>
+      <SELECT NAME = "ev">
+	<OPTION VALUE = "-ev 0.01"> 0.01
+	<OPTION VALUE = "-ev 0.1">  0.1
+	<OPTION VALUE = "-ev 1"> 1 
+	<OPTION SELECTED VALUE = "-ev 10"> 10 
+	<OPTION VALUE = "-ev 20"> 20
+	<OPTION VALUE = "-ev 50"> 50
+	<OPTION VALUE = "-ev 100"> 100
+	<OPTION VALUE = "-ev 200"> 200
+	<OPTION VALUE = "-ev 500"> 500
+	<OPTION VALUE = "-ev 1000"> 1000
+      </SELECT>
+
+  <TR>
+    <TD>
+      <INPUT TYPE = "CHECKBOX" NAME = "text" value="-text"> 
+      <A HREF="mast-input.html#text"><B>Text</B></A> output format
+
+    <TD>
+      <A HREF="mast-input.html#rank"><B>Rank</B></A>
+      of the first match returned: 
+	<B>
+	<SELECT NAME = "rank">
+	<OPTION SELECTED> 1
+	<OPTION> 501
+	<OPTION> 1001
+	<OPTION> 1501
+	<OPTION> 2001
+	<OPTION> 2501
+	<OPTION> 3001
+	<OPTION> 3501
+	<OPTION> 4001
+	<OPTION> 4501
+	<OPTION> 5001
+	<OPTION> 5501
+	<OPTION> 6001
+	<OPTION> 6501
+	<OPTION> 7001
+	<OPTION> 7501
+	<OPTION> 8001
+	<OPTION> 8501
+	<OPTION> 9001
+	<OPTION> 9501
+	<OPTION> 10001
+	</SELECT>
+	</B>
+  <TR>
+    <TD>
+    <TD>
+      <A HREF="mast-input.html#mev">
+      <B>Ignore motifs if <I>E</I>-value above:</B></A>
+      <SELECT NAME = "mev">
+	<OPTION SELECTED VALUE = ""> use all motifs
+	<OPTION VALUE = "-mev 100"> 100
+	<OPTION VALUE = "-mev 50"> 50
+	<OPTION VALUE = "-mev 20"> 20
+	<OPTION VALUE = "-mev 10"> 10
+	<OPTION VALUE = "-mev 5"> 5
+	<OPTION VALUE = "-mev 2"> 2
+	<OPTION VALUE = "-mev 1"> 1
+	<OPTION VALUE = "-mev .5"> .5
+	<OPTION VALUE = "-mev .2"> .2
+	<OPTION VALUE = "-mev .1"> .1
+	<OPTION VALUE = "-mev .05"> .05
+	<OPTION VALUE = "-mev .02"> .02
+	<OPTION VALUE = "-mev .01"> .01
+	<OPTION VALUE = "-mev .005"> .005
+	<OPTION VALUE = "-mev .002"> .002
+	<OPTION VALUE = "-mev .001"> .001
+	<OPTION VALUE = "-mev 1e-5"> 1e-5 
+	<OPTION VALUE = "-mev 1e-10"> 1e-10
+	<OPTION VALUE = "-mev 1e-50"> 1e-50
+	<OPTION VALUE = "-mev 1e-100"> 1e-100
+      </SELECT>
+
+  <TR>
+    <TH COLSPAN=2> <HR> DNA-ONLY OPTIONS <HR>
+
+  <TR>
+    <TD>
+      <INPUT TYPE = "CHECKBOX" NAME = "dna" value="-dna"> 
+      <A HREF="mast-input.html#dna"><B>Search nucleotide</B></A> database
+      with protein motifs
+
+    <TD>
+      Treatment of 
+      <A HREF="mast-input.html#strands"><B>reverse complement</B></A> strands: 
+      <SELECT NAME = "strands">
+	<OPTION SELECTED VALUE = ",combine"> combine with given strand 
+	<OPTION VALUE = "-sep,separate"> treat as separate sequence 
+	<OPTION VALUE = "-norc,none"> none
+      </SELECT> 
+
+    <TR>
+      <TD COLSPAN = 2> <HR>
+
+    <TR>
+      <TD>
+        <INPUT TYPE = "SUBMIT" value="Start search" onClick="return check(this.form)"> &nbsp &nbsp &nbsp
+        <INPUT TYPE = "RESET" value="Clear Input">
+</TABLE>
+
+</TABLE>
+<HR>
+Click here for 
+<A HREF="mast-intro.html"><B>more information</B></A> 
+on <B>MAST</B>.
+
+<BR>
+Return to 
+<A HREF="intro.html"><B>MEME SYSTEM introduction</B></A>.
+
+<HR>
+<TABLE>
+<B>Developed and maintained by: </B>
+<TR>
+<TD><a href="http://infopath.ucsd.edu">
+<img src="images/ucsd_logo.png" border="0" alt="[UCSD logo]" hspace="10"></a>
+<TD><a href="http://www.sdsc.edu">
+<img src="images/sdsc_logo.png" border="0" alt="[SDSC logo]" hspace="10"></a>
+<TD><a href="http://www.uq.edu.au">
+<img src="images/uq_logo.png" border="0" alt="[UQ logo]" hspace="10"></a>
+<TD><a href="http://nbcr.net">
+<img src="images/host_logo.png" border="0" alt="[HOST logo]" hspace="10"></a>
+</TR>
+</TABLE>
+
+<P>
+<I>Please send comments and questions to:
+<A HREF="mailto:meme@nbcr.net">meme@nbcr.net</A>.</B>
+
+<HR>
+
+</FORM>
+</BODY>
+</HTML>

@@ -1,0 +1,94 @@
+#!/bin/csh
+#
+# $Id: rocket,v 1.3 2005/09/28 22:11:03 nadya Exp $
+# $Log: rocket,v $
+# Revision 1.3  2005/09/28 22:11:03  nadya
+# revert roc.csh to roc
+#
+# Revision 1.2  2005/08/24 00:35:12  nadya
+# use roc.csh for now
+#
+# Revision 1.1.1.1  2005/07/29 00:11:58  nadya
+# Importing from meme-3.0.14, and adding configure/make
+#
+#
+
+set pgm = $0; set pgm = $pgm:t
+if ($#argv < 1) then
+  usage:
+  cat << USAGE
+  USAGE:
+	$pgm <exp> [-d <dataset>] [-seq] [-m <model>] [-opt] [-T <thresh>]
+
+		<exp>	experiment name
+		[-d <dataset>]	dataset to compute ROC on
+		[-seq]	compute sequence-level performance;
+			default is site-level performance
+		[-m <model>]	type of model to do roc for; default '*'
+		[-opt]	use optimum threshold for recall and precision 
+		[-T <thresh>]	threshold instead of MEME threshold
+
+	Create a file RESULTS.ws/rocket.<exp>[.<model>][.seq][.<dataset>] 
+	containing the results of roc on all the files
+        RESULTS.ws/<exp>[.<model>].
+
+	Note: Expects files
+		[RESULTS]/<exp>.*[.model]
+USAGE
+  exit 1
+endif
+
+unlimit cputime
+
+# get input arguments 
+set experiment = $1; shift
+set ssuffix = ""; set seq = ""
+set set model_suffix = ""; set opt = ""; 
+set thresh = ""; set Tsuffix = "";
+
+while ("$1" != "")
+  switch ($1)
+  case -d:
+    shift; set search_dataset = $1; breaksw
+  case -T:
+    shift; set thresh = "-T $1"; set Tsuffix = ".$1"; breaksw
+  case -seq:
+    set ssuffix = ".seq"; set seq = "-seq"; breaksw
+  case -m:
+    shift; set model_suffix = ".$1"; breaksw
+  case -opt:
+    set opt = "-opt"; set ssuffix = ".opt"; breaksw
+  default:
+    goto usage
+  endsw
+  shift
+end
+
+set dswitch = ""
+set dsuffix = ""
+if ($?search_dataset) then
+  set dswitch = "-d $search_dataset"
+  set dsuffix = ".$search_dataset"
+endif
+
+set dir = "."
+if (-d RESULTS) set dir = "RESULTS"
+set output = "$dir/rocket.$experiment$model_suffix$ssuffix$dsuffix$Tsuffix"
+#if (-e $output) then
+#  echo "File $output already exists"
+#  exit 1
+#endif
+echo "writing output to file $output"
+echo "" >! $output
+
+set files = "$dir/$experiment.*$model_suffix"
+foreach exp ($files)
+  bin/roc $exp $dswitch $seq $opt $thresh >> $output
+  echo " " >> $output; echo " " >> $output
+end
+
+echo -n "mean, sd (ROC recall precision) :" >> $output
+grep Average $output | colex 5 | sd -n >> $output
+grep Average $output | colex 6 | sd -n >> $output
+grep Average $output | colex 7 | sd >> $output
+

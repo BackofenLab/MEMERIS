@@ -1,0 +1,136 @@
+<!---
+##
+## intro.html created from intro.in by make
+##
+## $Id: intro.in,v 1.3 2005/09/28 19:26:04 wilfred Exp $
+##
+## $Log: intro.in,v $
+## Revision 1.3  2005/09/28 19:26:04  wilfred
+## added MEME forum link
+##
+## Revision 1.2  2005/09/28 19:21:42  nadya
+## rm obsolete reference to process_request.cgi
+##
+## Revision 1.1  2005/09/01 22:14:34  nadya
+## create template files to use version automatically
+##
+##
+## Revision 1.2  2005/08/18 05:14:36  nadya
+## added email checking
+##
+## Revision 1.1.1.1  2005/07/31 20:13:10  nadya
+## Importing from meme-3.0.14, and adding configure/make
+--->
+
+<HTML>
+<HEAD>
+<BODY BACKGROUND="images/bkg.jpg">
+<TITLE>	MEME - Introduction</TITLE>
+</HEAD>
+
+<TABLE>
+<TR>
+  <TD><img src="images/meme.png" alt="MEME logo">
+  <TD><img src="images/mast.png" alt="MAST logo">
+<TR>
+  <TD>
+    <H1>THE MEME/MAST SYSTEM </H1>
+<TR>
+  <TD>
+    <H1>Motif Discovery and Search</H1>
+<TR>
+  <TD ALIGN=LEFT>
+    <H1>Version @version@</H1>
+</TABLE>
+
+<TABLE>
+<TR>
+<TD>
+<H2>Hosted by: </H2>
+<TD><a href="http://www.nbcr.net">
+<IMG src="images/host_logo.png" border="0" alt="[host logo]"><a>
+</TR>
+</TABLE>
+
+<HR>
+
+<H3>
+The MEME/MAST system allows you to 
+<OL>
+  <LI> 
+    <A HREF="meme.html">discover</A> 
+    motifs (highly conserved regions) in groups of related 
+    DNA or protein sequences
+    using <A HREF="meme-intro.html">MEME</A> and,
+  <LI> 
+    <A HREF="mast.html">search</A> sequence databases using motifs using
+    <A HREF="mast-intro.html">MAST</A>.
+</OL>
+</H3>
+
+<HR>
+
+<UL>
+<LI>
+  The MEME/MAST system was developed by
+  <A HREF="http://www.sdsc.edu/~tbailey">
+  Timothy Bailey</A>, 
+  <A HREF="http://www-cse.ucsd.edu/users/elkan/">Charles Elkan</A>,
+  and
+  <A HREF="http://www.cs.columbia.edu/~bgrundy/">Bill Grundy</A> at the
+  <A HREF="http://www-cse.ucsd.edu">
+  UCSD Computer Science and Engineering</A> department with input from
+  <A HREF="http://www.sdsc.edu/~gribskov">
+  Michael Gribskov</A> at 
+  <A HREF="http://www.sdsc.edu/">the San Diego Supercomputer Center</A>.
+<LI>
+  MEME and MAST are described in detail in the
+  <A HREF="papers.html"><B>papers</B></A>
+  available here.
+<LI>
+  Answers to Frequently Asked Questions about MEME and MAST are given in the 
+  <A HREF="general-faq.html"><B>GENERAL FAQ</B></A>,
+  <A HREF="meme-faq.html"><B>MEME FAQ</B></A>, and
+  <A HREF="mast-faq.html"><B>MAST FAQ</B></A>.
+<LI>
+  Visit the <a href="http://nbcr.net/forum/viewforum.php?f=5">MEME user forum</a> for online discussions with
+  the MEME support team memebers and other MEME users.
+<LI>
+  You can see 
+  <A HREF="meme-output-example.html"><B>sample MEME output</B></A> or 
+  <A HREF="mast-output-example.html"><B>sample MAST output</B></A>.
+<LI>
+  Differences between the current release of the MEME/MAST system and earlier 
+  releases are described in the <A HREF="release_notes.html"><B>release notes
+  </B></A>.
+<LI>
+  You can <A HREF="meme-download.html">download</A> the MEME/MAST
+  software and install it on your own computer.  This will allow you to use
+  many features that are not available with the interactive versions of
+  MEME and MAST.
+<LI>
+  <A HREF="http://metameme.sdsc.edu">
+  <B>Meta-MEME</B></A> combines motif models from MEME into a hidden Markov 
+  model framework for use in searching sequence databases.
+<LI>
+  MEME and MAST are copyrighted software and can be 
+  <A HREF="COPYRIGHT.html">licensed</A> for commercial use.
+</UL>
+
+<HR>
+<TABLE>
+<B>Developed and maintained by: </B>
+<TR>
+<TD><a href="http://infopath.ucsd.edu">
+<img src="images/ucsd_logo.png" border="0" alt="[UCSD logo]" hspace="10"></a>
+<TD><a href="http://www.sdsc.edu">
+<img src="images/sdsc_logo.png" border="0" alt="[SDSC logo]" hspace="10"></a>
+<TD><a href="http://www.uq.edu.au">
+<img src="images/uq_logo.png" border="0" alt="[UQ logo]" hspace="10"></a>
+<TD><a href="http://nbcr.net">
+<img src="images/host_logo.png" border="0" alt="[HOST logo]" hspace="10"></a>
+</TR>
+</TABLE>
+<HR>
+
+</BODY></HTML>

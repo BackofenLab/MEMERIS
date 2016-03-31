@@ -1,0 +1,101 @@
+
+MEMERIS - Multiple Em for Motif Elucidation in Rna's Including secondary Structures
+
+
+
+=============================================================================
+                           Introduction             
+=============================================================================
+
+MEMERIS is a MEME extension that includes information about secondary structures into the motif search to direct the search towards single-stranded regions. 
+
+
+=============================================================================
+                           Install 
+=============================================================================
+
+MEMERIS is compiled like MEME. For details how to install MEME refer to the README file.
+In general it should be sufficient to do:
+
+	configure
+	make
+	make install 
+
+The result is a binary file 'memeris'. 
+
+
+=============================================================================
+                           Usage
+=============================================================================
+ 
+Using MEMERIS requires two steps:
+
+	1. Compute the secondary structure values, i.e. either EF or PU. This job is done by the GetSecondaryStructureValues.perl script.
+		It produces a file that contains the EF or PU value for each possible motif starting point.
+		For details please refer to the README_GetSecondaryStructureValues file.
+
+	2. Use MEMERIS with the file containing the EF or PU values to find motifs. 
+		MEMERIS has two new parameters:
+		
+			-secstruct <filename> 
+			-pi <double>
+		
+		The 'secstruct' parameter is followed by the filename containing EF/PU values. This file should be computed in step 1. 
+		The 'pi' parameter specifies the pseudocount that is used to flatten the prior probability distribution of the motif starts.
+		In general: The lower the pseudocount, the more important the secondary structures become. More information about the 
+		pseudocount is given below.	
+		
+		
+		All other parameters of MEME can be used with the following restrictions:
+		1. You have to specify a fixed word length (parameter -w) that was used when computing the EF/PU values (parameter -l in GetSecondaryStructureValues.perl). 
+			This is necessary since the EF/PU values are computed for a fixed motif length. If you want to test several motif lengths, repeat step 1 and 2. 							
+		2. You cannot search motifs in the reverse complementary orientation since this makes no sense for RNA's. 
+		3. Of course, you cannot set a protein alphabet. 
+		
+	
+
+=============================================================================
+                           General hints
+=============================================================================
+
+	1. As for MEME, the input sequences must consist of the letters A,C,G, or T. No U's are allowed. You can use the following perl script to automatically replace U's by T's:
+			perl -w ReplaceUbyT.perl inputfile outputfile
+
+	2. You should vary the pseudocount -pi. It makes sense to start with a very low pseudocount (e.g. -pi 0.01 or even -pi 0) and to increase it gradually. At the beginning, 
+		MEMERIS may find a motif with a rather low information content but with a high average single-strandedness. As the pseudocount increases, the single-strandedness will drop
+		while the information content increase. 
+		
+	3. One MEMERIS run requires a fixed motif length (-w). In cases where the correct motif length is not known, it is best to vary the motif length by repeating step 1 and 2.
+
+	4. If the length of the sequences is small (say < 100 nt), it might be beneficial not to estimate the background distribution of the characters from the dataset.
+		For example, a AAAAAA motif in sequences of length 50 will result in a higher estimated background frequency of A's which reduces the chance to find an A-rich
+		motif. Therefore, in case of short sequences we propose to set a uniform background frequency distribution. This can be done with the parameter '-bfile Uniform_bfile'
+		where the file 'Uniform_bfile' contains the background frequency. If you want to use another distribution, you have to adjust this file (or create another file).
+
+	5. MEME's speed and accuracy benefits from finding a good start point. MEMERIS, in contrast to MEME, uses a non-uniformly distributed prior which directs the motif search. 
+		We fnd MEMERIS to perform better if we relax the starting point a bit. This can be done with the parameter 'spfuzz x' where x is a number (e.g. 2).
+		For example, if the best starting point is the sequence ACGT then without this parameter MEMERIS will start with a theta matrix
+		  [0.500000  0.166667  0.166667  0.166667,
+			0.166667  0.500000  0.166667  0.166667,
+			0.166667  0.166667  0.500000  0.166667,
+			0.166667  0.166667  0.166667  0.500000]
+		and with 'spfuzz 2'
+		  [0.333333  0.222222  0.222222  0.222222,
+			0.222222  0.333333  0.222222  0.222222,
+			0.222222  0.222222  0.333333  0.222222,
+			0.222222  0.222222  0.222222  0.333333].
+		
+	6. We intended to use secondary structures to direct the motif search to single-stranded regions but not to decide whether a motif that is rather double-stranded should  
+		be considered as a motif occurrence. Thus, MEMERIS may output all occurrences of a motif in the ZOOPS and TCM model, rather double-stranded hits too. The decision up to which 
+		single-strandedness a motif hit is considered, is left to the user. If you want to exclude double-stranded occurrences, you have to restrict the number of motif hits. For ZOOPS 
+		and TCM, you can set '-maxsites x -minsites x' where x is the number of occurrences. Then, MEMERIS will find the most single-stranded motif hits. To determine a 
+		number 'x', we propose to use the procedure described in the paper, although this involves a bit of manual analysis.
+			- Run MEMERIS with a very high pseudocount (e.g. -pi 10 or -pi 100). This results in a behaviour like MEME and a good sequence motif is found. 
+			- Analyse the output in section "Motif 1 sites sorted by position p-value" and decide according to the sequence and single-strandedness of the occurrences on how many motif
+			  hits you want to consider. 
+			- Run MEMERIS with a small pseudocount (e.g. -pi 0.1) and restrict the number of motif hits (e.g. -maxsites 10 -minsites 10).
+		Again, you should vary the number of motif hits and compare MEMERIS' results.
+			
+			
+
+

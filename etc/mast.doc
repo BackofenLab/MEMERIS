@@ -1,0 +1,395 @@
+	[-sep]		score reverse complement DNA strand as a separate 
+			sequence
+	[-norc]		do not score reverse complement DNA strand
+	[-dna]		translate DNA sequences to protein
+	[-comp]		adjust p-values and E-values for sequence composition
+	[-rank <rank>]	print results starting with <rank> best (default: 1)
+	[-smax <smax>]	print results for no more than <smax> sequences
+			(default: all)
+	[-ev <ev>]	print results for sequences with E-value < <ev>
+			(default: 10)
+	[-mt <mt>]	show motif matches with p-value < mt (default: 0.0001)
+	[-w]		show weak matches (mt<p-value<mt*10) in angle brackets
+	[-bfile <bfile>]	read background frequencies from <bfile>
+	[-seqp]		use SEQUENCE p-values for motif thresholds
+			(default: use POSITION p-values)
+	[-mf <mf>]	print <mf> as motif file name
+	[-df <df>]	print <df> as database name
+	[-minseqs <minseqs>]	lower bound on number of sequences in db
+	[-mev <mev>]+	use only motifs with E-values less than <mev>
+	[-m <m>]+	use only motif(s) number <m> (overrides -mev)
+	[-diag <diag>]	nominal order and spacing of motifs
+	[-best]		include only the best motif in diagrams
+	[-remcorr]	remove highly correlated motifs from query
+	[-brief]	brief output--do not print documentation
+	[-b]		print only sections I and II
+	[-nostatus]	do not print progress report
+	[-hit_list]	print hit_list instead of diagram; implies -text
+
+ 
+ MAST: Motif Alignment and Search Tool
+ 
+ MAST is a tool for searching biological sequence databases for sequences
+ that contain one or more of a group of known motifs. 
+ 
+ A motif is a sequence pattern that occurs repeatedly in a group of related
+ protein or DNA sequences. Motifs are represented as position-dependent
+ scoring matrices that describe the score of each possible letter at each
+ position in the pattern. Individual motifs may not contain gaps. Patterns with
+ variable-length gaps must be split into two or more separate motifs before
+ being submitted as input to MAST. 
+ 
+ MAST takes as input a file containing the descriptions of one or more motifs
+ and searches a sequence database that you select for sequences that match
+ the motifs. The motif file can be the output of the MEME motif discovery tool 
+ or any file in the appropriate format. 
+ 
+ MAST outputs three things: 
+ 
+   1. The names of the high-scoring sequences sorted by the strength of the
+      combined match of the sequence to all of the motifs in the group. 
+   2. Motif diagrams showing the order and spacing of the motifs within each
+      matching sequence. 
+   3. Detailed annotation of each matching sequence showing the sequence
+      and the locations and strengths of matches to the motifs. 
+ 
+ MAST works by calculating match scores for each sequence in the database
+ compared with each of the motifs in the group of motifs you provide. For each
+ sequence, the match scores are converted into various types of p-values and
+ these are used to determine the overall match of the sequence to the group of
+ motifs and the probable order and spacing of occurrences of the motifs in the
+ sequence. 
+ 
+ MAST outputs a file containing:
+ 
+     * the version of MAST and the date it was built, 
+     * the reference to cite if you use MAST in your research, 
+     * a description of the database and motifs used in the search, 
+     * an explanation of the results,
+     * high-scoring sequences--sequences matching the group of motifs
+       above a stated level of statistical significance, 
+     * motif diagrams showing the order and spacing of occurrences of the
+       motifs in the high-scoring sequences and 
+     * annotated sequences showing the positions and p-values of all motif
+       occurrences in each of the high-scoring sequences. 
+ 
+ Each section of the results file contains an explanation of how to interpret
+ them. 
+ 
+   Match Scores
+ 
+ The match score of a motif to a position in a sequence is the sum of the
+ score from each column of the position-dependent scoring matrix
+ corresponding to the letter at that position in the sequence. For example, if
+ the sequence is 
+ 
+ TAATGTTGGTGCTGGTTTTTGTGGCATCGGGCGAGAATAGCGC
+    ========
+ 
+ and the motif is represented by the position-dependent scoring matrix (where
+ each row of the matrix corresponds to a position in the motif) 
+ 
+ =========|=================================
+ POSITION |   A        C        G        T
+ =========|=================================
+   1      | 1.447    0.188   -4.025   -4.095 
+   2      | 0.739    1.339   -3.945   -2.325 
+   3      | 1.764   -3.562   -4.197   -3.895 
+   4      | 1.574   -3.784   -1.594   -1.994 
+   5      | 1.602   -3.935   -4.054   -1.370 
+   6      | 0.797   -3.647   -0.814    0.215 
+   7      |-1.280    1.873   -0.607   -1.933 
+   8      |-3.076    1.035    1.414   -3.913 
+ =========|=================================
+ 
+ then the match score of the fourth position in the sequence (underlined)
+ would be found by summing the score for T in position 1, G in position 2 and
+ so on until G in position 8. So the match score would be 
+ 
+   score = -4.095 + -3.945 + -3.895 + -1.994
+           + -4.054 + -0.814 + -1.933 + 1.414 
+         = -19.316
+ 
+ The match scores for other positions in the sequence are calculated in the
+ same way. Match scores are only calculated if the match completely fits within
+ the sequence. Match scores are not calculated if the motif would overhang
+ either end of the sequence. 
+ 
+   P-values
+ 
+ MAST reports all matches of a sequence to a motif or group of motifs in terms
+ of the p-value of the match. MAST considers the p-values of four types of
+ events: 
+ 
+     position p-value: the match of a single position within a sequence to
+     	a given motif, 
+     sequence p-value: the best match of any position within a sequence
+     	to a given motif, 
+     combined p-value: the combined best matches of a sequence to a
+     	group of motifs, and 
+     E-value: observing a combined p-value at least as small in a random
+     	database of the same size. 
+ 
+ All p-values are based on a random sequence model that assumes each
+ position in a random sequence is generated according to the average letter
+ frequencies of all sequences in the the appropriate (peptide or nucleotide)
+ non-redundant database (ftp://ncbi.nlm.nih.gov/blast/db/) on September 22,
+ 1996.  This can be overridden in two ways:
+ 
+ 	1) -bfile <bfile>
+ 	The random model uses the letter frequencies given in <bfile> 
+ 	instead of the non-redundant database frequencies.
+ 	The format of <bfile> is the same as that for the MEME -bfile opton; 
+ 	see the MEME documentation for details.  Sample files are given in 
+ 	directory tests: tests/nt.freq and tests/na.freq.) 
+ 	
+ 	2) -comp
+ 	The random model uses the letter frequencies in the current target
+ 	sequence instead of the non-redundant database frequencies.  This
+ 	causes p-values and E-values to be compensated individually for the 
+ 	actual composition of each sequence in the database.  This option
+ 	can increase search time substantially due to the need to compute
+ 	a different score distribution for each high-scoring sequence.
+ 
+ 
+     Position p-value
+ 
+     The p-value of a match of a given position within a sequence to a
+     motif is defined as the probability of a randomly selected position in a
+     randomly generated sequence having a match score at least as large
+     as that of the given position. 
+ 
+     Sequence p-value
+ 
+     The p-value of a match of a sequence to a motif is defined as the
+     probability of a randomly generated sequence of the same length
+     having a match score at least as large as the largest match score of
+     any position in the sequence. 
+ 
+     Combined p-value
+ 
+     The p-value of a match of a sequence to a group of motifs is defined
+     as the probability of a randomly generated sequence of the same
+     length having sequence p-values whose product is at least as small
+     as the product of the sequence p-values of the matches of the motifs
+     to the given sequence. 
+ 
+     E-value
+ 
+     The E-value of the match of a sequence in a database to a a group
+     of motifs is defined as the expected number of sequences in a random
+     database of the same size that would match the motifs as well as the
+     sequence does and is equal to the combined p-value of the sequence
+     times the number of sequences in the database. 
+ 
+   High-scoring Sequences
+ 
+ MAST lists the names and part of the descriptive text of all sequences
+ whose E-value is less than E. Sequences shorter than one or more of the
+ motifs are skipped. The sequences are sorted by increasing E-value. The
+ value of E is set to 10 for the WEB server but is user-selectable in the
+ down-loadable version of MAST. 
+ 
+   Motif Diagrams
+ 
+ Motif diagrams show the order and spacing of non-overlapping matches to
+ the motifs in each high-scoring sequence. Motif occurrences are determined
+ based on the position p-value of matches to the motif. Strong matches
+ (p-value < M) are shown in square brackets (`[ ]'), weak matches (M <
+ p-value < M × 10) are shown in angle brackets (`< >') and the length of
+ non-motif sequence ("spacer") is shown between dashes (`-'). For example, 
+ 
+         27-[3]-44-<4>-99-[1]-7
+ 
+ shows an initial spacer of length 27, followed by a strong match to motif 3, a
+ spacer of length 44, a weak match to motif 4, a spacer of length 99, a strong
+ match to motif 1 and a final non-motif sequence of length 7. The value of M is
+ 0.0001 for the WEB server but is user-selectable in the down-loadable
+ version of MAST. 
+ 
+ Note: If you specify the -hit_list switch to MAST, the motif "diagram" takes the form
+ of a comma separated list of motif occurrences ("hits").  Each "hit" has the format:
+ 	<strand><motif> <start> <end> <p-value>
+ where 
+         <strand>        is the strand (+ or - for DNA, blank for protein),
+         <motif>         is the motif number,
+         <start>         is the starting position of the hit,
+         <end>           is the ending position of the hit, and
+         <p-value>       is the position p-value of the hit.
+ 
+   Annotated Sequences
+ 
+ MAST annotates each high-scoring sequence by printing the sequence
+ along with the position and strength of all the non-overlapping motif
+ occurrences. The four lines above each motif occurrence contain,
+ respectively, 
+ 
+     the motif number of the occurrence, 
+     the position p-value of the occurence, 
+     the best possible match to the motif, and 
+     a plus sign (`+') above each letter in the occurrence that has a positive
+     match score to the motif. 
+ 
+ The best possible match to a motif is the sequence of letters which would
+ acheive the highest match score. 
+ 
+ 
+ MOTIF FORMAT 
+ 
+ MAST can search using (multiple) motifs contained in 
+ 
+     a MEME output file, 
+     a GCG profile file, 
+     two or more GCG profile filess concatenated together, or 
+     a file with the following format. 
+ 
+                   Motif file format
+ 
+      ALPHABET= alphabet
+      log-odds matrix: alength= alength w= w
+      row_1
+      row_2
+      ...
+      row_w  
+ 
+ 
+ 
+     A motif is represented by a position-dependent scoring matrix. 
+     A scoring matrix is preceded by a line starting with the words
+     log-odds matrix: and specifying alength, the length of
+     the alphabet (number of columns in the scoring matrix), and the w, the
+     width of the motif (number of rows in the scoring matrix). 
+     The following w lines (no blank lines allowed) contain the rows of the
+     scoring matrix. Row i, column j of the matrix gives the score for the j-th
+     letter in alphabet appearing at position i in an occurrence of the
+     motif. 
+     The spaces after the equals signs and the colon are required. 
+     The number of letters in alphabet must equal alength. 
+     Any number of additional motifs may follow the first one. 
+     The motif file must contain a line starting with 
+ 
+             ALPHABET= 
+ 
+     followed by alphabet, a list containing the letters used in the motifs. 
+     The order of the letters in alphabet must be the same as the order of the
+     columns of scores in the motifs. The order need not be alphabetical
+     and case does not matter, but there should be no spaces in alphabet.
+     The letters in alphabet must be a subset of either the IUB/IUPAC DNA
+     (ABCDGHKMNRSTUVWY) or protein
+     (ABCDEFGHIKLMNPQRSTUVWXYZ) alphabets. DNA alphabets
+     must contain at least the letters ACGT. Protein alphabets must contain
+     at least the letters ACDEFGHIKLMNPQRSTVWY. All other letters in
+     the alphabets are optional. If any of the optional letters are missing 
+     from alphabet, MAST automatically generates scores for them by taking the
+     weighted average of the scores for the letters which the missing letter
+     could match. (The weights are the frequencies of the replaced letters in
+     the appropriate non-redundant database.) Replacements for the
+     optional letters are given in the following table. 
+ 
+            LETTERS MATCHED BY OPTIONAL LETTERS
+     =================================================
+     optional          matches 
+     letter      DNA             protein 
+     =================================================
+      B          CGT             DN 
+      D          AGT
+      H          ACT
+      K          GT
+      M          AC
+      N          ACGT
+      R          AG
+      S          CG
+      U          T               ACDEFGHIKLMNPQRSTVWY 
+      V          CAG
+      W          AT
+      X                          ACDEFGHIKLMNPQRSTVWY 
+      Y          CT
+      Z                          EQ 
+      *          ACGT            ACDEFGHIKLMNPQRSTVWY
+      -          ACGT            ACDEFGHIKLMNPQRSTVWY
+     =================================================
+ 
+ 
+ EXAMPLE 
+ 
+ Here is an example of a DNA motif file that contains two motifs. 
+ 
+                   Sample motif file 
+ 
+         ALPHABET= ACGT
+         log-odds matrix: alength= 4 w= 9
+          -4.275  -0.182  -4.195   1.408
+          -4.296  -1.487   1.880  -0.816
+          -2.160  -1.492  -4.171   1.474
+          -0.810  -4.076   1.872  -2.164
+           1.537  -1.487  -4.195  -4.205
+           0.113   0.340  -0.237  -0.209
+          -0.454   0.923   0.390  -0.834
+          -1.336  -0.082   0.905   0.100
+           0.674  -4.183   0.130  -0.201
+         log-odds matrix: alength= 4 w= 6
+          -2.032   0.324   1.371  -0.781
+          -0.409   0.560  -0.250   0.119
+          -4.274  -0.519  -0.260   1.167
+          -2.188   2.300  -4.191  -2.465
+           1.265  -4.111  -0.267  -2.180
+          -1.977   2.158  -1.661  -2.071 
+ 
+ 
+ 
+ In the example above, because the order of the letters in alphabet is
+ ACGT, the first column of each motif gives the scores for the letter A at each
+ position in the motif, the second column gives the scores for C and so forth.
+ 
+ Note: If -d <database> is not given, MAST looks for database
+ 	specified inside of <mfile>
+ 
+ Creates file (unless [-stdout] given) after stripping ".html" from the end of
+ <mfile>:
+ 	mast.<mfile>[.<database>][.c<count>][.m<motif>]+[.rank<rank>][.ev<ev>][.mt<mt>][.b]
+ 
+ EXAMPLES:
+ 
+ The following examples assume that file "meme.results" is the
+ output of a MEME run containing at least 3 motifs and file
+ SwissProt is a copy of the Swiss-Prot database on your local disk.
+ DNA_DB is a copy of a DNA database on your local disk.
+  
+ 1) Annotate the training set:
+  
+ 	mast meme.results
+  
+ 2) Find sequences matching the motif and annotate them in
+ the SwissProt database:
+  
+ 	mast meme.results -d SwissProt
+  
+ 3) Show sequences with weaker combined matches to motifs.
+  
+ 	mast meme.results -d SwissProt -ev 200
+  
+ 4) Indicate weaker matches to single motifs in the annotation so
+ that sequences with weak matches to the motifs (but perhaps with
+ the "correct" order and spacing) can be seen:
+ 
+ 	mast meme.results -d SwissProt -w
+  
+ 5) Include a nominal order and spacing of the first three motifs
+ in the calculation of the sequence p-values to increase the
+ sensitivity of the search for matching sequences:
+  
+ 	mast meme.results -d SwissProt -diag "9-[2]-61-[1]-62-[3]-91"
+  
+ 6) Use only the first and third motifs in the search:
+  
+ 	mast meme.results -d SwissProt -m 1 -m 3
+  
+ 7) Use only the first two motifs in the search:
+  
+ 	mast meme.results -d SwissProt -c 2
+ 
+ 8) Search DNA sequences using protein motifs, adjusting p-values and E-values 
+ for each sequence by that sequence's composition:
+ 
+ 	mast meme.results -d DNA_DB -dna -comp
+ 

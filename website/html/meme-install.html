@@ -1,0 +1,885 @@
+<!---
+##
+## $Id: meme-install.html,v 1.3.4.6 2006/02/01 02:04:47 nadya Exp $
+##
+## $Log: meme-install.html,v $
+## Revision 1.3.4.6  2006/02/01 02:04:47  nadya
+## add info for v3.5.1
+##
+## Revision 1.3.4.5  2006/01/24 20:46:50  nadya
+## update copyright
+##
+## Revision 1.3.4.4  2006/01/24 04:46:19  nadya
+## add bug issue for mast-client
+##
+## Revision 1.3.4.3  2006/01/24 01:53:08  nadya
+## use table for patch list
+##
+## Revision 1.3.4.2  2006/01/22 20:46:27  nadya
+## calrify installation options
+##
+## Revision 1.3.4.1  2006/01/19 22:54:06  nadya
+## Add patching info for 3.5.0
+##
+## Revision 1.3  2005/12/22 00:20:12  nadya
+## color commands, swap columns and rows in  the table for parallel section
+##
+## Revision 1.2  2005/12/16 06:18:17  nadya
+## add info on checksum and database requirements
+##
+## Revision 1.1  2005/12/15 21:13:53  nadya
+## initial revision.
+## This file should go on the web download site.
+##
+##
+--->
+
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>Installing MEME</title>
+<link rel="stylesheet" type="text/css" href="meme.css">
+</head>
+
+<style type="text/css">
+ol.withroman { list-style-type: lower-roman }
+ol.withnum { list-style-type: arabic-numbers }
+span.required { color: FF4A0F}
+span.head { color: 004F66; text-align: center; font-weight: bold}
+span.command { color: 076477; font-family: helvetica; font-size: 10pt;}
+h1 {color: FF4A0F}
+h2,h3 {color: 004F66}
+hr { color: 004F66}
+
+table.small {cellpadding:2px; 
+             cellspacing:0px; 
+             width:50%; 
+             background-color: EFEFFF}
+table.large {cellpadding:2px; 
+             cellspacing:0px; 
+             width:90%; 
+             background-color: EFEFFF}
+th.head { color: 004F66; text-align: center; font-weight: bold}
+</style>
+
+
+<body>
+<center>
+<h1><a name="top">Installing MEME</a></h1>
+(version 3.5.0 or later)
+</center>
+
+<h3>Table of Contents:</h3>
+<ul>
+<li><a href="#prerequisite">Prerequisite software</a>
+<li><a href="#getting">Getting the source</a>
+<li><a href="#patch">Getting and installing the patches</a>
+<li><a href="#sysrequirements">System Requirements</a>
+<li><a href="#installingtar">Installing from a tarball</a>
+<li><a href="#installingcvs">Installing from a cvs repository</a>
+<li><a href="#parallel">Parallel MEME</a>
+<li><a href="#customconfig">Customizing configuration</a>
+<li><a href="#installexample">Installation Examples</a>
+<li><a href="#using">Using meme/mast</a>
+<li><a href="#regresstest">Running regression tests</a>
+<li><a href="#issues">Known issues</a>
+<li><a href="#report">Reporting problems</a>
+</ul>
+
+<hr>
+<h2><a name="prerequisite">Prerequisite software </a></h2>
+<p>Most of the software mentioned here is standard on many UNIX systems.
+To build meme/mast you will need:</p>
+<ul>
+<li>Perl (v.5.6.1 or higher) is needed to run some scripts. 
+    See <a href="http://www.perl.org">http://www.perl.org </a> for download 
+    and installation instructions.
+</li>
+<li>The GNU Autoconf (version 2.53 or later)</li>
+<li>The GNU Automake (version 1.6 or later)</li>
+<li>Make utility</li>
+<li>C compiler</li>
+<li>Gzip/gunzip utilities</li>
+</ul>
+
+<p>
+Optional software:
+</p>
+<ul>
+<li>The CGI.pm perl module is needed if the web site is to be installed.</li>
+<li>A Linux cluster running  <b>Rocks </b>
+    (see <a href="http://www.rocksclusters.org">http:www.rocksclusters.org </a>) 
+    or similar cluster environment.  <b>Rocks</b> provides all the required and 
+    optional software.</li>
+<li>If you want to run parallel version of MEME you will need an MPI
+implementation and a batch scheduler. For MPI, one of the following: 
+    <ul>
+    <li>LAM from <a href="http://www.lam-mpi.org">http://www.lam-mpi.org</a>
+    <li>MPICH from <a href="http://www-unix.mcs.anl.gov/mpi/mpich">http://www-unix.mcs.anl.gov/mpi/mpich</a>
+    </ul>
+    For batch scheduler, one of the following:        
+    <ul>
+     <li>SGE from <a href="http://gridengine.sunsource.net">http://gridengine.sunsource.net</a>
+     <li>PBS from <a href="http://www.openpbs.org">http://www.openpbs.org</a>
+    </ul>
+</li>
+</ul>
+<p>[<a href="#top"> Top </a>]</p>
+
+<hr>
+<h2><a name="getting">Getting the source</a></h2>
+<p>The current version of MEME is 3.5.1 and is available from <a
+href="http://meme.nbcr.net/downloads/">http://meme.nbcr.net/downloads/</a>.</p>
+
+<p>
+<strong>Note:</strong>
+Starting with version 3.5.0, MEME has undergone a lot of changes. It is optimized and 
+configured for running on Linux servers. It hasn't been fully tested on other platforms, 
+and your feedback is greatly appreciated.  If you'd like to wait until all the kinks to be 
+worked out before trying the current release, please use the previous version
+(use version 3.0.14) from <a
+href="http://meme.nbcr.net/downloads/old_versions">http://meme.nbcr.net/downloads/old_versions</a>.
+Installation instructions for version 3.0.14 are different and are
+specified in the README file included in the release distribution meme_3.0.14.tar.gz.
+</p>
+
+<p>The software is distributed as a source tarball
+<span class="command">meme_VERSION.tar.gz</span>. For each file there is a corresponding file
+with the MD5 checksum: <span class="command">meme_VERSION.md5sum</span>. When downloading the
+software, please make sure you download the corresponding checksum file and verify
+that the checksum information is correct. Depending on a platform and
+available software, the verification command can be different. Here there are 3
+possible ways to do verification:
+<ol class="withnum">
+<li>Using md5sum command, usually available on Linux.
+<br><span class="command">$ md5sum meme_VERSION.tar.gz</span></li>
+<br>
+<li>Using md5 command, usually available on Solaris.
+<br><span class="command">$ md5 meme_VERSION.tar.gz</span></li>
+<br>
+<li>Using openssl command, usually available on any UNIX.
+<br><span class="command">$ openssl dgst -md5 meme_VERSION.tar.gz</span></li>
+</ol>
+The output of the command (numerical part) should be exactly the same as one provided in the
+checksum file. Here is the checksum information for available MEME versions:</p>
+<center>
+<table class="small" border=1  cellspacing=0>
+<tr>
+  <th class="head">File</th>
+  <th class="head">md5sum</th>
+</tr>
+<tr>
+  <td>meme_3.5.1.tar.gz</td>
+  <td>please see 
+  <a href="http://meme.nbcr.net/downloads/meme_3.5.1.md5sum">meme_3.5.1.md5sum</a>
+  </td>
+</tr>
+<tr>
+  <td>meme_3.5.0.tar.gz</td>
+  <td>cb552052c82c40ce3111c95f1e9697eb</td>
+</tr>
+<tr>
+  <td>meme_3.0.14.tar.gz</td>
+  <td>f18bacdce60c11bff4cde650da296228</td>
+</tr>
+</table>
+</center>
+
+<p>[<a href="#top"> Top </a>]</p>
+
+<hr>
+<h2><a name="patch">Getting and installing the patches</a></h2>
+<p>The distribution may have patches associated with it. They are available 
+from <a href="http://meme.nbcr.net/downloads/">http://meme.nbcr.net/downloads/</a>.
+The patch file name is <span class="command">filename.VERSION.patch</span>. In addition, a
+patched file is distributed as well and can be used as a drop-in substitute
+for the original file. The drop-in file is <span class="command">filename.VERSION</span>.
+It is necessary to download only one of the two files depending on the method used for
+patching. All patches for a specific version should be installed. The list
+below provides instructions for installation of availble patches for specific
+version.
+</p>
+
+<center>
+<table class="large" border=1  cellspacing=0>
+<tr>
+  <th width=7% class="head">Version</th>
+  <th width=25% class="head">Patch list</th>
+  <th class="head">Installation</th>
+</tr>
+<tr>
+  <td align=center>3.5.0</td>
+  <td align=center>mast-client.txt</td>
+  <td>
+  <ol>
+  <li>If downloaded a patch file <code>mast-client.txt.3.5.0.patch</code>:
+  <br><span class="command"># cp mast-client.txt.3.5.0 meme_3.5.0/scripts/</span>
+  <br><span class="command"># cd meme_3.5.0/scripts/</span>
+  <br><span class="command"># patch -p0 &lt; mast-client.txt.3.5.0.patch </span>
+  <br>
+  </li>
+  <li>If downloaded a patched file <code>mast-client.txt.3.5.0</code>:
+  <br><span class="command"># cp mast-client.txt.3.5.0 meme_3.5.0/scripts/mast-client.txt</span>
+  </li>
+  </ol>
+  </td>
+</tr>
+</table>
+</center>
+
+<p>
+<p>[<a href="#top"> Top </a>]</p>
+
+<hr>
+<h2><a name="sysrequirements">System Requirements</a></h2>
+<p>
+MEME has been used successfully on the following platforms
+<ul>
+  <li><span class="head">v 3.5.1</span>
+    <ul>
+    <li>SunOS 5.9</li>
+    <li>MacOS X 10.4.4 (Tiger)</li>
+    <li>Redhat Enterprise Linux, release 4</li>
+    <li>Cygwin (DLL 1.5.19-4.)</li>
+    </ul>
+  </li>
+  <li><span class="head">v 3.5.0</span>
+    <ul>
+    <li>SunOS 5.9</li>
+    <li>Redhat Enterprise Linux, release 4</li>
+    </ul>
+  </li>
+</ul>
+
+</p>
+<p>Disk and memory use: </p>
+<ul>
+<li>Memory     10 Mb</li>
+<li>Disk      100 Mb</li>
+<li>Additional sufficient (approximately 26 Gb) diskspace is needed to store
+sequence databases required by MAST. No need if using only MEME.</li>
+</ul>
+<p>[<a href="#top"> Top </a>]</p>
+
+<hr>
+<h2><a name="installingtar">Installing from a tarball</a></h2>
+<p>
+It is recommended to create a <strong>meme</strong> user prior to installation.
+Put the tarball you obtained from the web site in a directory where you
+want to build the software. If the software distribution was obtained
+via cvs access please see section 
+<a href="#installingcvs">Installing from a cvs repository</a>
+
+<p>
+<strong>0.  On UNIX systems unzip and untar the distribution:</strong><br>
+<br><span class="command">$ gunzip  -c meme_VERSION.tar.gz | tar xvf - </span>
+<br><span class="command">$ cd meme_VERSION</span>
+</p>
+<P>If there are patchees associated with the VERSION please see section 
+<a href="#patch">Getting and installing the patches</a> that explains how to
+download and install the patches.
+
+<p>
+<strong>1.  Configuring</strong><br>
+<p>Run configure with specific parameters, see section 
+<a href="#custom">Customizing configuration</a> below.
+<br><span class="command">$ ./configure [parameters here]</span>
+</p>
+
+<p>In general, defaults are sufficient. The only required parameter is 
+<span class="command">prefix</span> that specifies the installation
+directory. The default configuration will configure for installing server and client which is
+the most general installation.
+<br><span class="command">$ ./configure --prefix=your-install-path</span></p>
+
+<p> The other possible configurations include configurations for installing 
+a web site in addition to the server and client, or installing server and client
+separately.</p>
+
+<p>To install server, client and web site:
+<br><span class="command">$ ./configure --enable-web
+--prefix=your-install-path</span></p>
+
+<p>To configure install only client:
+<br><span class="command">$ ./configure --prefix=your-install-path
+--disable-server</span></p>
+
+<p>To install only server:
+<br><span class="command">$ ./configure --prefix=your-install-path
+--disable-client</span></p>
+
+<p>
+<strong>2.  Compiling and installing</strong><br>
+<p>To compile simply type while at the top directory:
+<br><span class="command">$ make</span>
+
+<p>If there are no errors make a test. The test will check meme and mast 
+output against known output
+<br><span class="command">$ make test</span>
+
+<p>If there are errors, the output files from each test will be kept in
+<code>tests/results/</code> and can be compared to files in <code>tests/</code>.  
+When tests pass without errors the <code>results/</code> with the output files 
+is removed automatically.
+</p>
+
+<p>To install the software in the directory specified by <code>prefix</code> do:
+<br><span class="command">$ make install</span></p>
+
+<p><strong>3.  Starting servers</strong>
+<p>The servers should be started as user <strong>meme</strong> (or another designated user
+chosen during configure step). The startup will fail if servers started by 
+the superuser.  To start servers, execute command:
+<br><span class="command">$ your-install-path/bin/memed start</span></p>
+<p>To check server status
+<br><span class="command">$ your-install-path/bin/memed status</span></p>
+
+<p>In order to start servers automatically upon reboot, startup scripts are
+created during <code>make install</code> in
+<code>your-install-path/etc/startup/</code>. Currently, the following scripts are
+available:</p>
+
+<center>
+<table class="small" border=1  cellspacing=0>
+<tr>
+  <th class="head">Platform</th>
+  <th class="head">Script name</th>
+</tr>
+<tr>
+  <td>Redhat Linux</td>
+  <td>meme.linux</td>
+</tr>
+<tr>
+  <td>Solaris</td>
+  <td>meme.solaris</td>
+</tr>
+</table>
+</center>
+
+<p>All commands below must be executed by a superuser.
+<ul>
+<li>For linux:
+  <ol>
+  <li>Copy  meme.linux into /etc/init.d/meme
+  <br><span class="command"># cp your-install-path/etc/startup/meme.linux /etc/init.d/meme</span>
+  <br>
+  <li>Add new services for management:
+  <br><span class="command"># chkconfig --add meme</span>
+  </ol>
+
+<li>For Solaris:
+  <ol>
+  <li>Copy  meme.solaris into /etc/init.d/meme
+  <br><span class="command"># cp your-install-path/etc/startup/meme.solaris /etc/init.d/meme</span>
+  <br>
+  <li>Add new services for management, for example:
+  <br><span class="command"># ln -s /etc/init.d/meme /etc/rc2.d/K57meme</span>
+  <br><span class="command"># ln -s /etc/init.d/meme /etc/rc3.d/S99meme</span>
+  </ol>
+</ul>
+
+<p>
+<strong>4. Installing mast databases</strong><br>
+<ul>
+<li>
+<p>To download the databases go to the directory that was specified with
+the <code>--with-db=DBDIR</code> argument during configure step (1). If none was
+given, then the default path to the database will be <code>your-install-path/db</code>. This
+directory is created during <code>make install</code> step (2). For example:
+<br><span class="command">$ cd install-path/db</span>
+
+<li><p>Set the environment to get path to newly installed meme/mast executables:
+
+<table width="70%">
+<tr>
+  <td width="70%"><span class="command">&nbsp;&nbsp;&nbsp;source
+  your-install-path/etc/meme.csh</span></td>
+  <td># for csh, tcsh</td>
+</tr>
+<tr >
+  <td colspan="2">or</td>
+</tr>
+<tr>
+  <td><span class="command">&nbsp;&nbsp;&nbsp;.
+  your-install-path/etc/meme.sh</span></td>
+  <td># for bash, sh</td>
+</tr>
+</table>
+</p>
+
+<li><p>Execute command to download the databases:
+<br><span class="command">$ update_mast_databases yourmail@your.address `pwd` &lt;
+your-install-path/etc/mast_db.list</span>
+</ul>
+
+<p>The resulting files in the databases directory will be around 26Gb.
+It can take time to download all the databases, and the connections to some
+sites from which files are downloaded may be not always available.  The result
+of the download will be emailed to the address specified by <code>
+yourmail@your.address</code>.  If there are errors, they will be noted in the
+email, and the command to install the databases will need to be repeated.</p>
+
+<p>
+<strong>5. Configuring apache web access</strong><br>
+<p>
+This part requires  root access to create a symbolic link from the document root
+directory to the web directory in meme installation. For example, if meme
+software is installed in <code>/home/meme</code>, and the HTTP
+<code>DocumentRoot</code> is <code>/var/www/html</code>, then create
+a link:
+<br><span class="command">$ ln -s /var/www/html/meme
+<install.path.here>/web</span>
+</p>
+<p>The URL for web access is typically <code>http://your.host.name/meme/</code>. 
+Virtual hosts may be configured accordingly.
+</p>
+<p>[<a href="#top"> Top </a>]</p>
+
+<hr>
+<h2><a name="installingcvs">Installing from a cvs repository</a></h2>
+<p>The read-write access to the cvs is granted at this point only to the
+meme developers. We provide the tarball distribution of the latest version 
+on the ftp site.</p>
+<p>If you have the cvs access, you can check out the source code by
+<br><span class="command">$ cvs -d cvs.rocksclusters.org:/home/cvs/CVSROOT co
+nbcr/apps/meme-rocks</span>
+</p>
+<p>
+To start working with the distribution one needs to create a
+<code>configure</code> script:
+<br><span class="command">$ cd nbcr/apps/meme-rocks</span>
+<br><span class="command">$ ./bootstrap</span>
+</p>
+<p>
+At this point, proceed with the installation as outlined in section 
+<a href="#installingtar">Installing from a tarball</a> step 1. 
+</p>
+
+<p>[<a href="#top"> Top </a>]</p>
+
+<hr>
+<h2><a name="parallel">Parallel MEME</a></h2>
+<p>By default, <code>configure</code> will establish if your system has the right 
+software to produce parallel version of MEME. Parallel compilation is disabled if 
+mpicc is not found or if batch scheduler (program <code>qsub</code>) is not found. 
+Both must be present on the system.  Please see section 
+<a href="prerequisite">Prerequisite software </a> for information where to get
+the software.  Currently, parallel version of MEME is known to work with:</p>
+
+<center>
+<table class="small" border=1  cellspacing=0>
+<tr>
+  <th class="head">MPI ditributions</th>
+  <th class="head">Batch Schedulers</th>
+</tr>
+<tr align="center">
+  <td>LAM MPI</td>
+  <td>SGE</td>
+</tr>
+<tr align="center">
+  <td>MPICH</td>
+  <td>PBS</td>
+</tr>
+
+</table>
+</center>
+
+<ul>
+<li>If your mpicc is installed in non-standard place, use 
+<code>--with-mpidir=MPIDIR</code> option when
+running 'configure' to specify the MPI installation directory.  
+<li>If you have a custom version of mpicc (for example, one from 
+Sun HPC ClusterTools) that provides wrappers use 
+<code>--with-mpicc=MPICC</code> option to specify mpicc or its wrapper by full path. 
+The configure looks by default only for names 'mpicc' and 'mpcc'.
+</ul>
+</p>
+
+<p>Once <code>mpicc</code> and <code>qsub</code> are located by configure, 
+the parallel version of MEME, called <code>meme_p</code> is compiled and installed 
+automatically via commands <code>make</code> and <code>make install</code>. 
+
+<p>[<a href="#top"> Top </a>]</p>
+
+<hr>
+<h2><a name="customconfig">Customizing configuration</a></h2>
+<p>Customization is done via the command line arguments to configure.
+To find out a list and the syntax of the configurable arguments, execute:</p>
+<span class="command">$ ./configure --help</span>
+
+<p>The general syntax for all the options is one of the following:</p>
+<ul>
+<li>Include a <b>feature</b>:
+<br>--enable-<b>feature</b>
+<br>or
+<br>--enable-<b>feature</b>=yes
+<li>Do not include a <b>feature</b>:
+<br>--disable-<b>feature</b>
+<br>or
+<br>--enable-<b>feature</b>=no
+<li>Set a specific <b>feature</b> to a <b>value</b>: 
+<br>--with-<b>feature</b>=<b>value</b>
+</ul>
+
+<p>The following table provides a list of required an optional parameters
+available for <code>configure</code>. Options <span class="required">in
+color</span> 
+are required, the rest are optional:</p>
+
+<!--
+<table border="1" cellpadding="2" cellspacing="0" width="90%">
+-->
+
+<center>
+<table class="large" border="1"  cellspacing="0">
+<tr>
+  <th class="head" width="30%">Option</th>
+  <th class="head" width="50%">Needed for</th>
+  <th class="head" >Default value</th>
+</tr>
+<tr>
+  <td width="30%"><span class="required">--prefix</span></td>
+  <td>Provide the installation location path</td>
+  <td>$HOME</td>
+</tr>
+<tr>
+  <td>--enable-debug</td>     
+  <td>Produce an executable with debugging symbols</td>
+  <td>no debug</td>
+</tr>
+<tr>
+  <td>--enable-opt</td>
+  <td>Produce an executable with optimization</td>
+  <td>compiler and OS dependent</td>
+</tr>
+<tr>
+  <td>--enable-serial</td>
+  <td>Produce only serial executables</td> 
+  <td>parallel and serial</td>
+</tr>
+<tr>
+  <td>--enable-server</td>
+  <td>Produce server executables</td> 
+  <td>enabled</td>
+</tr>
+<tr>
+  <td>--enable-client</td>
+  <td>Produce client executables</td>
+  <td>enabled</td>
+</tr>
+<tr>
+  <td>--enable-web</td>
+  <td>Build web site applications</td> 
+  <td>disabled</td>
+</tr>
+
+<tr>
+  <td>--with-queue=QUEUE</td>
+  <td>QUEUE type (SGE or PBS)</td>
+  <td>type of found qstat</td>
+</tr>
+<tr>
+  <td>--with-mpicc=MPICC</td>
+  <td>Set MPICC to use</td>
+  <td>found mpicc</td>
+</tr>
+<tr>
+  <td>--with-mpidir=MPIDIR</td>
+  <td>Set MPI installation path</td>
+  <td>path of found mpicc</td>
+</tr>
+<tr>
+  <td>--with-url=URL</td>
+  <td>Set url for the web site</td>
+  <td>http://<b>fqdn</b>/meme</td>
+</tr>
+<tr>
+  <td>--with-user=USER</td>
+  <td>Set user for starting the servers</td>
+  <td><b>uid</b></td>
+</tr>
+<tr>
+  <td>--with-contact=EMAIL</td>
+  <td>Set email of web site administrator</td>
+  <td><b>uid@fqdn</b></td>
+</tr>
+<tr>
+  <td>--with-webdir=DIR</td>
+  <td>Set path to web site part</td>
+  <td>install-path/web/</td>
+</tr>
+<tr>
+  <td>--with-db=DBDIR</td>
+  <td>Set path to databases</td>
+  <td>install-path/db/</td>
+</tr>
+<tr>
+  <td>--with-logs=LOGDIR</td>
+  <td>Set path to logs</td>
+  <td>install-path/LOGS/</td>
+</tr>
+<tr>
+  <td>--with-meme-port=PORT</td>
+  <td>Set port to use for MEME</td>
+  <td>3012</td>
+</tr>
+<tr>
+  <td>--with-mast-port=PORT</td>
+  <td>Set port to use for MEME</td>
+  <td>3013</td>
+</tr>
+<tr>
+  <td>--with-procs=PROCS</td>
+  <td>Set number of processors to use for parallel jobs</td>
+  <td>2</td>
+</tr>
+<tr>
+  <td>--with-maxtime=TIME</td>
+  <td>Set wall time limit (sec) a job may use</td>
+  <td>7200</td>
+</tr>
+<tr>
+  <td>--with-qname=NAME</td>
+  <td>Set queue name (needed only for PBS scheduler)</td>
+  <td>none</td>
+</tr>
+</table>
+</center>
+
+<p><b>Note 1</b>: see <a href="#parallel"> Parallel MEME</a> section for details.</p>
+<p><b>Note 2</b>: in the table above <b>uid</b> refers to the UID of the user
+doing installation.</p>
+<p><b>Note 3</b>: in the table above <b>fqdn</b> refers to the fully qualified
+hostname.</p>
+
+<p>[<a href="#top"> Top </a>]</p>
+
+<hr>
+<h2><a name="installexample">Installation Examples</a></h2>
+<ol>
+<li><b>Example 1</b>: installing MEME servers and clients, including the web services in
+/home/meme.
+<span class="command">
+<br>$ gunzip -c meme_3.5.1.tar.gz | tar xvf -
+<br>$ cd meme_3.5.1
+<br>$ ./configure --prefix=/home/meme --enable-web
+<br>$ make
+<br>$ make test
+<br>$ make install
+</span>
+
+<p>After execution of these commands, provided none resulted in error,
+the following directory structure will be created in /home/meme:</p>
+<pre>
+    bin/    db/    etc/    lib/    LOGS/    tests/    web/
+</pre>
+
+<li><b>Example 2</b>: installing MEME servers and clients without the web services in
+/opt/meme.
+<span class="command">
+<br>$ gunzip -c meme_3.5.1.tar.gz | tar xvf -
+<br>$ cd meme_3.5.1
+<br>$ ./configure --prefix=/opt/meme
+<br>$ make
+<br>$ make check
+<br>$ make install
+</span>
+</ol>
+
+<p>After execution of these commands, provided none resulted in error,
+the following structure will be created in /opt/meme:</p>
+<pre>
+    bin/    db/    etc/    lib/    LOGS/    tests/
+</pre>
+</p>
+
+<p>Directories contents:</p>
+<dt><b>bin/</b></td>  
+<dd>MEME and MAST executables and scripts</dd>
+
+<dt><b>db/</b></td>
+<dd>this directory or DIR specified by --with-db=DIR option is created.
+    Initially, the database directory is empty, and is filled with the
+    databases after running update_mast_databases command.</dd>
+
+<dt><b>etc/</b></td>
+<dd>contains the following files
+    <ul>
+    <li>mast_db.list - databases list, for running update_mast_databases command
+    <li>mast.doc, meme.doc - text files used by a few commands to provide
+        usage info
+    <li>meme_config - localization file, holds the variables needed for
+        running scripts
+    <li>prior1.plib, prior30.plib - these files are used by MEME
+    <li>meme.csh - for setting user environment for tcsh or csh
+    <li>meme.sh - for setting user environment for sh or bash
+    </ul></dd>
+
+<dt><b>lib/</b></dt>
+<dd>contains common Perl modules</dd>
+
+<dt><b>LOGS/</b></dt>
+<dd>directory for temporary files created by mast or MEME when jobs are
+    submitted via web</dd>
+
+<dt><b>tests/</b></dt>
+<dd>known correct output of MEME and MAST for specific sequences and
+    databases.  These files are used when running <code>make test</code> during 
+    installation or <code>bin/runtests</code></dd>
+
+<dt><b>web/</b></dt>
+<dd>contains files necessary to setup up a web-based access to MEME/MAST servers.</dd>
+
+</table>
+
+<p>[<a href="#top"> Top </a>]</p>
+
+<hr>
+<h2><a name="using">Using meme/mast</a></h2>
+<p>Before using MEME and MAST, users must add a few environment variables.
+All needed variables are defined in <code>meme.csh</code> and
+<code>meme.sh</code> files.</p>
+
+
+<ol class="withnum">
+<li>If using <b>csh</b> or <b>tcsh</b>, execute the following command:
+<br><span class="command">$ source install-path/etc/meme.csh   </span>
+
+<p>To make the addition of these variables automatic upon login, add a line to your 
+<code>.cshrc</code> or <code>.tcshrc</code> file:
+<br><span class="command">$ source install-path/etc/meme.csh</span>   
+</p>
+
+<li>If using <b>sh</b> or <b>bash</b>, execute the following command:
+<br><span class="command">$ . install-path/etc/meme.sh</span>
+
+<p>To make the addition of these variables automatic add a line to your .profile 
+or .bash_profile file:
+<br><span class="command">$ . install-path/etc/meme.sh</span>
+</ol>
+
+<p>The <code>install-path</code> should be a full path to the installation directory.
+To find out how to use MEME or MAST execute respectively:
+<br><span class="command">$ meme </span>
+<br><span class="command">$ mast </span>
+</p>
+
+<p>Both commands print usage on stdout.</p>
+
+
+<p>[<a href="#top"> Top </a>]</p>
+
+<hr>
+<h2><a name="regresstest">Running regression tests</a></h2>
+<p>There is a suit of tests that can be run to test MEME and MAST output
+against known output. These tests can be run at any time after the installation
+of newly compiled MEME and MAST binaries (meme.bin and mast.bin). These tests
+can take a long time. The output files from the tests go into the newly created
+directory <code>install-path/tests/results/</code>. If the tests pass without
+errors this directory with its output files will be deleted. If there are
+errors the output files are kept and can be compared to files in
+install-path/tests/.  To run the regression tests do:</p>
+<p><span class="command">$ install-path/bin/runtests</span></p>
+
+<p>[<a href="#top"> Top </a>]</p>
+
+<hr>
+<h2><a name="issues">Known issues</a></h2>
+
+<p><span class="head">Version 3.5.0</span></p>
+<ol>
+<li>Fully tested on Rocks Linux (Redhat and Cent OS).
+Some users have reported configure issues with Sun and SGI platforms.
+</li>
+
+<li><p>Some users have reported confusion over the difference between</p>
+<pre>
+        bin/meme          and           bin/meme.csh 
+</pre>
+and the difference between 
+<pre>
+        etc/meme.csh      and           bin/meme.csh
+</pre>
+<p>When refactoring was taking place, a decision has been made to keep a
+distinction between binary program and the shell script. In the previous
+versions  they had the same name <code>meme</code>.  In 3.5.0, the binary
+is <code>meme</code>, and the shell script that parses the arguments and calls
+the binary is <code>meme.csh</code>. This requires a change in the command
+line execution, namely typing <code>meem.csh</code> in place of <code>meme</code>.
+This was deemed undesirable by some users, others pointed out that their
+parsing scripts would have to change. In order to maintain compatibility with
+the previous versions of meme, the old behavior will be restored in the next
+release.</p>
+<p>The files <code>etc/meme.csh</code> and <code>etc/meme.sh</code> are newly introduced. 
+They are created for setting user environment in a simple and uniform way.  
+Please see section <a href="#using">Using meme/mast</a> for a reference.
+</p>
+</li>
+
+<li>Option <code>--enable-web</code> is currently required to install perl
+modules properly and to create <code>LOGS/</code> directory. 
+</li>
+<li>The file <code>bin/mast-client</code> contains a typo. Patch and installation 
+instructions are available. See section 
+<a href="#patch">Getting and installing the patches</a>
+</li>
+</ol>
+
+<p>Fixes to these bugs and problems will be available in the next release, 
+version 3.5.1.</p>
+
+<p>[<a href="#top"> Top </a>]</p>
+
+<hr>
+<h2><a name="#report">Reporting problems</a></h2>
+<p>Make sure first that you really have a problem:
+<ul>
+<li><strong>1.  Check your environment</strong><br>
+Did you change it recently? Did you upgrade to a new version? 
+Is your operating system supported?  Are you using latest
+versions of tools required?
+<li><strong>Look for the answers.</strong><br>
+Check the INSTALL and README files that came with the distribution. 
+Check the 
+<a href="https://nbcr.net/forum/viewforum.php?f=5">MEME user
+forum</a> if your problem has been reported and there was a solution.
+Check the <a href="release_notes.html">release notes</a> for possible
+bug fixes and other version-dependent changes.
+
+<li><strong>Are you asking in the right place? </strong><br>
+If your problems are related to the prerequisite software installation, 
+your OS, or compiler, check relevant mailing lists, do Google search, talk
+to your sysadmin. 
+
+<li><strong>Verify what you did.</strong><br>
+Often, the problem is a result of the wrong execution of the commands or
+typos in the commands. Check if you executed the commands in the right order
+and if they were typed properly. 
+
+<li><strong>Report the problem.</strong><br>
+If all fails and you still have the problem, go ahead and email to
+<a href="mailto:meme@nbcr.net">meme@nbcr.net</a>.  
+Here is a guiding list of what to put in your email:
+<ul>
+<li>Use meaningful and specific email headers
+<li>Write clearly and be precise about your problem. Give as much information
+as possible, yet avoid dumping large volumes of data. 
+<li>Essential information to include: your OS version, the software version you are
+trying to install, your compiler version,  autoconf version ...
+<li>Describe the exact problem symptoms, and whether they are reproducible. 
+Provide the relevant output from running <code>configure</code> or
+<code>make</code> that indicates what the error was. 
+</ul>
+</ul>
+
+<p>[<a href="#top"> Top </a>]</p>
+
+<hr>
+<p align="center"><b>Copyright &copy; 1994-2006 The Regents of the University of
+California. All rights Reserved.</b></p>
+<br><br><br>
+
+</body>
+</html>
+

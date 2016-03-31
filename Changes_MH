@@ -1,0 +1,243 @@
+###############################################################
+  Modifications in MEMERIS compared to the MEME source code:
+###############################################################
+
+meme.c 
+	- declaration a new function 
+			static void readSecondaryStructurePrior(
+	  		  DATASET *dataset,			/* the dataset */
+			  MODEL *model,	 			/* the model */
+			  char *secondaryStructureFilename,	/* input filename */
+			  double secondaryStructurePseudocount  /* pseudocount for prior prob */
+			);
+	- define this function
+			static void readSecondaryStructurePrior(
+			...
+	- call readSecondaryStructurePrior() function if -secstruct is set
+		   if (dataset->secondaryStructureFilename != NULL) {
+				printf("use secondary structure information from: %s\n", dataset->secondaryStructureFilename); fflush(stdout);
+		      readSecondaryStructurePrior(dataset, model, dataset->secondaryStructureFilename, dataset->secondaryStructurePseudocount);
+			 	printf("done\n"); fflush(stdout);
+			}		
+	- output the maximum adjustment of the pseudocount in case of TCM 
+	   if ((dataset->secondaryStructureFilename != NULL) && (model->mtype = Tcm)) {
+		  printf("max adjustment of pseudocount: %f\n",MAXADJUST);
+		}
+
+
+
+meme.h
+	- new global variables
+		  DEXTERN(double, MAXADJUST, 0);		/* maximum adjustment of the pseudocount  -- for statistics */
+		  DEXTERN(int, MAX_NEWTON_ITERATIONS, 30);		/* maximum number of iterations for Newton-Raphson Method */
+	- introduce new parameters for the secstruct filename and the pseudocount for dataset 
+		  char *secondaryStructureFilename;  /* name of the file with the secondary structure information */
+		  double secondaryStructurePseudocount; /* pseudocount added to each position to avoid a prior prob of 0 */
+	- introduce variables that store the EF/PU values, the sigma values and LOG/INTLOG precomputations
+		  double *ss_value;	/* secondary structure value (EF or PU) = measure for single-strandedness of motif */
+		  double *sigma;		/* prior prob for Zij */
+		  double *log_sigma; /* LOG(sigma) */
+		  int *intlog_sigma; /* INTLOG(sigma) */
+		  double sum_ss_value;	/* \sum ss_value[i] */
+		  double max_ss_value; 	/* max ss_value[i] (used for TCM) */
+	
+	
+	
+init.c
+	- introduce two new static variables
+			static char *secondaryStructureFilename = NULL;		/* if not NULL, the secondary structure information from this filename is used for the prior probability */
+			static double secondaryStructurePseudocount = 0.1; /* pseudocount added to each position to avoid a prior prob of 0 */
+	- read the two parameters -secstruct and -pi in init_meme()
+	     DATA_OPTN(1, secstruct, <filename>, \tuse secondary structure information from <filename> for the a priori probability, secondaryStructureFilename = _OPTION_);
+   	  DATA_OPTN(1, pi, <double>, \t\tpseudocount added to each secondary structure prior (default 0.1), secondaryStructurePseudocount = atof(_OPTION_));
+	- check if a motif length is given, check for DNA alphabet and check if -revcomp and -secstruct is set (if so disallow -revcomp) 
+		  if (secondaryStructureFilename != NULL) {
+		    if (invcomp) {
+		      invcomp = FALSE;	 	
+			   fprintf(stderr, "ERROR: you set 'revcomp' and use secondary structure information: revcomp setting is not used\n");
+		    }
+			 if (w == 0) {
+			   fprintf(stderr, "ERROR: you must set the motif length (-w) to the value used for the computation of the secondary structure values\n");
+				exit(1);
+			 }
+			 if (strcmp(alph, "DNA") != 0) {
+				alph = "DNA";	
+			   fprintf(stderr, "ERROR: you set 'protein' and use secondary structure information: switch to DNA alphabet\n");
+			 }	
+		  }
+	- set model->w if only one w is allowed
+		  if (model->max_w == model->min_w)
+		    model->w = model->max_w;
+	- store the filename in dataset->secondaryStructureFilename and the pseudocount dataset->secondaryStructurePseudocount
+		  dataset->secondaryStructureFilename = secondaryStructureFilename;
+		  dataset->secondaryStructurePseudocount = secondaryStructurePseudocount;
+
+
+
+oops.c
+	- declaration of functions for TCM M-step 
+		double NewtonRaphsonMethod(
+		  MODEL *model,			/* the model */
+ 	 	  DATASET *dataset		/* the dataset */
+		);
+		double computeFirstDerivative(
+		  MODEL *model,			/* the model */
+		  DATASET *dataset,		/* the dataset */
+		  double lambda			/* current lambda */
+		);
+		double computeSecondDerivative(
+		  MODEL *model,			/* the model */
+		  DATASET *dataset,		/* the dataset */
+		  double lambda         /* current lambda */
+		);
+	- use Newton Raphson Method to maximize lambda 	in m_step()
+	  /* finding the lambda for the next EM iteration is different for TCM model if secondary structure information is given */
+	  if ((dataset->secondaryStructureFilename != NULL) && (model->mtype == Tcm)) {
+			double best_lambda = NewtonRaphsonMethod(model,dataset);		/* use Newton Raphson Method to find the best lambda */
+			model->nsites_obs = q;
+	  		model->lambda_obs = MIN(1.0, best_lambda);
+  			model->nsites = q*(1-wnsites) + model->psites*wnsites;
+		/* lambda = (q(1-wnsites) + psites*wnsites) / n*m
+				--> since lambda_obs = q/(n*m) it follows
+				lambda = lambda_obs - lambda_obs*wnsites + (psites*wnsites/(n*m))
+			*/
+  			model->lambda = MIN(1.0, (model->lambda_obs - model->lambda_obs*wnsites + model->psites*wnsites/wps(dataset, w)) );
+		}else{
+	- define the functions NewtonRaphsonMethod(), computeFirstDerivative(), computeSecondDerivative()
+	- use log sigma_ij instead of log 1/m if secondary structure information is given in e_step() for oops and 
+	  use gamma * sigma_ij instead of gamma/m in e_step() for zoops
+	      if (dataset->secondaryStructureFilename != NULL) {
+				if (mtype==Oops) {
+		 	      log_gamma = s->log_sigma[j];
+				}else{
+		 	      log_lambda = LOG(gamma * s->sigma[j]);
+				}
+			}
+	
+	
+
+tcm.c		
+	- compute the position specific lambda values from the secondary structure information and check if the pseudocount has to be adjusted (tcm_e_step())
+		 /* use log sigma_ij * lambda * m instead of lambda if secondary structure information is given */
+		 /* NOTE: log_sigma is the prior for + or - strand --> here only + strand --> log_sigma = 0 */
+		 if (dataset->secondaryStructureFilename != NULL) {
+	 
+		 	/* first check if the maximum sigma * (lambda*m) > 1   --> if so P(Zij=1 | \phi) can be > 1 */
+		   double Pcount = dataset->secondaryStructurePseudocount;
+			double maxPrior = ((s->max_ss_value + Pcount) / (s->sum_ss_value + (m * Pcount))) * (lambda*m);
+
+			if (maxPrior > 1.0 ) {
+				/* compute new pseudocount that gives sigma_i_max = 1 = (max_ss_value + pseudocount) / (\sum (ss_value[i] + pseudocount)) * lambda * m */
+				Pcount = (-1 * s->max_ss_value * lambda * m + s->sum_ss_value) / (m * (lambda - 1));
+	
+				/* for statistics keep maximum adjustment */
+				if (Pcount - dataset->secondaryStructurePseudocount > MAXADJUST) {
+					MAXADJUST = Pcount - dataset->secondaryStructurePseudocount;
+				}
+			}
+	 	
+			/* compute new sigmas with this pseudocount */
+			double sum = s->sum_ss_value + (m * Pcount);  		 /* \sum ss_value[i] + m*pseudocount */
+   	 	for (j=0; j < m; j++) {
+	   		s->sigma[j] = (s->ss_value[j] + Pcount) / sum;
+			}
+		 }
+	- use the position specific lambda values 
+		   /* use the prior instead of lambda */
+	 	   if (dataset->secondaryStructureFilename != NULL) {
+			  double p = MIN(1.0, ( s->sigma[j] * lambda * m ) ) ;		/* rounding */
+			  log_lambda = LOG(p);	
+  			  log_1mlambda = LOG(1-p);	
+		   }
+
+
+
+subseq7.c
+	- in case of two equally good starting points choose the one with higher single-strandedness for the substring in function score_llr_pop()
+		 /* in case of two equally good starting points choose the one with higher single-strandedness for the substring (if we have secondary structure information) */
+   	 }else if (-log_pop == s_points[i_nsites0].score) {
+      	if (dataset->secondaryStructureFilename != NULL) {
+			 	double sigma_old = samples[ s_points[i_nsites0].iseq ]->sigma[ s_points[i_nsites0].ioff ];
+			 	double sigma_new = samples[ iseq ]->sigma[ ioff ];
+			 	if (sigma_new > sigma_old) {
+    			  	s_points[i_nsites0].iseq = iseq;
+	      		s_points[i_nsites0].ioff = ioff;
+		   	   s_points[i_nsites0].e_cons0 = eseq;
+   		   	s_points[i_nsites0].wgt_nsites = wN;
+	   		   s_points[i_nsites0].score = -log_pop;
+				}
+			}
+	- to use secondary structures only during the start point search, add a bool parameter to global_max() and local_max()
+		  , BOOLEAN useSecStruct
+	  and call global_max and local_max with this flag
+		 /* during the start point search sort==TRUE; during the discretize model step sort==FALSE
+		    since we want to include secondary structure information only during the start point search, use sort as a flag and pass it to global_max */
+	    n_maxima = global_max(dataset, w, maxima, ic, sort);
+	  } else {
+		 /* during the start point search sort==TRUE; during the discretize model step sort==FALSE
+		    since we want to include secondary structure information only during the start point search, use sort as a flag and pass it to local_max */
+	    n_maxima = local_max(dataset, w, maxima, ic, sort);
+		  
+
+	- use pY[j]*sigma[j] instead of pY[j] alone to determine the maximum in global_max() for ZOOPS and OOPS in the start point search (pY is the value for the current position of Theta0)
+		 	max += INT_LOG(0); 			/* to account for a sigma[j] = 0 */
+	 		int log_sigma = 0;
+	      if ((dataset->secondaryStructureFilename != NULL) && (useSecStruct)) {
+ 	   	   log_sigma = s->intlog_sigma[j];
+			}
+	      if (pY[j] + log_not_o[j] + log_sigma > max) {		/* new maximum found */
+ 	     	/*if (pY[j] + log_not_o[j] > max) {		/* new maximum found */
+					max = pY[j] + log_not_o[j] + log_sigma; 		/* pY * Pr(no overlap) */
+					/*max = pY[j] + log_not_o[j]; 		/* pY * Pr(no overlap) */
+	- use pY[j]*sigma[j] instead of pY[j] alone to determine the maximum in local_max() for TCM start point search
+		 	 int log_sigma = 0;
+		    if ((dataset->secondaryStructureFilename != NULL) && (useSecStruct)) {
+		 	      log_sigma = s->intlog_sigma[0];
+				   max += log_sigma;
+			 }
+		    if ((dataset->secondaryStructureFilename != NULL) && (useSecStruct)) {
+	 	    	log_sigma = s->intlog_sigma[j];
+      	   prob += log_sigma;
+	   	 }
+
+
+display.c
+	- output EF/PU values (if given) for the motif hits and the average EF/PU in align_sites() 
+		  double aveSS = 0;
+		  int numHits = 0;
+		  /* added by M.H. */
+		  /* remove \n and add a > 0 ? statement */
+		  fprintf(outfile, "%6s %9s %10s %*sSite%*s", "Start", "P-value", "", ( (w/2-2) >0 ? (w/2-2) : 0), "", ((w - w/2 - 4) > 0 ? (w - w/2 - 4) : 0), "");
+		  /*  fprintf(outfile, "%6s %9s %10s %*sSite%*s\n", "Start", "P-value", "", w/2 - 2, "", w - w/2 - 4, "");*/
+		  /* added by M.H. */
+		  /* output 'SecStruc' */
+		  if (dataset->secondaryStructureFilename != NULL) {
+			 	fprintf(outfile, "%*s %10s %8s\n", MAX(0, w - ( (w-w/2-4) > 0 ? (w-w/2-4) : 0 ) - ( (w/2-2) >0 ? (w/2-2) : 0) - 4 ) ,  "","","SecStruc");
+		  }else{
+	 			fprintf(outfile, "\n");
+		  }
+		  if (dataset->secondaryStructureFilename != NULL) {
+			  fprintf(outfile, " %10s %8s", "", "--------");
+		  }
+		  /* remove \n  */
+	     /* print the alignment */
+	     if (pre[0] == '\0') {			/* print a dot in empty pre */
+   	  	 fprintf(outfile, " %10s %-*s %-10s", ".", w, site, post);
+	     } else {
+   	  	 fprintf(outfile, " %10s %-*s %-10s", pre, w, site, post);
+	     }
+		  /* print EF/PU value and compute average */
+	     if (dataset->secondaryStructureFilename != NULL) {
+	 	 		fprintf(outfile, " %f\n",s->ss_value[y]);
+			 	aveSS += s->ss_value[y];
+				numHits ++;
+	 	  }else{
+			 	fprintf(outfile, "\n");
+	 	  }
+		  /* print average */
+		  if (dataset->secondaryStructureFilename != NULL) {
+		  		aveSS /= numHits;
+	 			fprintf(outfile, "average single-strandedness: %f\n",aveSS);
+		  }
+
+

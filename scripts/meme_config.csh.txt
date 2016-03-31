@@ -1,0 +1,46 @@
+#
+# meme_config.csh  - created from meme_config.csh.txt by configure
+# holds site localization variables for running support scripts.
+# For compatibility with sh scripts.
+#
+# $Id: meme_config.csh.txt,v 1.2 2005/10/07 05:33:55 nadya Exp $
+#
+# $Log: meme_config.csh.txt,v $
+# Revision 1.2  2005/10/07 05:33:55  nadya
+# keep uniform name MEME_LOGS throughout scripts.
+#
+# Revision 1.1  2005/10/04 19:04:48  nadya
+# file to be sourced to set the environment  variables
+#
+#
+
+# installation path
+setenv MEME_DIRECTORY @MEMEDIR@
+
+# installation bin/
+setenv MEME_BIN $MEME_DIRECTORY/bin
+
+# directory where log files for meme/mast servers and the output 
+# of the meme/mat programs are kept. 
+setenv MEME_LOGS $MEME_DIRECTORY/LOGS
+
+# port for meme and mast servers and clients
+setenv MEME_PORT @MEMEPORT@
+setenv MAST_PORT @MASTPORT@
+
+# executables to use when starting servers. 
+# Curernlty, meme and mast are shell scripts.
+setenv MEME_SH meme
+setenv MAST_SH mast
+
+# true binary executables
+setenv MEME_EXEC meme.bin
+setenv MAST_EXEC mast.bin
+setenv MEME_CLIENT_EXEC meme-client.bin
+
+if ( -d ${MEME_BIN}  ) then
+    set path = ( $path $MEME_BIN )
+endif
+
+
+

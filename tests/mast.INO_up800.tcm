@@ -1,0 +1,325 @@
+********************************************************************************
+MAST - Motif Alignment and Search Tool
+********************************************************************************
+	MAST version 3.5.1 (Release date: 2006/02/01 02:08:55)
+
+	For further information on how to interpret these results or to get
+	a copy of the MAST software please access http://meme.nbcr.net.
+********************************************************************************
+
+
+********************************************************************************
+REFERENCE
+********************************************************************************
+	If you use this program in your research, please cite:
+
+	Timothy L. Bailey and Michael Gribskov,
+	"Combining evidence using p-values: application to sequence homology
+	searches", Bioinformatics, 14(48-54), 1998.
+********************************************************************************
+
+
+********************************************************************************
+DATABASE AND MOTIFS
+********************************************************************************
+	DATABASE /home/meme/TEST/tests/INO_up800.s (nucleotide)
+	Last updated on Tue Jan 31 18:16:52 2006
+	Database contains 7 sequences, 5600 residues
+
+	Scores for positive and reverse complement strands are combined.
+
+	MOTIFS /home/meme/TEST/tests/meme.INO_up800.tcm (nucleotide)
+	MOTIF WIDTH BEST POSSIBLE MATCH
+	----- ----- -------------------
+	  1    15   TTCACATGCCGCCCC
+	  2    21   GGCCACATCGCCACTGGCGGC
+
+	PAIRWISE MOTIF CORRELATIONS:
+	MOTIF     1
+	----- -----
+	   2   0.27
+	No overly similar pairs (correlation > 0.60) found.
+
+	Random model letter frequencies (from non-redundant database):
+	A 0.281 C 0.222 G 0.229 T 0.267 
+********************************************************************************
+
+
+********************************************************************************
+SECTION I: HIGH-SCORING SEQUENCES
+********************************************************************************
+	- Each of the following 7 sequences has E-value less than 10.
+	- The E-value of a sequence is the expected number of sequences
+	  in a random database of the same size that would match the motifs as
+	  well as the sequence does and is equal to the combined p-value of the
+	  sequence times the number of sequences in the database.
+	- The combined p-value of a sequence measures the strength of the
+	  match of the sequence to all the motifs and is calculated by
+	    o finding the score of the single best match of each motif
+	      to the sequence (best matches may overlap),
+	    o calculating the sequence p-value of each score,
+	    o forming the product of the p-values,
+	    o taking the p-value of the product.
+	- The sequence p-value of a score is defined as the
+	  probability of a random sequence of the same length containing
+	  some match with as good or better a score.
+	- The score for the match of a position in a sequence to a motif
+	  is computed by by summing the appropriate entry from each column of
+	  the position-dependent scoring matrix that represents the motif.
+	- Sequences shorter than one or more of the motifs are skipped.
+	- The table is sorted by increasing E-value.
+********************************************************************************
+
+SEQUENCE NAME                      DESCRIPTION                   E-VALUE  LENGTH
+-------------                      -----------                   -------- ------
+INO1                               sequence of the region up...    4.4e-09    800
+FAS2                               sequence of the region up...    5.2e-07    800
+FAS1                               sequence of the region up...    1.1e-06    800
+OPI3                               sequence of the region up...    1.5e-05    800
+ACC1                               sequence of the region up...    5.8e-05    800
+CHO1                               sequence of the region up...      0.023    800
+CHO2                               sequence of the region up...      0.094    800
+
+********************************************************************************
+
+
+
+********************************************************************************
+SECTION II: MOTIF DIAGRAMS
+********************************************************************************
+	- The ordering and spacing of all non-overlapping motif occurrences
+	  are shown for each high-scoring sequence listed in Section I.
+	- A motif occurrence is defined as a position in the sequence whose
+	  match to the motif has POSITION p-value less than 0.0001.
+	- The POSITION p-value of a match is the probability of
+	  a single random subsequence of the length of the motif
+	  scoring at least as well as the observed match.
+	- For each sequence, all motif occurrences are shown unless there
+	  are overlaps.  In that case, a motif occurrence is shown only if its
+	  p-value is less than the product of the p-values of the other
+	  (lower-numbered) motif occurrences that it overlaps.
+	- The table also shows the E-value of each sequence.
+	- Spacers and motif occurences are indicated by
+	   o -d-    `d' residues separate the end of the preceding motif 
+		    occurrence and the start of the following motif occurrence
+	   o [sn]  occurrence of motif `n' with p-value less than 0.0001.
+		    A minus sign indicates that the occurrence is on the
+		    reverse complement strand.
+********************************************************************************
+
+SEQUENCE NAME                      E-VALUE   MOTIF DIAGRAM
+-------------                      --------  -------------
+INO1                                4.4e-09  365_[-2]_160_[-1]_6_[-1]_34_[-1]_
+                                             55_[+1]_4_[+2]_74
+FAS2                                5.2e-07  566_[+1]_131_[+2]_67
+FAS1                                1.1e-06  52_[+2]_21_[+1]_691
+OPI3                                1.5e-05  291_[+2]_41_[-2]_126_[-2]_60_
+                                             [-1]_40_[+1]_149
+ACC1                                5.8e-05  52_[-2]_9_[+1]_703
+CHO1                                  0.023  162_[+1]_433_[+1]_14_[+1]_146
+CHO2                                  0.094  353_[+1]_109_[-1]_308
+
+********************************************************************************
+
+
+
+********************************************************************************
+SECTION III: ANNOTATED SEQUENCES
+********************************************************************************
+	- The positions and p-values of the non-overlapping motif occurrences
+	  are shown above the actual sequence for each of the high-scoring
+	  sequences from Section I.
+	- A motif occurrence is defined as a position in the sequence whose
+	  match to the motif has POSITION p-value less than 0.0001 as 
+	  defined in Section II.
+	- For each sequence, the first line specifies the name of the sequence.
+	- The second (and possibly more) lines give a description of the 
+	  sequence.
+	- Following the description line(s) is a line giving the length, 
+	  combined p-value, and E-value of the sequence as defined in Section I.
+	- The next line reproduces the motif diagram from Section II.
+	- The entire sequence is printed on the following lines.
+	- Motif occurrences are indicated directly above their positions in the
+	  sequence on lines showing
+	   o the motif number of the occurrence (a minus sign indicates that
+	  the occurrence is on the reverse complement strand),
+	   o the position p-value of the occurrence,
+	   o the best possible match to the motif (or its reverse complement), and
+	   o columns whose match to the motif has a positive score (indicated 
+	     by a plus sign).
+********************************************************************************
+
+
+INO1
+  sequence of the region upstream from YJL153C
+  LENGTH = 800  COMBINED P-VALUE = 6.30e-10  E-VALUE =  4.4e-09
+  DIAGRAM: 365_[-2]_160_[-1]_6_[-1]_34_[-1]_55_[+1]_4_[+2]_74
+
+
+                                                                      [-2]
+                                                                      1.5e-10
+                                                                      GCCGCCAGTG
+                                                                      ++++++++++
+301  GTGACCTGGAAGCTCACCCTGCAGAGGAATCTCAAGCACAGCCTCCAGCATATGATGAAGACGATGAGGCCGGTG
+
+     
+     
+     GCGATGTGGCC
+     +++++++++++
+376  CCGATGTGCCCTTGATGGACAACAAACAACAGCTCTCTTCCGGCCGTACTTAGTGATCGGAACGAGCTCTTTATC
+
+                          [-1]                 [-1]
+                          5.3e-06              1.7e-06
+                          GGGGCGGCATGTGAA      GGGGCGGCATGTGAA
+                          +++++++ +++ + +      +++++++ +++++++
+526  TGAAATACGTGCCGGTGTTCCGGGGTTGGATGCGGAATCGAAAGTGTTGAATGTGAAATATGCGGAGGCCAAGTA
+
+                     [-1]
+                     6.6e-08
+                     GGGGCGGCATGTGAA
+                     +++++++++++++++
+601  TGCGCTTCGGCGGCTAAATGCGGCATGTGAAAAGTATTGTCTATTTTATCTTCATCCTTCTTTCCCAGAATATTG
+
+                [+1]               [+2]
+                2.1e-06            2.1e-07
+                TTCACATGCCGCCCC    GGCCACATCGCCACTGGCGGC
+                +++++++++++++      + ++++ ++ ++  +++++++
+676  AACTTATTTAATTCACATGGAGCAGAGAAAGCGCACCTCTGCGTTGGCGGCAATGTTAATTTGAGACGTATATAA
+
+
+FAS2
+  sequence of the region upstream from YPL231W
+  LENGTH = 800  COMBINED P-VALUE = 7.49e-08  E-VALUE =  5.2e-07
+  DIAGRAM: 566_[+1]_131_[+2]_67
+
+
+                                              [+1]
+                                              4.0e-07
+                                              TTCACATGCCGCCCC
+                                              +++++++++ +++++
+526  GCTTAGCAAAATCCAACCATTTTTTTTTTATCTCCCGCGTTTTCACATGCTACCTCATTCGCCTCGTAACGTTAC
+
+                                          [+2]
+                                          3.7e-09
+                                          GGCCACATCGCCACTGGCGGC
+                                          + +++++++++++++++++++
+676  TGCCTCATATATAACTTGTTAACTGAAGGTTACACAAGACCACATCACCACTGTCGTGCTTTTCTAATAACCGCT
+
+
+FAS1
+  sequence of the region upstream from YKL182W
+  LENGTH = 800  COMBINED P-VALUE = 1.51e-07  E-VALUE =  1.1e-06
+  DIAGRAM: 52_[+2]_21_[+1]_691
+
+                                                         [+2]
+                                                         1.8e-07
+                                                         GGCCACATCGCCACTGGCGGC
+                                                         +  ++++ + ++ ++++++++
+1    CCGGGTTATAGCAGCGTCTGCTCCGCATCACGATACACGAGGTGCAGGCACGGTTCACTACTCCCCTGGCCTCCA
+
+                        [+1]
+                        1.7e-08
+                        TTCACATGCCGCCCC
+                        ++++++++++++++
+76   ACAAACGACGGCCAAAAACTTCACATGCCGCCCAGCCAAGCATAATTACGCAACAGCGATCTTTCCGTCGCACAA
+
+
+OPI3
+  sequence of the region upstream from YJR073C
+  LENGTH = 800  COMBINED P-VALUE = 2.07e-06  E-VALUE =  1.5e-05
+  DIAGRAM: 291_[+2]_41_[-2]_126_[-2]_60_[-1]_40_[+1]_149
+
+
+                                                                       [+2]
+                                                                       9.1e-07
+                                                                       GGCCACATC
+                                                                       + +++ +++
+226  ATAACGAGTCCGGTGAACTTGGTTCCTTGCTGAACAGTGTCTTCTTGTAAAGCTTCCCATTTGGTGGTCCCGTTC
+
+                                                          [-2]
+                                                          1.7e-06
+     GCCACTGGCGGC                                         GCCGCCAGTGGCGATGTGGCC
+     +++ +++++ ++                                         + +++++++ ++ +++ +  +
+301  AACTCCGTCAGGTCTTCCACGTGGAACTGCCAAGCCTCCTTCAGATCGCTCTTGTCGACCGTCTCCAAGAGATCC
+
+                                                       [-2]
+                                                       2.5e-08
+                                                       GCCGCCAGTGGCGATGTGGCC
+                                                       +++++++++ +++++++ +++
+451  TGTGTATCGGGGACTTCTCTTAGAGTAGAAGCGTCTATAAACCCAGGTGGGACGACAGTAGTGATGGCGCCGCCG
+
+                                                             [-1]
+                                                             3.4e-06
+                                                             GGGGCGGCATGTGAA
+                                                             +++ +++++++++ +
+526  TATAATTCGACTTCCTTGTTGTTCATGCTTCCTTGATGACCAGGGTAGGTGTCAATGAGAGTGCATGTGGAAAGT
+
+                                         [+1]
+                                         2.0e-06
+                                         TTCACATGCCGCCCC
+                                         ++++ ++++++ +++
+601  TGCACCGGTTGTGAAATATGAGAAGCCTTTTCAATCTTCATATGCAAACCCACACATGCATCGTTGGTTTCTGTC
+
+
+ACC1
+  sequence of the region upstream from YNR016C
+  LENGTH = 800  COMBINED P-VALUE = 8.22e-06  E-VALUE =  5.8e-05
+  DIAGRAM: 52_[-2]_9_[+1]_703
+
+                                                         [-2]
+                                                         2.5e-07
+                                                         GCCGCCAGTGGCGATGTGGCC
+                                                         +++ ++++  +++ ++ ++++
+1    TATCCAAAGGGGAATGCTTCATCTTGTTGAACAACGCCCAACAATTTCCACTGCCCACCGAATCGTTGCGCCCGT
+
+            [+1]
+            8.8e-07
+            TTCACATGCCGCCCC
+            ++++++++++++  +
+76   TAAAATCTTCACATGGCCCGGCCGCGCGCGCGTTGTGCCAACAAGTCGCAGTCGAAATTCAACCGCTCATTGCCA
+
+
+CHO1
+  sequence of the region upstream from YER026C
+  LENGTH = 800  COMBINED P-VALUE = 3.22e-03  E-VALUE =    0.023
+  DIAGRAM: 162_[+1]_433_[+1]_14_[+1]_146
+
+
+                 [+1]
+                 6.4e-06
+                 TTCACATGCCGCCCC
+                 +++ +++ +++ +++
+151  CGTCTGGCGCCCTTCCCATTCCGAACCATGTTATATTGAACCATCTGGCGACAAGCAGTATTAAGCATAATACAT
+
+               [+1]                         [+1]
+               4.5e-07                      1.5e-06
+               TTCACATGCCGCCCC              TTCACATGCCGCCCC
+               ++++++ ++++++++              +++++++++++++ +
+601  ACTTTGAACGTTCACACGGCACCCTCACGCCTTTGAGCTTTCACATGGACCCATCTAAAGATGAAGATCCGTATT
+
+
+CHO2
+  sequence of the region upstream from YGR157W
+  LENGTH = 800  COMBINED P-VALUE = 1.35e-02  E-VALUE =    0.094
+  DIAGRAM: 353_[+1]_109_[-1]_308
+
+
+                                                          [+1]
+                                                          1.2e-06
+                                                          TTCACATGCCGCCCC
+                                                          +++ +++++++++++
+301  ATATATATTTTTGCCTTGGTTTAAATTGGTCAAGACAGTCAATTGCCACACTTTTCTCATGCCGCATTCATTATT
+
+                                [-1]
+                                1.2e-05
+                                GGGGCGGCATGTGAA
+                                +++  +++++ ++++
+451  GTGGATCTCCGACACATGTGAATTTATAAGTAGGCATATGAAAATACAGATTCTTTCCACTGTGTTCCCTTTTAT
+
+********************************************************************************
+
+
+CPU: rocks-155.sdsc.edu
+Time 0.011998 secs.
+
+mast meme.INO_up800.tcm

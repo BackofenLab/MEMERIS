@@ -1,0 +1,41 @@
+<!---
+##
+## $Id: help_alphabet.html,v 1.1.1.1 2005/07/31 20:11:49 nadya Exp $
+##
+## $Log: help_alphabet.html,v $
+## Revision 1.1.1.1  2005/07/31 20:11:49  nadya
+## Importing from meme-3.0.14, and adding configure/make
+##
+##
+--->
+
+<HTML>
+
+<HEAD>
+<TITLE> MEME - Alphabet</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="images/bkg.jpg">
+
+<HR>
+    MEME accepts DNA or protein sequences.
+    The sequences must all be of the <B>same type</B>, either protein or DNA.
+    <P>
+    <UL>
+    <LI>    <NOBR><B>Protein sequences</B> should use the standard IUPAC 
+	    alphabet: <B>ACDEFGHIKLMNPQRSTVWY</B>.</NOBR><BR>
+            They may also contain the ambiguous letters 
+	    <B>"BUXZ"</B>, 
+	    which MEME converts to <B>"X"</B> and treats as "unknown".
+    <LI>    <B>DNA sequences</B> should use the standard DNA alphabet:
+            <B>ACGT</B>.<BR>
+            They may also contain the ambiguous letters 
+	    <B>"BDHKMNRSUVWY"</B>, 
+	    which MEME converts to <B>"X"</B> and treats as "unknown".
+    </UL>
+    <B>Note:</B>  If none of the sequences in your dataset contain any of
+	   the letters <B>"EFILPQXZ"</B>, MEME will assume your sequences are
+	   DNA.  You can force MEME to interpret them as protein sequences
+	   by adding an <B>"X"</B> to the end (or beginning) of one of the
+	   sequences in your dataset.
+    <HR>

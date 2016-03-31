@@ -1,0 +1,212 @@
+#!/bin/csh
+#
+# $Id: roc.txt,v 1.2 2005/10/05 06:18:35 nadya Exp $
+# $Log: roc.txt,v $
+# Revision 1.2  2005/10/05 06:18:35  nadya
+# use full path for "rm". Asssume everybody has /bin/rm.
+#
+# Revision 1.1.1.1  2005/07/30 01:19:47  nadya
+# Importing from meme-3.0.14, and adding configure/make
+#
+#
+
+set pgm = roc 
+set args = "$*"
+
+#
+# set the directories we need
+#
+setenv MEME_DIRECTORY @MEMEDIR@
+set bin = @MEMEDIR@/bin
+
+#
+# check for no arguments
+#
+if ($#argv < 1) then
+  usage:
+  more << USAGE
+  USAGE:
+	$pgm <exp> [-d <dataset>] [-seq] [-ps] [-s] [-m <motif_file>] [-c <c>]
+	  [-opt] [-T <thresh>] [-debug]
+
+		<exp>	learner output file (prepends "RESULTS/" if not found)
+		[-d <dataset>]	dataset to compute ROC on
+		[-m <motif_file>]
+			file (without .motifs or .tag extension)
+			containing known motifs; default is <training_set>
+			where <training_set> must be  specified in <exp> file.
+		[-seq]	compute sequence-level performance using 
+			<motif_file>.tags
+			default is site-level performance using
+			<motif_file>.motifs
+		[-s]	plot the ROC curves to the screen
+		[-ps]	create a plot of the ROC curves to a .ps file
+			Creates files: 
+				RESULTS/roc.<exp>.ps
+				RESULTS/roc.<exp>.tex
+				tmp.tex
+		[-opt]	optimize the recall
+		[-t <thresh>]
+			Print "none" for motif name if best ROC below <thresh>
+		[-c <c>]	output only first <c> motifs
+		[-T <thresh>]	threshold to use instead of MEME threshold
+		[-debug]	run using debugger
+
+	Note1: Looks for training set used by learner unless you
+		use -d <dataset>.  Should be be in same directory as 
+		when meme was run!
+
+	Note2: Looks for file <training_set>.motifs unless you use -seq,
+		in which case it looks for <training_set>.tag.  
+		File should be in same directory as dataset file used
+		when learner was run.
+
+	Note3: If the motifs or dataset aren't found, looks for them
+	       in directory datasets/.
+
+USAGE
+  exit 1
+endif
+
+onintr cleanup
+
+# get input arguments 
+set exp = $1; shift
+set threshold = "0"; set c_sw = ""; set opt = ""; 
+set T = "";
+
+
+while ("$1" != "")
+  switch ($1)
+  case -d:
+    shift; set test_set = $1; breaksw
+  case -seq:
+    set seq_level = 1; breaksw
+  case -s:
+    set s = "-s"; set ps = ""; breaksw
+  case -ps:
+    set ps = "-ps $pgm.$exp"; breaksw
+  case -t:
+    shift; set threshold = $1; breaksw
+  case -T:
+    shift; set T = "-T $1"; breaksw
+  case -m:
+    shift; set motif_file = $1; breaksw
+  case -c:
+    shift; set c_sw = "-c $1"; breaksw
+  case -opt:
+    set opt = "-opt"; breaksw
+  case -debug:
+    set debug = 1; breaksw
+  default:
+    goto usage
+  endsw
+  shift
+end
+
+# check that the meme output file exists
+set memefile = $exp
+if (!(-e $memefile)) then
+  set memefile = RESULTS/$memefile
+  if (!(-e $memefile)) then
+    echo Meme output file \"$memefile\" not found!
+    exit 1
+  endif
+endif
+
+# create the log_odds matrix file 
+set logodds = $pgm.logodds.$$.tmp
+set tmp = `$bin/make_logodds $memefile $logodds $c_sw $T`
+if ($status || $#tmp < 1) then
+  # print the error message from make_logodds
+  echo $tmp | awk '{ \
+    for (i=1; i<=NF; i++) { \
+      last = substr($i,length($i),1);\
+      if (last == ".") printf "%s\n", $i; else printf "%s ", $i; \
+    } \
+  }'
+  exit 1
+endif
+set alpha = $tmp[1]
+if ($#tmp == 2) then
+  set dataset = $tmp[2]
+endif
+
+# set up dataset to search; default is same one as meme was
+# run on.
+if (!($?test_set)) set test_set = $dataset
+if (!(-e $test_set)) set test_set = datasets/$test_set
+
+# determine prefix of <motif_file>
+if (!($?motif_file)) set motif_file = $dataset:r
+
+# determine type of performance, sequence- or site-level and
+# type of known sequence/site file
+if ($?seq_level || "$opt" != "") then
+  set roc = "$bin/seqroc"
+  set motif_file = $motif_file".tag"
+else
+  set roc = "$bin/siteroc"
+  set motif_file = $motif_file".motifs"
+endif
+if (!(-e $motif_file)) set motif_file = datasets/$motif_file
+
+# check that motif/tag file exists
+if (!(-e $motif_file)) then
+  echo File containing motifs \"$motif_file\" not found!
+  /bin/rm $pgm.*.$$.tmp
+  exit 1
+endif
+
+# print a header line
+set t = $test_set:t
+echo -n "memefile $memefile dataset $t:r motif_file $motif_file"
+echo ""
+
+# file to hold data to plot
+set plotfile = $pgm.plotfile.$$.tmp
+
+# get the ROC statistics
+if ($?debug) then
+  echo $roc $logodds $test_set $motif_file $alpha $threshold $plotfile $opt
+  gdb $roc
+else
+  $roc $logodds $test_set $motif_file $alpha $threshold $plotfile $opt
+endif 
+
+# quit if not plotting
+if (!($?ps) && !($?s)) goto cleanup
+
+# name for files to hold individual plot data
+set plotdata = $pgm.plotdata.$$.tmp
+
+# create a gawk script to create separate plot data files and
+# write the plotting commands
+set gawk = $pgm.gawk.$$.tmp
+cat << "END" > $gawk
+  {if ($1 == "pass") {
+    pass = $2; motif = $4; roc = $6; file = plotdata "." pass;
+    printf(" %d_%s_%f %s", pass, motif, roc, file);
+  } else { print >> file} }
+"END"
+
+# get the files to plot and their labels
+set labels = `gawk -v plotdata=$plotdata -f $gawk $plotfile`
+
+# create the separate plotdata files using the gawk script above
+plotgen $labels $ps -point 20\
+ -title "ROC curves" \
+ -xrange -.1 : 1.1 \
+ -yrange -.1 : 1.1 \
+ -misc "set xtics 0, .1, 1.0" \
+ -misc "set ytics 0, .1, 1.0" \
+ -xlabel "false positive proportion (fp/(tn + fp))" \
+ -ylabel "true positive proportion (tp/(tp + fn)" \
+ -key .86 .4 \
+ -misc "set noyzeroaxis" \
+ -misc "set data style linespoints" \
+# -misc "set grid" 
+
+cleanup:
+/bin/rm $pgm.*.$$.tmp
+

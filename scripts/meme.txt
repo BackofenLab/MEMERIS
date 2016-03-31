@@ -1,0 +1,142 @@
+#!/bin/csh
+#
+# $Id: meme.txt,v 1.8 2005/10/07 05:33:55 nadya Exp $
+# $Log: meme.txt,v $
+# Revision 1.8  2005/10/07 05:33:55  nadya
+# keep uniform name MEME_LOGS throughout scripts.
+#
+# Revision 1.7  2005/10/05 06:18:35  nadya
+# use full path for "rm". Asssume everybody has /bin/rm.
+#
+# Revision 1.6  2005/10/02 05:54:33  nadya
+# add sourcing meme_config.csh to set all the environment.
+# use variables when calling real binaries
+#
+# Revision 1.5  2005/09/16 22:24:10  nadya
+# put temp files in LOGS
+#
+# Revision 1.4  2005/08/31 04:17:13  nadya
+# move usage part to etc/*.doc file
+#
+# Revision 1.3  2005/08/24 04:16:37  nadya
+# add machid
+#
+# Revision 1.2  2005/08/24 00:31:04  nadya
+# set machid during configure step, and user variable for it
+#
+# Revision 1.1.1.1  2005/07/30 01:19:40  nadya
+# Importing from meme-3.0.14, and adding configure/make
+#
+#
+
+# set the environment 
+setenv CONF @MEMEDIR@/etc/meme_config.csh
+if ( -f $CONF) then
+    source $CONF
+else
+    echo "$CONF does not exist. Meme installation is incomplete"
+    exit 1
+endif
+
+# set the mpi command
+set mpicmd = '@MPICMD@'
+
+# set the machine/OS type
+set machid = @MACH_ID@
+
+# handle interrupts
+set exe_status = 0
+set usage = $MEME_LOGS/meme.usage.$$.tmp
+onintr cleanup
+
+# get input arguments
+set memeargs = ""
+set exe = "$MEME_BIN/$MEME_EXEC"
+set exe_check = $exe
+set exe_args = ""
+set text = 0
+while ("$1" != "")
+  switch ($1)
+    case -p:
+      shift
+      if ($machid == rs6000) then
+	set exe = "poe $MEME_BIN/meme_p"
+	set exe_check = "poe $MEME_BIN/$MEME_EXEC"
+        set exe_args = "-nodes $1 -tasks_per_node 8"
+      else 
+        set exe = "$mpicmd $1 $MEME_BIN/meme_p"
+        set exe_check = "$mpicmd 1 $MEME_BIN/meme_p"
+      endif
+      set parallel = 1
+      breaksw
+    case -text:
+      set text = 1
+      breaksw
+    case -sf:
+      shift
+      setenv MEME_SEQUENCE_FILE "$1"
+      breaksw
+    case -V:
+    case -trace:
+    case -print_all:
+    case -print_w:
+    case -print_z:
+    case -print_ll:
+    case -print_starts:
+      set text = 1
+    default:
+      if ($?parallel) then		# protect arguments from mpirun
+        set memeargs = "$memeargs $1"
+      else
+        set memeargs = "$memeargs $1"
+      endif
+  endsw
+  shift
+end
+
+# print usage message if no arguments left
+if ("$memeargs" == "") then
+  set memeargs = "$memeargs -h"
+  set text = 1
+endif
+
+# add meme source directory to arguments
+set memeargs = "$memeargs -dir $MEME_DIRECTORY"
+
+# check the syntax
+$exe_check $memeargs -check_syntax >& $usage
+set exe_status = $status
+if ($exe_status) then
+  goto usage
+endif
+
+# cat to meme2html unless -text
+if ($text) then
+  $exe $memeargs $exe_args
+  set exe_status = $status
+else
+  set text = $MEME_LOGS/meme.text.$$.tmp
+  $exe $memeargs $exe_args > $text
+  set exe_status = $status
+  if ($exe_status == 0) then
+    $MEME_BIN/meme2html < $text
+    set exe_status = $status
+  else
+    echo "<HTML><BODY><PRE>"
+    echo "<H1>Errors occurred:</H1>"
+    cat $text
+    echo "</PRE></BODY></HTML>"
+  endif
+endif
+
+cleanup:
+if (-e $usage) /bin/rm -f $usage
+if (-e $text) /bin/rm -f $text
+exit $exe_status
+
+# Describe MEME and its output format:
+usage:
+cat $MEME_DIRECTORY/etc/meme.doc >> $usage
+more $usage
+goto cleanup
+

@@ -1,0 +1,155 @@
+#!/bin/sh
+#
+# chkconfig: 345 90 90
+# description: Starts and stops meme and mast server
+#
+# $Id: memed.txt,v 1.5 2005/10/07 05:43:43 nadya Exp $
+#
+# $Log: memed.txt,v $
+# Revision 1.5  2005/10/07 05:43:43  nadya
+# add check for existance of LOGS/ for writing tmp files
+# add output when no running servers found
+#
+# Revision 1.4  2005/10/07 05:33:14  nadya
+# move user and servers variables to meme_config
+# source meme-config instead of meme.sh
+#
+# Revision 1.3  2005/09/21 23:00:02  nadya
+# add check for uid on start/stop. Allow only meme user to start
+# and meme/root to stop.
+#
+# Revision 1.2  2005/09/21 20:12:57  nadya
+# Don't start servers unless executed by the meme user.
+#
+# Revision 1.1  2005/08/12 20:48:29  nadya
+# initial revision
+#
+#
+
+CONF=@MEMEDIR@/etc/meme_config
+
+if [ -f $CONF ] ; then
+    . $CONF
+else
+    echo "$CONF does not exist. Meme installation is incomplete"
+    exit 1
+fi
+
+if [ ! -x $MEME_SERVER ]; then
+    echo  "$MEME_SERVER is not an executable. Skipping startup"
+    exit 1
+fi
+
+if [ ! -x $MAST_SERVER ]; then
+    echo  "$MAST_SERVER is not an executable. Skipping startup"
+    exit 1
+fi
+
+if [ ! -d $MEME_LOGS ]; then
+    echo  "$MEME_LOGS does not exist. Meme installation is incomplete"
+    exit 1
+fi
+
+
+pids () {
+    meme_pid=`/bin/ps auwx | grep meme-server | grep -v grep | awk '{print $2}'`
+    mast_pid=`/bin/ps auwx | grep mast-server | grep -v grep | awk '{print $2}'`
+}
+
+checkUserStart () {
+    USER=`id -un`
+    if [ $USER != $MEME_USER ] ; then
+        echo "Mast and meme servers need to be started by user $MEME_USER."
+        exit 1
+    fi
+}
+
+checkUserStop () {
+    USER=`id -un`
+    if [ $USER != $MEME_USER -a $USER != root ] ; then
+        echo "Mast and meme servers need to be stopped by users $MEME_USER or root."
+        exit 1
+    fi
+}
+
+status () {
+    pids
+    if [ -n "$meme_pid" ]; then
+        echo "Meme (pid $meme_pid) is running ..."
+        MEME_RETVAL=0
+    else
+        MEME_RETVAL=1
+    fi
+    if [ -n "$mast_pid" ]; then
+        echo "Mast (pid $mast_pid) is running ..."
+        MAST_RETVAL=0
+    else
+        MAST_RETVAL=1
+    fi
+    RETVAL=$[$MEME_RETVAL + $MAST_RETVAL]
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        status
+        checkUserStart
+        if [ $MEME_RETVAL -eq "1" ] ; then
+            echo "Starting meme server" 
+            $MEME_SERVER > /dev/null 2>&1
+            MEME_RETVAL=$?
+        fi
+        if [ $MAST_RETVAL -eq "1" ] ; then
+            echo "Starting mast server" 
+            $MAST_SERVER > /dev/null 2>&1
+            MAST_RETVAL=$?
+        fi
+        RETVAL=$[$MEME_RETVAL + $MAST_RETVAL]
+        ;;
+
+    stop)
+        status
+        checkUserStop
+        if [ $MEME_RETVAL -eq "0" ] ; then
+            echo "Shutting down meme server" 
+            kill -TERM $meme_pid
+            MEME_RETVAL=$?
+        else
+            echo "Meme is not running"
+            MEME_RETVAL=0
+        fi
+
+        if [ $MAST_RETVAL -eq "0" ] ; then
+            echo "Shutting down mast server" 
+            kill -TERM $mast_pid
+            MAST_RETVAL=$?
+        else
+            echo "Mast is not running"
+            MAST_RETVAL=0
+        fi
+        RETVAL=$[$MEME_RETVAL + $MAST_RETVAL]
+        ;;
+
+    status)
+        status
+        RETVAL=$?
+        if [ $MEME_RETVAL -eq "1" ] ; then
+            echo "No running meme server found" 
+        fi
+        if [ $MAST_RETVAL -eq "1" ] ; then
+            echo "No running mast server found" 
+        fi
+        ;;
+
+    restart)
+        $0 stop
+        $0 start
+        RETVAL=$?
+        ;;
+    *)
+        echo "Usage: $0 {start | stop | restart | status}"
+        exit 1
+esac
+       
+exit $RETVAL
+

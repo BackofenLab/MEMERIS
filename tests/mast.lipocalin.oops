@@ -1,0 +1,239 @@
+********************************************************************************
+MAST - Motif Alignment and Search Tool
+********************************************************************************
+	MAST version 3.5.1 (Release date: 2006/02/01 02:08:55)
+
+	For further information on how to interpret these results or to get
+	a copy of the MAST software please access http://meme.nbcr.net.
+********************************************************************************
+
+
+********************************************************************************
+REFERENCE
+********************************************************************************
+	If you use this program in your research, please cite:
+
+	Timothy L. Bailey and Michael Gribskov,
+	"Combining evidence using p-values: application to sequence homology
+	searches", Bioinformatics, 14(48-54), 1998.
+********************************************************************************
+
+
+********************************************************************************
+DATABASE AND MOTIFS
+********************************************************************************
+	DATABASE /home/meme/TEST/tests/lipocalin.s (peptide)
+	Last updated on Tue Jan 31 18:16:52 2006
+	Database contains 5 sequences, 903 residues
+
+	MOTIFS /home/meme/TEST/tests/meme.lipocalin.oops (peptide)
+	MOTIF WIDTH BEST POSSIBLE MATCH
+	----- ----- -------------------
+	  1    19   PMRNFDIQKFAGTWHEIAK
+	  2    20   NNVFWILDTDYKNYLIQYMC
+
+	PAIRWISE MOTIF CORRELATIONS:
+	MOTIF     1
+	----- -----
+	   2   0.24
+	No overly similar pairs (correlation > 0.60) found.
+
+	Random model letter frequencies (from non-redundant database):
+	A 0.073 C 0.018 D 0.052 E 0.062 F 0.040 G 0.069 H 0.022 I 0.056 K 0.058 
+	L 0.092 M 0.023 N 0.046 P 0.051 Q 0.041 R 0.052 S 0.074 T 0.059 V 0.064 
+	W 0.013 Y 0.033 
+********************************************************************************
+
+
+********************************************************************************
+SECTION I: HIGH-SCORING SEQUENCES
+********************************************************************************
+	- Each of the following 5 sequences has E-value less than 10.
+	- The E-value of a sequence is the expected number of sequences
+	  in a random database of the same size that would match the motifs as
+	  well as the sequence does and is equal to the combined p-value of the
+	  sequence times the number of sequences in the database.
+	- The combined p-value of a sequence measures the strength of the
+	  match of the sequence to all the motifs and is calculated by
+	    o finding the score of the single best match of each motif
+	      to the sequence (best matches may overlap),
+	    o calculating the sequence p-value of each score,
+	    o forming the product of the p-values,
+	    o taking the p-value of the product.
+	- The sequence p-value of a score is defined as the
+	  probability of a random sequence of the same length containing
+	  some match with as good or better a score.
+	- The score for the match of a position in a sequence to a motif
+	  is computed by by summing the appropriate entry from each column of
+	  the position-dependent scoring matrix that represents the motif.
+	- Sequences shorter than one or more of the motifs are skipped.
+	- The table is sorted by increasing E-value.
+********************************************************************************
+
+SEQUENCE NAME                      DESCRIPTION                   E-VALUE  LENGTH
+-------------                      -----------                   -------- ------
+ICYA_MANSE                                                        5.3e-31    189
+BBP_PIEBR                                                         7.5e-30    173
+RETB_BOVIN                                                          5e-26    183
+MUP2_MOUSE                                                        2.5e-21    180
+LACB_BOVIN                                                        6.5e-21    178
+
+********************************************************************************
+
+
+
+********************************************************************************
+SECTION II: MOTIF DIAGRAMS
+********************************************************************************
+	- The ordering and spacing of all non-overlapping motif occurrences
+	  are shown for each high-scoring sequence listed in Section I.
+	- A motif occurrence is defined as a position in the sequence whose
+	  match to the motif has POSITION p-value less than 0.0001.
+	- The POSITION p-value of a match is the probability of
+	  a single random subsequence of the length of the motif
+	  scoring at least as well as the observed match.
+	- For each sequence, all motif occurrences are shown unless there
+	  are overlaps.  In that case, a motif occurrence is shown only if its
+	  p-value is less than the product of the p-values of the other
+	  (lower-numbered) motif occurrences that it overlaps.
+	- The table also shows the E-value of each sequence.
+	- Spacers and motif occurences are indicated by
+	   o -d-    `d' residues separate the end of the preceding motif 
+		    occurrence and the start of the following motif occurrence
+	   o [n]  occurrence of motif `n' with p-value less than 0.0001.
+********************************************************************************
+
+SEQUENCE NAME                      E-VALUE   MOTIF DIAGRAM
+-------------                      --------  -------------
+ICYA_MANSE                          5.3e-31  13_[1]_67_[2]_70
+BBP_PIEBR                           7.5e-30  12_[1]_64_[2]_58
+RETB_BOVIN                            5e-26  10_[1]_71_[2]_63
+MUP2_MOUSE                          2.5e-21  23_[1]_62_[2]_56
+LACB_BOVIN                          6.5e-21  21_[1]_64_[2]_54
+
+********************************************************************************
+
+
+
+********************************************************************************
+SECTION III: ANNOTATED SEQUENCES
+********************************************************************************
+	- The positions and p-values of the non-overlapping motif occurrences
+	  are shown above the actual sequence for each of the high-scoring
+	  sequences from Section I.
+	- A motif occurrence is defined as a position in the sequence whose
+	  match to the motif has POSITION p-value less than 0.0001 as 
+	  defined in Section II.
+	- For each sequence, the first line specifies the name of the sequence.
+	- The second (and possibly more) lines give a description of the 
+	  sequence.
+	- Following the description line(s) is a line giving the length, 
+	  combined p-value, and E-value of the sequence as defined in Section I.
+	- The next line reproduces the motif diagram from Section II.
+	- The entire sequence is printed on the following lines.
+	- Motif occurrences are indicated directly above their positions in the
+	  sequence on lines showing
+	   o the motif number of the occurrence,
+	   o the position p-value of the occurrence,
+	   o the best possible match to the motif, and
+	   o columns whose match to the motif has a positive score (indicated 
+	     by a plus sign).
+********************************************************************************
+
+
+ICYA_MANSE
+  
+  LENGTH = 189  COMBINED P-VALUE = 1.05e-31  E-VALUE =  5.3e-31
+  DIAGRAM: 13_[1]_67_[2]_70
+
+                  [1]
+                  1.0e-18
+                  PMRNFDIQKFAGTWHEIAK
+                  +++++++++++++++++++
+1    GDIFYPGYCPDVKPVNDFDLSAFAGAWHEIAKLPLENENQGKCTIAEYKYDGKKASVYNSFVSNGVKEYMEGDLE
+
+                             [2]
+                             4.6e-20
+                             NNVFWILDTDYKNYLIQYMC
+                             + ++++++++++++++++++
+76   IAPDAKYTKQGKYVMTFKFGQRVVNLVPWVLATDYKNYAINYNCDYHPDKKAHSIHAWILSKSKVLEGNTKEVVD
+
+
+BBP_PIEBR
+  
+  LENGTH = 173  COMBINED P-VALUE = 1.50e-30  E-VALUE =  7.5e-30
+  DIAGRAM: 12_[1]_64_[2]_58
+
+                 [1]
+                 6.8e-18
+                 PMRNFDIQKFAGTWHEIAK
+                 +++++++++++++++++++
+1    NVYHDGACPEVKPVDNFDWSNYHGKWWEVAKYPNSVEKYGKCGWAEYTPEGKSVKVSNYHVIHGKEYFIEGTAYP
+
+                         [2]
+                         1.2e-19
+                         NNVFWILDTDYKNYLIQYMC
+                         ++++++++++++++++++++
+76   VGDSKIGKIYHKLTYGGVTKENVFNVLSTDNKNYIIGYYCKYDEDKKGHQDFVWVLSRSKVLTGEAKTAVENYLI
+
+
+RETB_BOVIN
+  
+  LENGTH = 183  COMBINED P-VALUE = 9.99e-27  E-VALUE =    5e-26
+  DIAGRAM: 10_[1]_71_[2]_63
+
+               [1]
+               1.5e-16
+               PMRNFDIQKFAGTWHEIAK
+               ++++++ ++++++++++++
+1    ERDCRVSSFRVKENFDKARFAGTWYAMAKKDPEGLFLQDNIVAEFSVDENGHMSATAKGRVRLLNNWDVCADMVG
+
+                              [2]
+                              3.7e-17
+                              NNVFWILDTDYKNYLIQYMC
+                              + ++++++++++++++++++
+76   TFTDTEDPAKFKMKYWGVASFLQKGNDDHWIIDTDYETFAVQYSCRLLNLDGTCADSYSFVFARDPSGFSPEVQK
+
+
+MUP2_MOUSE
+  
+  LENGTH = 180  COMBINED P-VALUE = 5.04e-22  E-VALUE =  2.5e-21
+  DIAGRAM: 23_[1]_62_[2]_56
+
+                            [1]
+                            3.2e-14
+                            PMRNFDIQKFAGTWHEIAK
+                            +++++ +++++++++++++
+1    MKMLLLLCLGLTLVCVHAEEASSTGRNFNVEKINGEWHTIILASDKREKIEDNGNFRLFLEQIHVLEKSLVLKFH
+
+                                  [2]
+                                  1.1e-14
+                                  NNVFWILDTDYKNYLIQYMC
+                                  +++++++++++++++++++
+76   TVRDEECSELSMVADKTEKAGEYSVTYDGFNTFTIPKTDYDNFLMAHLINEKDGETFQLMGLYGREPDLSSDIKE
+
+
+LACB_BOVIN
+  
+  LENGTH = 178  COMBINED P-VALUE = 1.29e-21  E-VALUE =  6.5e-21
+  DIAGRAM: 21_[1]_64_[2]_54
+
+                          [1]
+                          6.2e-15
+                          PMRNFDIQKFAGTWHEIAK
+                          ++++ ++++++++++++++
+1    MKCLLLALALTCGAQALIVTQTMKGLDIQKVAGTWYSLAMAASDISLLDAQSAPLRVYVEELKPTPEGDLEILLQ
+
+                                  [2]
+                                  1.5e-13
+                                  NNVFWILDTDYKNYLIQYMC
+                                  ++++ +++++++ ++++++
+76   KWENGECAQKKIIAEKTKIPAVFKIDALNENKVLVLDTDYKKYLLFCMENSAEPEQSLACQCLVRTPEVDDEALE
+
+********************************************************************************
+
+
+CPU: rocks-155.sdsc.edu
+Time 0.006998 secs.
+
+mast meme.lipocalin.oops

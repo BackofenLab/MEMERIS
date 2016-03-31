@@ -1,0 +1,125 @@
+<!---
+##
+## $Id: general-faq.html,v 1.3 2005/09/16 01:17:13 nadya Exp $
+##
+## $Log: general-faq.html,v $
+## Revision 1.3  2005/09/16 01:17:13  nadya
+## update main link
+##
+## Revision 1.2  2005/08/24 05:28:16  nadya
+## update links
+##
+## Revision 1.1  2005/08/18 05:14:36  nadya
+## added email checking
+##
+##
+--->
+
+<HTML>
+
+<HEAD>
+<TITLE> MEME - FAQ</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="images/bkg.jpg">
+
+<HR>
+
+<H3>Frequently Asked Questions</H3>
+
+<!-- 
+Developers: When you add a new question, 
+1) Update next available tag section by adding 1.
+2) Add the question first to the table of contents. 
+3) Add the question and answer to the answers section.
+-->
+
+<!--
+Next available tag: Q002
+-->
+
+<HR>
+
+<!-- Table of Contents -->
+<UL>
+  <LI> <A HREF="#Q001"> 
+    <B>Q.</B>
+	I haven't received my MEME results by mail, and it's been more than a day. What happened to my results?
+  <LI> <A HREF="#Q002"> 
+    <B>Q.</B>
+	Is there a job queue that I can see how busy the cluster is?
+</UL>
+
+<HR>
+
+<!-- Answers -->
+
+<UL>
+
+<A NAME="#Q001"></A>
+  <LI> 
+    <B>Q.</B> I haven't received my MEME results by mail, and it's been more than a day. What happened to my results?
+    <P>
+    <B>A.</B> First of all, you should have received a confirmation email that your job is submitted. If you haven't received this email, then you might have typed in the wrong email address. Currently we are requiring users to confirm their email addresses by entering it a second time.<P>
+While MEME jobs finish typically within 2 hrs when there is no waiting in the queue. It may take up to 1 day if the server gets busy.
+<br><br>
+Alternatively, your mail program may be filtering the MEME results as spam, so check your folders designated as Junk E-mail or Spam. Try to configure your mail program not to filter out emails from <a href="mailto:meme@nbcr.net">meme@nbcr.net</a>.
+<br><br>
+Please also check with your mail server administrator and see whether your email has been filtered out by spam filters ran automatically on all incoming messages by your organization.
+<br><br>
+Finally, you can try using a different email address (hotmail or gmail, etc.). This
+often solves the problem where you only receive a confirmation message
+but not the search results.
+</UL>
+<HR>
+<UL>
+  <LI> <A NAME="#Q002"></A> 
+    <B>Q.</B>
+	Is there a job queue that I can see how busy the cluster is?
+	<P>
+    <B>A.</B>
+	Yes, we run all MEME jobs on a rocks cluster, and it comes with a built in web interface to the job queue. It can be <a href="http://meme.nbcr.net/ganglia/addons/rocks/queue.php?user=meme&sortby=id&sortorder=up&update=1">accessed here.</a> <P>
+In your confirmation email, you are given a MEME JOB ID, which is a randomly generated number for each job. 
+<P> You may check the status of your job with the MEME JOB ID by looking at the job info <a href="http://meme.nbcr.net/ganglia/addons/rocks/queue.php?user=meme&sortby=id&sortorder=up&update=1">given here.</a> <P>
+<P> Currently the MEME JOB ID is indicated only for active jobs running on the clusters, and appears in the job name column as "meme.(MEME_JOB_ID).script". The first column "Id" is the batch job ID for the Sun Grid Engine, a batch scheduler.
+</UL>
+
+</TABLE>
+
+<HR>
+
+<!--
+Click here for 
+<A HREF="mast-intro.html"><B>more information</B></A> 
+on <B>MAST</B>.
+-->
+
+<BR>
+Return to 
+<A HREF="intro.html"><B>MEME SYSTEM introduction</B></A>.
+
+<HR>
+<TABLE>
+<B>Developed and maintained by: </B>
+<TR>
+<TD><a href="http://infopath.ucsd.edu">
+
+<img src="images/ucsd_logo.png" border="0" alt="[UCSD logo]" hspace="10"></a>
+<TD><a href="http://www.sdsc.edu">
+<img src="images/sdsc_logo.png" border="0" alt="[SDSC logo]" hspace="10"></a>
+<TD><a href="http://www.uq.edu.au">
+<img src="images/uq_logo.png" border="0" alt="[UQ logo]" hspace="10"></a>
+<TD><a href="http://nbcr.net">
+<img src="images/host_logo.png" border="0" alt="[HOST logo]" hspace="10"></a>
+</TR>
+</TABLE>
+
+<P>
+<I>Please send comments and questions to:
+<A HREF="mailto:meme@nbcr.net">meme@nbcr.net</A>.</B>
+
+<HR>
+
+</FORM>
+</BODY>
+</HTML>

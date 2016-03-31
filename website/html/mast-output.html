@@ -1,0 +1,351 @@
+<!---
+##
+## $Id: mast-output.html,v 1.1.1.1 2005/07/31 20:16:17 nadya Exp $
+##
+## $Log: mast-output.html,v $
+## Revision 1.1.1.1  2005/07/31 20:16:17  nadya
+## Importing from meme-3.0.14, and adding configure/make
+##
+##
+--->
+
+<HTML>
+<HEAD>
+<BODY BACKGROUND="images/bkg.jpg">
+<TITLE> MAST - Output</TITLE>
+</HEAD>
+
+<H1>MAST -- Motif Alignment and Search Tool</H1>
+<H2><I>Motif search tool</I></H2>
+
+<HR>
+
+MAST sends you two e-mail messages:
+<MENU>
+<LI> <A HREF="#confirmation"><B>a confirmation message</B></A> and
+<LI> your <A HREF="#results"><B>search results</B></A>.
+</MENU>
+
+The e-mail messages and how MAST computes 
+<A HREF=#score><B>match scores</B></A> and their statistical significance
+<A HREF=#pvalues><B>(p-values)</B></A> are explained in the following sections.
+A <A HREF="#sample"><B>sample</B></A> search results file is also provided. 
+<P>
+Return to <A href="mast-intro.html"><B>MAST introduction</B></A>.
+
+<HR>
+
+<P>
+<A NAME="confirmation">
+<LI><H3> Confirmation message </H3>
+
+The first e-mail message you receive should be a confirmation message 
+to let you know that your search request has been received.  
+You should receive an e-mail message that looks something like this:
+
+<PRE>
+Subject: MAST confirmation: alcohol dehydrogenase motifs
+ 
+Your MAST search request 14019 is being processed:
+Motif file: adh
+Database to search: SwissProt
+</PRE>
+
+If you fail to receive the confirmation message, check your e-mail
+address and try resubmitting your MAST request.
+
+<P>
+<A NAME=results>
+<LI><H3> Search Results </H3>
+
+The second e-mail message you should receive contains the results of the MAST
+search.  It contains:
+
+<P>
+<UL>
+<LI>	the <B>version</B>
+	of MAST and the date it was built,
+<LI>	the <B>reference</B>
+	to cite if you use MAST in your research,
+<LI>	a description of the <A HREF=#db_motifs><B>database and motifs</B></A> 
+	used in the search,
+<LI>	an <B>explanation</B> of the results
+<LI>	<A HREF=#names><B>high-scoring sequences</B></A>--sequences matching the
+	group of motifs above a stated level of 
+	<A HREF=#pvalues><B>statistical significance</B></A>,
+<LI>	<A HREF=#diagrams><B>motif diagrams</B></A> 
+	showing the order and spacing of occurrences of the motifs in the 
+	high-scoring sequences and
+<LI>	<A HREF=#annotation><B>annotated sequences</B></A> 
+	showing the positions and p-values of
+	all motif occurrences in each of the high-scoring sequences.
+</UL>
+
+<P>
+Each section of the results file contains an explanation of how
+to interpret them.
+	
+
+<P> 
+<A NAME="score">
+<LI><H3> Match Scores</H3>
+
+The match score of a motif to a position in a sequence is the sum of the
+score from each row of the position-dependent scoring matrix corresponding
+to the letter at that position in the sequence.  For example, if the sequence
+is
+<PRE>
+TAATGTTGGTGCTGGTTTTTGTGGCATCGGGCGAGAATAGCGC
+   ========
+</PRE>
+and the motif is represented by the position-dependent scoring matrix (where
+each row of the matrix corresponds to a position in the motif)
+<PRE>
+=========|=================================
+POSITION |   A        C        G        T
+=========|=================================
+  1	 | 1.447    0.188   -4.025   -4.095 
+  2	 | 0.739    1.339   -3.945   -2.325 
+  3	 | 1.764   -3.562   -4.197   -3.895 
+  4	 | 1.574   -3.784   -1.594   -1.994 
+  5	 | 1.602   -3.935   -4.054   -1.370 
+  6	 | 0.797   -3.647   -0.814    0.215 
+  7	 |-1.280    1.873   -0.607   -1.933 
+  8	 |-3.076    1.035    1.414   -3.913 
+=========|=================================
+</PRE>
+then the match score of the fourth position in the sequence (underlined) 
+would be found by summing the score for <TT>T</TT> in position 1, <TT>G</TT> in
+position 2 and so on until <TT>G</TT> in position 8.  So
+the match score would be
+<PRE>
+  score = -4.095 + -3.945 + -3.895 + -1.994
+	  + -4.054 + -0.814 + -1.933 + 1.414 
+	= -19.316
+</PRE>
+
+The match scores for other positions in the sequence are calculated
+in the same way.  <I>Match scores are only calculated if the match completely
+fits within the sequence.</I>  Match scores are <I>not</I> calculated if the
+motif would overhang either end of the sequence.
+
+<P>
+<A NAME="pvalues">
+<LI><H3>P-values</H3>
+
+	MAST reports all matches of a sequence to a motif or group of
+	motifs in terms of the p-value of the match.  MAST considers the
+	p-values of four types of events:
+<UL>
+<LI>	<A HREF="#position"><B>position p-value:</B></A>
+	the match of a single position within a sequence to a given motif,
+<LI>	<A HREF="#sequence"><B>sequence p-value:</B></A>
+	the best match of any position within a sequence to a given motif,
+<LI>	<A HREF="#combined"><B>combined p-value:</B></A>
+	the combined best matches of a sequence to a group of motifs, and
+<LI>	<A HREF="#evalue"><B>e-value:</B></A>
+	observing a combined p-value at least as small in a random database 
+	of the same size.
+</UL>
+	All p-values are based on a random sequence model that assumes
+	each position in a random sequence is generated according to the
+	average letter frequencies of all sequences in the
+	the appropriate (peptide or nucleotide) 
+	non-redundant database 
+	<A HREF="ftp://ftp.ncbi.nih.gov/blast/db/">
+	(ftp://ftp.ncbi.nih.gov/blast/db/)</A>
+	on September 22, 1996.
+
+<UL>
+<A NAME="position">
+<H4>Position p-value</H4>
+	The p-value of a match of a <B>given position</B> 
+	within a sequence to a <B>motif</B> is defined as the probability 
+	of a randomly selected position in a randomly generated sequence
+	having a 
+	<A HREF="#score"><B>match score</B></A> at least as large as that of
+	the given position.  
+
+<A NAME="sequence">
+<H4>Sequence p-value</H4>
+	The p-value of a match of a <B>sequence</B>
+	to a <B>motif</B> is defined as the probability of a randomly generated
+	sequence of the same length having a match score at least as large
+	as the largest match score of any position in the sequence.
+
+<A NAME="combined">
+<H4>Combined p-value</H4>
+	The p-value of a match of a <B>sequence</B> to
+	a <B>group of motifs</B> is defined as the probability of 
+	a randomly generated sequence of the same length having
+	sequence p-values whose <B>product</B>
+	is at least as small as the product of the sequence p-values
+	of the matches of the motifs to the given sequence.
+
+<A NAME="evalue">
+<H4>E-value</H4>
+	The e-value of the match of a <B>sequence</B> in a <B>database</B> to a
+	a <B>group of motifs</B> is defined as the 
+	expected number of sequences in a random database of the same size
+	that would match the motifs as well as the sequence does and is equal
+        to the combined p-value of the sequence times the number of sequences 
+	in the database.
+</UL>
+
+<P>
+<A NAME="db_motifs">
+<LI><H3><A HREF="mast-output-example.html#motifs">Database and Motifs</A></H3>
+	This section shows information on the database that was searched
+	and the motifs in the search query.  The database section gives
+	the date the database was last updated as well as the number
+	of sequences and total sequence characters in it. 
+	The motifs are listed by motif number.  The width and
+	subsequence which would be given the best possible score
+	for each motif is shown.
+	If there is more than one motif in the query, all pairwise
+	correlations between the motifs are shown.  The correlations
+	can range from -1 to +1, with +1 meaning that the shorter motif
+	is exactly identical to part or all of the longer motif.  High
+	correlations can cause some combined p-values and e-values
+	to be inaccurate (too low).  It may be advisable to remove enough
+	motifs from the query to insure that no pairs of motifs have high
+	correlations.  Any high correlations are indicated along
+	with the suggestion that one of the motifs be removed from the query.
+	
+<P>
+<A NAME="names">
+<LI><H3><A HREF="mast-output-example.html#sec_i">High-scoring Sequences</A></H3>
+	MAST lists the names and part of the descriptive text
+	of all sequences whose 
+	<A HREF="#evalue">e-value</A> is less than <I>E</I>.  
+        Sequences shorter than one or more of the motifs are skipped.
+        The sequences are sorted by increasing e-value.
+	The value of <I>E</I> is set to 10 for the WEB server but is
+	user-selectable in the down-loadable version of MAST.
+<P>
+	When nucleotide sequences are searched, the strand (+ or -) is
+	indicated.  When nucleotide sequences are searched with peptide
+	motifs, the reading frame (a, b or c) of the best matches is 
+	is also indicated.  Matches are not all required to be in the 
+	same reading frame but must all be on the same strand.
+
+<P>
+<A NAME="diagrams">
+<LI><H3><A HREF="mast-output-example.html#sec_ii">Motif Diagrams</A></H3>
+	Motif diagrams show the order and spacing of non-overlapping
+	matches to the motifs in each high-scoring sequence.
+	Motif occurrences are determined based on 
+	the <A HREF="#position">position p-value</A> of matches to the motif.
+        In the <A HREF="mast-output-example.html#sec_ii">MOTIF DIAGRAMS</A>
+	section of the output, diagrams are shown like this:
+<CENTER>
+<BR>
+<TABLE BORDER=0 CELLPADDING=0><TR ALIGN=CENTER>
+  <TD WIDTH=65><HR SIZE=4 NOSHADE>
+  <TD BGCOLOR=lime WIDTH=46>6
+  <TD WIDTH=11><HR SIZE=4 NOSHADE>
+  <TD BGCOLOR=fuchsia WIDTH=16>4
+  <TD WIDTH=24><HR SIZE=4 NOSHADE>
+  <TD BGCOLOR=red WIDTH=14><FONT COLOR=white>3
+  <TD WIDTH=30><HR SIZE=4 NOSHADE>
+  <TD BGCOLOR=yellow WIDTH=32>5
+  <TD WIDTH=64><HR SIZE=4 NOSHADE>
+  <TD BGCOLOR=teal WIDTH=40><FONT COLOR=white>7
+  <TD WIDTH=39><HR SIZE=4 NOSHADE>
+</TABLE>
+</CENTER>
+<P>
+        In the 
+	<A HREF="mast-output-example.html#sec_iii">ANNOTATED SEQUENCES</A>
+	section of the output, diagrams are shown like this:
+<CENTER>
+<PRE>
+27-[3]-44-<4>-99-[1]-7
+</PRE>
+</CENTER>
+        In this notation, strong matches (p-value &lt <I>M</I>) 
+	are shown in square brackets <NOBR>(`[ ]')</NOBR>,
+        weak matches (<I>M</I> &lt p-value &lt <I>M</I> &times 10)
+        are shown in angle brackets <NOBR>(`< >')</NOBR>
+        and the length of non-motif
+        sequence ("spacer") is shown between dashes (`-').
+        The example above shows an initial spacer of length 27, followed 
+	by a strong match to motif 3, a spacer of length 44, a weak match
+        to motif 4, a spacer of length 99, a strong match to motif 1 and a 
+	final non-motif sequence of length 7.  
+	The value of <I>M</I> is 0.0001 for the WEB server but is 
+	user-selectable in the down-loadable version of MAST.
+<P>
+	When nucleotide databases are searched, all matches must be on
+	the same strand and the strand (+ or -) is indicated in the output.
+	When peptide motifs are used to search nucleotide sequences,
+	the reading frame (a, b or c) of each match is indicated next to the 
+	motif numbers in the motif diagrams found in the ANNOTATED SEQUENCES 
+	section of the output.
+	For example,
+<CENTER>
+<PRE>
+97-[6b]-17-[4a]-36-[3a]-45-[5a]-96-[7a]-59
+</PRE>
+</CENTER>
+	shows that motif 6 matched in reading frame b while the other motif 
+	matches occurred in reading frame a.
+<P>
+<B>Note:</B>
+  If you specify the -hit_list switch to MAST, the motif "diagram" takes the form
+of a comma separated list of motif occurrences ("hits").  Each "hit" has the format:
+<PRE>
+        &lt;strand&gt;&lt;motif&gt; &lt;start&gt; &lt;end&gt; &lt;p-value&gt;
+where
+        &lt;strand&gt;	is the strand (+ or - for DNA, blank for protein),
+        &lt;motif&gt;		is the motif number,
+        &lt;start&gt;		is the starting position of the hit,
+        &lt;end&gt;		is the ending position of the hit, and
+        &lt;p-value&gt;	is the position p-value of the hit.
+</PRE>
+
+
+<P>
+<A NAME="annotation">
+<LI><H3><A HREF="mast-output-example.html#sec_iii">Annotated Sequences</A></H3>
+	MAST annotates each high-scoring sequence by printing
+	the sequence along with the position and strength of all 
+	the non-overlapping motif occurrences.  
+	The four lines above each motif occurrence contain, 
+	respectively, 
+<UL>	
+	<LI> the motif number of the occurrence,
+	<LI> the <A HREF="#position">position p-value</A> of the occurrence,
+	<LI> the best possible match to the motif, and
+	<LI> a plus sign (`+') above each letter in the occurrence that has a 
+	     positive match score to the motif.
+</UL>
+	The <B>best possible match</B> to a motif is the sequence of letters
+	which would achieve the highest match score.
+
+<P>	
+	When peptide motifs are used to search nucleotide sequences,
+	the reading frame (a, b or c) of each match is indicated with the
+	motif number and the peptide translation of the matching sequence is
+	shown just above the motif occurrence.
+	
+
+<P>
+<A NAME="sample">
+<LI><H3> <A HREF="mast-output-example.html">Sample MAST Search Results</A></H4>
+
+	Here is an actual <A HREF="mast-output-example.html">
+	MAST search results file </A> of a search of a nucleotide database
+	with peptide motifs.  It has been edited
+	slightly to reduce its size by removing most of the 832 sequences
+	which matched the motifs.
+<P>
+
+<A HREF="mast.html"><B>Search using MAST</B></A>
+<BR>
+<A href="mast-intro.html"><B>MAST introduction</B></A>
+<BR>
+<A HREF="intro.html"><B>MEME SYSTEM introduction</B></A>
+
+</BODY>
+</HTML>

@@ -3,12 +3,10 @@ language: cpp
 
 os:
   - linux
-  #- osx
 
 compiler:
-  #- clang
   - gcc
   
 script:
   - ./configure --prefix=$HOME/MEMERIS && make && make install
- - $HOME/MEMERIS/bin/memeris -h
+  - $HOME/MEMERIS/bin/memeris -h

@@ -1,14 +1,12 @@
 sudo: false
-language: cpp
+language: c
 
 os:
   - linux
-  #- osx
 
 compiler:
-  #- clang
   - gcc
   
 script:
   - ./configure --prefix=$HOME/MEMERIS && make && make install
- - $HOME/MEMERIS/bin/memeris -h
+  - $HOME/MEMERIS/bin/memeris -h 2>&1 | grep 'print this message' 

@@ -1,0 +1,157 @@
+# ##########################################################
+#
+# $Id: mast_db.list,v 1.2 2005/09/15 20:44:58 nadya Exp $
+# $Log: mast_db.list,v $
+# Revision 1.2  2005/09/15 20:44:58  nadya
+# for now, bend around word count that happnes  when this file
+# is read, and put a space after #
+#
+# Revision 1.1.1.1  2005/07/29 00:14:07  nadya
+# Importing from meme-3.0.14, and adding configure/make
+#
+#
+# ##########################################################
+#
+ftp.ncbi.nih.gov/blast/db/FASTA/pdbaa.gz pdb.aa 
+ftp.ncbi.nih.gov/blast/db/FASTA/pdbnt.gz pdb.na 
+ftp.ncbi.nih.gov/blast/db/FASTA/nr.gz nr.aa 
+ftp.ncbi.nih.gov/blast/db/FASTA/nt.gz nr.na 
+ftp.ncbi.nih.gov/blast/db/FASTA/month.aa.gz month.aa 
+ftp.ncbi.nih.gov/blast/db/FASTA/month.nt.gz month.na 
+ftp.ncbi.nih.gov/blast/db/FASTA/swissprot.gz swissprot 
+# ftp.ncbi.nih.gov/blast/db/FASTA/est.Z est 
+ftp.ncbi.nih.gov/blast/db/FASTA/sts.gz sts 
+ftp.ncbi.nih.gov/blast/db/FASTA/vector.gz vector 
+ftp.ncbi.nih.gov/blast/db/FASTA/mito.aa.gz mito.aa 
+ftp.ncbi.nih.gov/blast/db/FASTA/mito.nt.gz mito.na 
+ftp.ncbi.nih.gov/blast/db/FASTA/htg.gz htg 
+ftp.ncbi.nih.gov/blast/db/FASTA/drosoph.aa.gz drosoph.aa 
+ftp.ncbi.nih.gov/blast/db/FASTA/drosoph.nt.gz drosoph.na 
+ftp.ncbi.nih.gov/blast/db/FASTA/est_human.gz est_human 
+ftp.ncbi.nih.gov/blast/db/FASTA/est_mouse.gz est_mouse 
+ftp.ncbi.nih.gov/blast/db/FASTA/est_others.gz est_others 
+ftp.ncbi.nih.gov/blast/db/FASTA/gss.gz gss 
+ftp.ncbi.nih.gov/blast/db/FASTA/ecoli.aa.gz ecoli.aa 
+ftp.ncbi.nih.gov/blast/db/FASTA/ecoli.nt.gz ecoli.na 
+ftp.ncbi.nih.gov/blast/db/FASTA/yeast.aa.gz yeast.aa 
+ftp.ncbi.nih.gov/blast/db/FASTA/yeast.nt.gz yeast.na 
+ftp.ncbi.nih.gov/blast/db/FASTA/alu.a.gz alu.aa 
+ftp.ncbi.nih.gov/blast/db/FASTA/alu.n.gz alu.na 
+#
+# ftp.ncbi.nih.gov/pub/jmc/alu/ALU.327.6trans.UNIQUE_ID alu.aa 
+# ftp.ncbi.nih.gov/pub/jmc/alu/ALU.327.dna.ref alu.na 
+#
+ftp.ncbi.nih.gov/genbank/genpept.fsa.gz genpept 
+#
+ftp.sanger.ac.uk/pub/databases/wormpep/wormpep c_elegans.aa 
+ftp.sanger.ac.uk/pub/databases/wormpep/wormpep.dna c_elegans.na 
+ftp.sanger.ac.uk/pub/wormbase/sequences/ALL_COSMIDS/allcmid.gz c_elegans_cosmids.na 
+#
+ftp.ncbi.nih.gov/repository/EPD/views/epd83.seq epd 
+ftp.ncbi.nih.gov/repository/kabat/fasta_format/KABAT_FASTA_AMINO.Z kabat.aa
+ftp.ncbi.nih.gov/repository/kabat/fasta_format/KABAT_FASTA_BASES.Z kabat.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Aeropyrum_pernix/BA000002.faa Aeropyrum_pernix_K1.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Aeropyrum_pernix/BA000002.fna Aeropyrum_pernix_K1.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Aquifex_aeolicus/AE000657.faa Aquifex_aeolicus.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Aquifex_aeolicus/AE000657.fna Aquifex_aeolicus.na
+#
+# ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Aquifex_aeolicus_ece1/aquae_p.faa Aquifex_aeolicus_ece1.aa
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Archaeoglobus_fulgidus/AE000782.faa Archaeoglobus_fulgidus.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Archaeoglobus_fulgidus/AE000782.fna Archaeoglobus_fulgidus.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Bacillus_subtilis/AL009126.faa Bacillus_subtilis.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Bacillus_subtilis/AL009126.fna Bacillus_subtilis.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Borrelia_burgdorferi/AE000783.faa Borrelia_burgdorferi.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Borrelia_burgdorferi/AE000783.fna Borrelia_burgdorferi.na
+#
+# ftp.ncbi.nih.gov/genomes/Bacteria/Borrelia_burgdorferi/plasmids.faa Borrelia_burgdorferi_11_plasmids.aa
+# ftp.ncbi.nih.gov/genomes/Bacteria/Borrelia_burgdorferi/plasmids.fna Borrelia_burgdorferi_11_plasmids.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Chlamydia_muridarum/AE002162.faa Chlamydia_muridarum.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Chlamydia_muridarum/AE002162.fna Chlamydia_muridarum.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Chlamydia_trachomatis/AE001273.faa Chlamydia_trachomatis.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Chlamydia_trachomatis/AE001273.fna Chlamydia_trachomatis.na
+#
+# ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Chlamydia_pneumoniae/cpneu.faa Chlamydia_pneumoniae.aa
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Chlamydophila_pneumoniae_AR39/AE002161.faa Chlamydophila_pneumoniae_AR39.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Chlamydophila_pneumoniae_AR39/AE002161.fna Chlamydophila_pneumoniae_AR39.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Chlamydophila_pneumoniae_J138/BA000008.faa Chlamydophila_pneumoniae_J138.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Chlamydophila_pneumoniae_J138/BA000008.fna Chlamydophila_pneumoniae_J138.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Deinococcus_radiodurans/AE000513.faa Deinococcus_radiodurans_R1_chromosome_1.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Deinococcus_radiodurans/AE000513.fna Deinococcus_radiodurans_R1_chromosome_1.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Escherichia_coli_K12/U00096.faa Escherichia_coli.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Escherichia_coli_K12/U00096.fna Escherichia_coli.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Haemophilus_influenzae/L42023.faa Haemophilus_influenzae.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Haemophilus_influenzae/L42023.fna Haemophilus_influenzae.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Helicobacter_pylori_26695/AE000511.faa Helicobacter_pylori_26695.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Helicobacter_pylori_26695/AE000511.fna Helicobacter_pylori_26695.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Helicobacter_pylori_J99/AE001439.faa Helicobacter_pylori_strain_J99.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Helicobacter_pylori_J99/AE001439.fna Helicobacter_pylori_strain_J99.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Methanobacterium_thermoautotrophicum/AE000666.faa Methanobacterium_thermoautotrophicum.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Methanobacterium_thermoautotrophicum/AE000666.fna Methanobacterium_thermoautotrophicum.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Methanococcus_jannaschii/L77117.faa Methanococcus_jannaschii.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Methanococcus_jannaschii/L77117.fna Methanococcus_jannaschii.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Methanococcus_jannaschii/L77118.faa Methanococcus_jannaschii_large_extrachromosomal_element.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Methanococcus_jannaschii/L77118.fna Methanococcus_jannaschii_large_extrachromosomal_element.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Methanococcus_jannaschii/L77119.faa Methanococcus_jannaschii_small_extrachromosomal_element.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Methanococcus_jannaschii/L77119.fna Methanococcus_jannaschii_small_extrachromosomal_element.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Mycobacterium_tuberculosis_H37Rv/AL123456.faa Mycobacterium_tuberculosis_H37Rv.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Mycobacterium_tuberculosis_H37Rv/AL123456.fna Mycobacterium_tuberculosis_H37Rv.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Mycoplasma_genitalium/L43967.faa Mycoplasma_genitalium.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Mycoplasma_genitalium/L43967.fna Mycoplasma_genitalium.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Mycoplasma_pneumoniae/U00089.faa Mycoplasma_pneumoniae.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Mycoplasma_pneumoniae/U00089.fna Mycoplasma_pneumoniae.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Neisseria_meningitidis_MC58/AE002098.faa Neisseria_meningitidis_serogroup_B_strain_MC58.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Neisseria_meningitidis_MC58/AE002098.fna Neisseria_meningitidis_serogroup_B_strain_MC58.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Neisseria_meningitidis_Z2491/AL157959.faa Neisseria_meningitidis_serogroup_A_strain_Z2491.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Neisseria_meningitidis_Z2491/AL157959.fna Neisseria_meningitidis_serogroup_A_strain_Z2491.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Pyrococcus_abyssi/AL096836.faa Pyrococcus_abyssi.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Pyrococcus_abyssi/AL096836.fna Pyrococcus_abyssi.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Pyrococcus_horikoshii/BA000001.faa Pyrococcus_horikoshii.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Pyrococcus_horikoshii/BA000001.fna Pyrococcus_horikoshii.na
+#
+# ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Rhizobium_sp._NGR234_complete_plasmid_sequence/pNGR234.faa Rhizobium_sp._NGR234_complete_plasmid_sequence.aa
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Rickettsia_prowazekii/AJ235269.faa Rickettsia_prowazekii_strain_Madrid_E.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Rickettsia_prowazekii/AJ235269.fna Rickettsia_prowazekii_strain_Madrid_E.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Synechocystis_PCC6803/AB001339.faa Synechocystis_PCC6803.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Synechocystis_PCC6803/AB001339.fna Synechocystis_PCC6803.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Thermotoga_maritima/AE000512.faa Thermotoga_maritima.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Thermotoga_maritima/AE000512.fna Thermotoga_maritima.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Treponema_pallidum/AE000520.faa Treponema_pallidum.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Treponema_pallidum/AE000520.fna Treponema_pallidum.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Ureaplasma_urealyticum/AF222894.faa  Ureaplasma_urealyticum.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Ureaplasma_urealyticum/AF222894.fna  Ureaplasma_urealyticum.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Xylella_fastidiosa/AE003849.faa Xylella_fastidiosa.aa
+ftp.ncbi.nih.gov/genbank/genomes/Bacteria/Xylella_fastidiosa/AE003849.fna Xylella_fastidiosa.na
+#
+ftp.ncbi.nih.gov/genbank/genomes/A_thaliana/OLD/faa.Z A_thaliana.aa
+ftp.ncbi.nih.gov/genbank/genomes/A_thaliana/OLD/fna.Z A_thaliana.na

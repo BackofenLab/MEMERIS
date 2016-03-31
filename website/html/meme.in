@@ -1,0 +1,272 @@
+<!---
+##
+## meme.html created from meme.in by make
+##
+## $Id: meme.in,v 1.1 2005/09/01 22:14:34 nadya Exp $
+##
+## $Log: meme.in,v $
+## Revision 1.1  2005/09/01 22:14:34  nadya
+## create template files to use version automatically
+##
+##
+## Revision 1.4  2005/08/24 05:31:24  nadya
+## update references to other thml files. use local urls.
+##
+## Revision 1.3  2005/08/20 04:29:22  nadya
+## rm commented line
+##
+## Revision 1.2  2005/08/18 05:14:36  nadya
+## added email checking
+##
+## Revision 1.1.1.1  2005/07/31 20:17:33  nadya
+## Importing from meme-3.0.14, and adding configure/make
+--->
+
+<HTML>
+
+<HEAD>
+<TITLE>	MEME - Submission form</TITLE>
+
+<script language="javascript" type="text/javascript">
+<!--
+
+function check(form) {
+        var email = form.address.value;
+        var email_verify = form.address_verify.value;
+        if(!email_verify) {
+                alert("Please fill in the \"Re-enter email address\" field.");
+                return false;
+        }
+        if(!email.match(email_verify)) {
+                alert("Email addresses do not match.");
+                return false;
+        }
+        if(!email_verify.match(email)) {
+                alert("Email addresses do not match.");
+                return false;
+        }
+}
+
+
+-->
+</script>
+
+</HEAD>
+
+<BODY BACKGROUND="images/bkg.jpg">
+
+<FORM ENCTYPE = "multipart/form-data" METHOD = "POST" 
+  ACTION ="cgi-bin/meme.cgi"> 
+
+
+
+<INPUT TYPE=HIDDEN NAME = "evt" VALUE=1e100>
+
+<TABLE>
+  <COL WIDTH="20%">
+  <THEAD VALIGN="CENTER">
+  <TR>
+    <TD><img src="images/meme.png" alt="MEME logo">
+    <TD><H3>Version @version@</H3>
+    <TD>
+    <TABLE>
+      <TR>
+      <TD> <H3>Hosted by </H3>
+      </TR>
+      <TR>
+      <TD><a href="http://www.nbcr.net">
+	<IMG src="images/host_logo.png" border="0" alt="[host logo]"><a>
+      </TR>
+    </TABLE>
+  </TR>
+</TABLE>
+
+<HR>
+
+
+<!-- 
+<H1>
+Notice: MEME is currently not running on this server do to maintenance of 
+the supercomputer on which it runs.  If you have already submitted a job, do
+NOT resubmit it--your original job WILL run as soon as maintenance is finished.
+If you would like to submit a new job now, please try the mirror site
+at the <A HREF=" http://bioweb.pasteur.fr/seqanal/motif/meme">Pasteur Institute</A>.
+</H1>
+
+-->
+
+<H3>Data Submission Form</H3>
+
+Use this form to submit DNA or protein sequences to <B>MEME.</B>
+<B>MEME</B> will analyze your sequences for similarities among them and 
+produce a description 
+(<A HREF="meme-intro.html"><B>motif</B></A>)
+for each pattern it discovers.
+Your results will be sent to you by e-mail.
+
+<P>
+
+<HR>
+
+<TABLE CELLSPACING=0>
+  <TR>
+    <TD>
+      Your <A HREF=meme-input.html#email><B>e-mail address:</B></A>
+      <br><INPUT TYPE = "TEXT" SIZE = 30 NAME = "address">
+      <br>Re-enter <b>e-mail address:</b>
+      <br><INPUT TYPE = "TEXT" SIZE = 30 NAME = "address_verify" >	
+    <TD COLSPAN=2>
+      <B>[Optional]</B>
+      <A HREF=meme-input.html#description><B>Description</B></A>
+      of your sequences:
+      <INPUT TYPE = "TEXT" SIZE = 40 NAME = "subject">
+
+  <TR>
+    <TD VALIGN=TOP>
+      Please enter the 
+      <A HREF="meme-input.html#sequences"><B>sequences</B></A> which you believe
+      share one or more motifs. 
+      The sequences may contain no more than <B>60,000</B> 
+      <A HREF="help_alphabet.html"><B>characters</B></A> total in any of a 
+      large number of <A HREF="help_format.html"><B>formats</B></A>.
+
+    <TD COLSPAN=2>
+      <UL>
+        <LI>
+	  Enter the <A HREF=meme-input.html#filename><B>name of a file</B></A>
+	  containing the sequences here:
+          <BR>
+	  <INPUT NAME="datafile" TYPE="file"></B>
+        <LI>
+	  <B>or</B> the 
+	  <A HREF=meme-input.html#actual-sequences><B>actual sequences</B></A>
+	  here (<A HREF=examples/At.fa target="_meme">Sample Input Sequences</A>): 
+          <BR>
+	  <TEXTAREA NAME = "data" ROWS = 5 COLS = 50></TEXTAREA>
+      </UL>
+
+  <TR>
+    <TD>
+      How do you think the occurrences of a single motif are
+      <A HREF ="meme-input.html#distribution">
+      <B>distributed</B></A> among the sequences?<BR>
+      <INPUT TYPE = "RADIO" NAME = "dist" VALUE = "oops">
+	<B>One</B> per sequence<BR>
+      <INPUT TYPE = "RADIO" NAME = "dist" VALUE = "zoops" CHECKED>
+	<B>Zero or one</B> per sequence<BR>
+      <INPUT TYPE = "RADIO" NAME = "dist" VALUE = "tcm">
+	<B>Any number</B> of repetitions<BR>
+
+    <TD>
+      <B>[Optional]</B> MEME will find the optimum 
+      <A HREF=meme-input.html#nsites><B>number of sites</B></A> for each
+      motif within the limits you specify here: 
+      <BR>
+      <NOBR>
+	<INPUT TYPE="TEXT" SIZE=3 NAME = "minsites" VALUE="">
+	<B>Minimum</B> sites(>= 2)
+      </NOBR>
+      <BR>
+      <NOBR>
+	<INPUT TYPE="TEXT" SIZE=3 NAME = "maxsites" VALUE="">
+	<B>Maximum</B> sites (<= 300)
+      </NOBR>
+
+    <TD>
+      MEME will find the optimum
+      <A HREF=meme-input.html#width><B>width</B></A>
+      of each motif within the limits you specify here:
+      <BR>
+      <NOBR>
+	<INPUT TYPE="TEXT" SIZE=3 NAME = "minw" VALUE=6>
+	<B>Minimum</B> width (>= 2)
+      </NOBR>
+      <BR>
+      <NOBR>
+	<INPUT TYPE="TEXT" SIZE=3 NAME = "maxw" VALUE=50>
+	<B>Maximum</B> width (<= 300)
+      </NOBR>
+
+  <TR ALIGN=LEFT>
+    <TD>
+     <INPUT TYPE="TEXT" SIZE=2 NAME = "nmotifs" VALUE=3> 
+	Maximum 
+     <A HREF=meme-input.html#nmotifs><B>number of motifs</B></A> to find
+     <BR> 
+     <BR>
+     <INPUT TYPE = "SUBMIT" value="Start search" onClick="return check(this.form)"> &nbsp &nbsp &nbsp
+     <INPUT TYPE = "RESET" value="Clear Input">
+
+    <TD>
+      <NOBR>
+	<INPUT TYPE = "CHECKBOX" NAME = "text" value="-text">
+	<A HREF="meme-input.html#text"><B>Text</B></A> output format
+      <BR>
+	<INPUT TYPE = "CHECKBOX" NAME = "shuffle" value="1">
+	<A HREF="meme-input.html#shuffle"><B>Shuffle</B></A> sequence letters
+
+    <TD>
+      <B>For DNA sequences only:</B>
+      <BR>
+      <NOBR>
+	<INPUT TYPE = "CHECKBOX" NAME = "posonly" value="1">
+	Search given <A HREF="meme-input.html#posonly"><B>strand</B></A> only
+      </NOBR>
+      <BR>
+      <NOBR>
+	<INPUT TYPE = "CHECKBOX" NAME = "pal" value="-pal">
+	Look for <A HREF="meme-input.html#pal"><B>palindromes</B></A> only
+      </NOBR>
+
+</TABLE>
+
+<HR>
+Click here for <A HREF="meme-intro.html"><B>more information</B></A> on MEME.
+<BR>
+Return to <A href="intro.html"><B>MEME SYSTEM introduction</B></A>.
+<P>
+You might be interested in trying other motif-making programs such
+as <A HREF="http://blocks.fhcrc.org/blockmkr/">
+BLOCK MAKER </A> at the 
+<A HREF="http://www.fhcrc.org/"> Fred Hutchinson Cancer Research Center </A>.
+<P>
+<B>If this server is not currently available, 
+click on one of the logos below to access other public MEME servers:</B>
+<TABLE>
+<TR>
+<TD>
+  <A HREF="http://meme.nbcr.net">
+    <img src="images/nbcr_logo.png" border="0" alt="[NCBR logo]" hspace="10">
+  </A>
+<TD>
+  <A HREF="http://meme.imb.uq.edu.au">
+    <img src="images/acb_logo.png" border="0" alt="[ACB logo]" hspace="10">
+  </A>
+<TD>
+  <A HREF="http://bioweb.pasteur.fr/seqanal/motif/meme/">
+    <img src="images/pasteur_logo.png" border="0" alt="[Pasteur Institute logo]" hspace="10">
+</A> 
+</TR>
+</TABLE>
+  <HR>
+  <TABLE>
+  <B>Developed and maintained by: </B>
+  <TR>
+  <TD><a href="http://infopath.ucsd.edu">
+  <img src="images/ucsd_logo.png" border="0" alt="[UCSD logo]" hspace="10"></a>
+  <TD><a href="http://www.sdsc.edu">
+  <img src="images/sdsc_logo.png" border="0" alt="[SDSC logo]" hspace="10"></a>
+  <TD><a href="http://www.uq.edu.au">
+  <img src="images/uq_logo.png" border="0" alt="[UQ logo]" hspace="10"></a>
+  <TD><a href="http://nbcr.net">
+  <img src="images/host_logo.png" border="0" alt="[HOST logo]" hspace="10"></a>
+  </TR>
+  </TABLE>
+  <P>
+  <I>Please send comments and questions to:
+  <A HREF="mailto:meme@nbcr.net">meme@nbcr.net</A>.</B>
+  <HR>
+
+</FORM></BODY></HTML>
+
+

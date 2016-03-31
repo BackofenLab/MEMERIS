@@ -1,0 +1,374 @@
+<!---
+##
+## $Id: meme-explanation.html,v 1.2 2006/01/03 01:56:13 tbailey Exp $
+##
+## $Log: meme-explanation.html,v $
+## Revision 1.2  2006/01/03 01:56:13  tbailey
+## Fix documentation of PSSM and PSPM in meme-explanation.html and
+## meme-output-example.html.
+##
+## Revision 1.1  2005/10/13 21:15:51  nadya
+## move meme-explanation.html to etc/ to allow html conversion without installing web site
+##
+##
+##
+--->
+
+<A NAME=explanation>
+<CENTER><H3><HR>
+EXPLANATION OF MEME RESULTS
+<HR></H3></CENTER>
+
+<H4>The MEME results consist of:</H4>
+
+<UL>
+<A NAME=version_doc></A><LI>
+	The <A HREF=#version><B>version</B></A>
+        of MEME and the date it was released.
+<A NAME=reference_doc></A><LI>
+	The <A HREF=#reference><B>reference</B></A>
+        to cite if you use MEME in your research.
+<A NAME=sequences_doc></A><LI>
+	A description of the
+        <A HREF=#sequences><B>sequences</B></A>
+        you submitted (the "training set") showing the name,
+	"weight" and length of each sequence.
+<A NAME=command_doc></A><LI>
+	The <A HREF=#command><B>command line summary
+        </B></A> detailing the parameters with which you ran MEME.
+<A NAME=motifs_doc></A><LI>
+	Information on each of the
+        <A HREF=#motifs><B>motifs</B></A> MEME discovered, including:
+<OL>
+<LI>    A <A NAME=summary_doc HREF=#summary_doc2>
+	summary line</A>
+        showing the width, number of occurrences, log likelihood ratio
+	and statistical significance of the motif.
+<LI>    A <A NAME=simplified_doc HREF=#simplified_doc2>
+        simplified position-specific probability matrix</A>.
+<LI>    A <A NAME=IC_doc HREF=#IC_doc2>
+	diagram</A>
+        showing the degree of conservation at each motif position.
+<LI>    A <A NAME=consensus_doc HREF=#consensus_doc2>
+        multilevel consensus sequence</A> 
+	showing the most conserved letter(s) at each motif position.
+<LI>    The <A NAME=sites_doc HREF=#sites_doc2>
+	occurrences of the motif</A>
+	sorted by <I>p</I>-value and aligned with each other.
+<LI>	<A NAME=diagrams_doc HREF=#diagrams_doc2>
+	Block diagrams</A> 
+	of the occurrences of the motif within each sequence in the training 
+	set.
+<LI>    The motif in 
+	<A NAME=BLOCKS_doc HREF=#BLOCKS_doc2>
+	BLOCKS or FASTA format</A>.
+<LI>    A <A NAME=pssm_doc HREF=#pssm_doc2>
+        position-specific scoring matrix (PSSM)</A> 
+	for use by the
+        <A HREF="mast-intro.html">MAST</A> database search program.
+<LI>    The <A NAME=pspm_doc HREF=#pspm_doc2>
+        position specific probability matrix (PSPM)</A> 
+	describing the motif.
+</OL>
+
+<A NAME=motif-summary_doc></A><LI>
+	A <A HREF=#motif-summary><B>summary of motifs</B></A>
+        showing an optimized (non-overlapping) tiling of all of the motifs onto
+        each of the sequences in the training set.
+<A NAME=stopped_doc></A><LI>
+	The reason why MEME <A HREF=#stopped>stopped</A>
+	and the name of the CPU on which it ran.
+<A NAME=explanation_doc></A><LI>
+	This <B>explanation</B> of how to interpret MEME results.
+</UL>
+
+<P>
+<A HREF=#summary1 NAME=motifs> MOTIFS </A>
+
+<P>
+For each motif that it discovers in the training set,
+MEME prints the following information:
+ 
+<UL>
+<P>
+<LI> <A NAME=summary_doc2 HREF=#summary1><H4>Summary Line</H4></A>
+
+This line gives the width (`width'), 
+number of occurrences in the training set (`sites'), log likelihood
+ratio (`llr') and <I>E</I>-value of the motif.
+Each motif describes a pattern of a fixed width--no gaps are allowed in
+MEME motifs.
+MEME numbers the motifs consecutively from one as it finds them. 
+MEME usually finds the most statistically significant (low <I>E</I>-value) 
+motifs first.
+The statistical significance of a motif is based on its log likelihood ratio,
+its width and number of occurrences, the background letter frequencies
+(given in the <A HREF=#command_doc>command line summary</A>), and 
+the size of the training set.  The <I>E</I>-value is an
+estimate of the expected number of motifs with the given log likelihood
+ratio (or higher), and with the same width and number of occurrences,
+that one would find in a similarly sized set of random sequences. 
+(In random sequences each position is independent with letters chosen
+according to the background letter frequencies.)  The log likelihood
+ratio is the logarithm of the ratio of the probability of the occurrences 
+of the motif given the motif model (likelihood given the motif) 
+versus their probability given the background model (likelihood given the
+null model).  (Normally the background model is a 0-order Markov model
+using the background letter frequencies, but higher order Markov models
+may be specified via the <B>-bfile</B> option to MEME.)
+
+Clicking on the <B>buttons</B> to the left of the motif summary line 
+takes you to the previous motif (P) or next motif (N).
+
+<P>
+<LI> <A NAME=simplified_doc2 HREF=#simplified1><H4>Simplified 
+  Position-Specific Probability Matrix</H4></A>
+
+MEME motifs are represented by position-specific probability matrices 
+that specify the probability of each possible letter appearing at each
+possible position in an occurrence of the motif.  In order to make it easier 
+to see which letters are most likely in each of the columns of the
+motif, the simplified motif shows the letter probabilities multiplied by 10 
+rounded to the nearest integer ("a" means 10).  Zeros are replaced by ":" 
+(the colon) for readability.
+
+<P>
+<LI> <A NAME=IC_doc2 HREF=#IC1><H4>Information Content Diagram</H4></A>
+
+The information content diagram provides 
+an idea of which positions in the motif are most highly conserved.
+Each column (position) in a motif can be characterized by the amount of
+information it contains (measured in bits).  Highly conserved positions
+in the motif have high information; positions where all letters are equally
+likely have low information.  (The information content is relative to
+the background letter frequencies which are given in the 
+<A HREF=#command_doc>command line summary</A> section.)
+The diagram is printed so that each column lines up with the same column in 
+the simplified position-specific probability matrix above it.
+
+Columns in the information content diagram are colored according to the
+majority category of the letters occurring in that column of the alignment.
+If no letter category has frequency above 0.5, the column in the diagram
+is colored black.  For DNA sequences, the letter categories contain one letter
+each.  For proteins,  the categories are based on the biochemical properties
+of the various amino acids.  The categories and their colors are:
+<P>
+<CENTER>
+  <TABLE BORDER>
+    <TR> <TH>NUCLEIC ACIDS</TH> <TH ALIGN=LEFT>COLOR</TH> </TR>
+    <TR> 
+      <TD>A</TD> 
+      <TD><FONT COLOR=RED>RED</FONT></TD></TR>
+    <TR> 
+       <TD>C</TD> 
+       <TD><FONT COLOR=BLUE>BLUE</FONT></TD></TR>
+    <TR> 
+      <TD>G</TD> 
+      <TD><FONT COLOR=ORANGE>ORANGE</FONT></TD></TR>
+    <TR> 
+      <TD>T</TD> 
+      <TD><FONT COLOR=GREEN>GREEN</FONT></TD></TR>
+  </TABLE>
+  <P>
+  <TABLE BORDER>
+    <TR> <TH>AMINO ACIDS</TH> <TH ALIGN=LEFT>COLOR</TH> 
+	 <TH ALIGN=LEFT>PROPERTIES</TH> </TR>
+      <TD>A, C, F, I, L, V, W and M</TD>
+      <TD><FONT COLOR=BLUE>BLUE</FONT></TD>
+      <TD>Most hydrophobic[Kyte and Doolittle, 1982]</TD>
+    </TR>
+    <TR>
+      <TD>NQST</TD>
+      <TD><FONT COLOR=GREEN>GREEN</FONT></TD>
+      <TD>Polar, non-charged, non-aliphatic residues</TD>
+    </TR>
+    <TR>
+      <TD>DE</TD>
+      <TD><FONT COLOR=MAGENTA>MAGENTA</FONT></TD>
+      <TD>Acidic</TD>
+    </TR>
+    <TR>
+      <TD>KR</TD>
+      <TD><FONT COLOR=RED>RED</FONT></TD>
+      <TD>Positively charged</TD>
+    </TR>
+    <TR>
+      <TD>H</TD>
+      <TD><FONT COLOR=PINK>PINK</FONT></TD> </TR>
+    <TR>
+      <TD>G</TD>
+      <TD><FONT COLOR=ORANGE>ORANGE</FONT></TD> </TR>
+    <TR>
+      <TD>P</TD>
+      <TD><FONT COLOR=YELLOW>YELLOW</FONT></TD> </TR>
+    <TR>
+      <TD>Y</TD>
+      <TD><FONT COLOR=TURQUOISE>TURQUOISE</FONT></TD> </TR>
+  </TABLE>
+</CENTER>
+<p>
+J. Kyte and R. Doolittle, 1982.
+"A Simple Method for Displaying the Hydropathic Character of a Protein",
+J. Mol Biol. 157, 105-132.
+
+<p>
+Summing the information content for each position in the motif gives
+the total information content of the motif (shown in parentheses to the
+left of the diagram).  The total information content is approximately
+equal to the log likelihood ratio divided by the number of occurrences times
+ln(2).
+The total information content gives a measure of
+the usefulness of the motif for database searches.
+For a motif to be useful for database searches, it must as a rule contain at 
+least log_2(N) bits of information 
+where N is the number of sequences in the database being searched.  
+For example, to effectively search a database containing 100,000 sequences
+for occurrences of a <I>single</I> motif, the motif should have an IC of at
+least 16.6 bits.  Motifs with lower information content are still useful when a 
+family of sequences shares more than one motif since they can be combined
+in <I>multiple</I> motif searches (using MAST).
+
+<P>
+<LI> <A NAME=consensus_doc2 HREF=#consensus1><H4>Multilevel 
+  Consensus Sequence</H4></A>
+
+The multilevel consensus sequence corresponding to the motif is an aid in 
+remembering and understanding the motif.   It is calculated from the motif 
+position-specific probability matrix as follows.  
+Separately for each column of the motif, 
+the letters in the alphabet are sorted in decreasing order by the probability 
+with which they are expected to occur in that position of motif occurrences.  
+The sorted letters are then printed vertically with the most probable letter 
+on top.  Only letters with probabilities of 0.2 or higher at that position in 
+the motif are printed.  As an example, the multilevel consensus sequence of 
+motif 1 in the sample output is:
+<PRE>
+<B>Multilevel</B> <B>TTATGTGAACGACGTCACACT</B>
+<B>consensus</B>  AA  T A G A GA     AA
+<B>sequence</B>           T C TT     T
+</PRE>
+This multilevel consensus sequence says several things about the motif.
+First, the most likely form of the motif
+can be read from the top line as 
+<TT>TTATGTGAACGACGTCACACT</TT>.
+Second, that only letter <TT>A</TT> has probability more than 0.2 in
+position 3 of the motif, both <TT>T</TT> and <TT>A</TT> have probability
+greater than 0.2 in position 1, etc.
+Third, a <I>rough approximation</I> of the motif can be made by converting the
+multilevel consensus sequence into the Prosite signature<UL> 
+<TT>[TA]-[TA]-A-T-[GT]-[T]-[GA]-A-[AGT]-C-[GAC]-A-[CGT]-[GAT]-T-C-A-C-A-[CAT]-[TA]</TT>.</UL>
+
+<P>
+<LI> <A NAME=sites_doc2 HREF=#sites1><H4>Occurrences of the Motif</H4></A>
+
+MEME displays the occurrences (sites) of the motif in the training set.  
+The sites are shown aligned with each other, and the ten sequence
+positions preceding and following each site are also shown.
+Each site is identified by the name of the sequence where it occurs,
+the strand (if both strands of DNA sequences are being used), and the
+position in the sequence where the site begins.  When the DNA strand
+is specified, `+' means the sequence in the training set,
+and `-' means the reverse complement of the training set sequence.
+(For `-' strands, the `start' position is actually the position on the
+<B>positive</B> strand where the site ends.)
+The sites are listed in order of increasing statistical significance
+(<I>p</I>-value).  The <I>p</I>-value of a site is computed from the the match 
+score of the site with the <A HREF=#pssm>position specific scoring matrix</A> 
+for the motif.  The <I>p</I>-value gives the probability of a random string
+(generated from the background letter frequencies) having the same match
+score or higher.  (This is referred to as the <B>position <I>p</I>-value</B>
+by the MAST algorithm.)
+
+<P>
+<LI> <A NAME=diagrams_doc2 HREF=#diagrams1><H4>
+Block Diagrams of Motif Occurrences</H4>
+</A>
+The occurrences of the motif in the training set sequences are 
+shown with MAST-style block diagrams.  One diagram is printed for each
+sequence showing all the occurrences of the motif in that sequence.
+The sequences are sorted by the <B>lowest</B> <I>p</I>-value among all 
+occurrences of the motif in a given sequence.
+(The <I>p</I>-value of an occurrence is the probability of a single
+random subsequence the length of the motif,
+generated according to the 0-order background model, having a score
+at least as high as the score of the occurrence.)
+When the DNA strand is specified, `+' means the motif appears from left to
+right on the sequence, and `-' means the motif appears from right to left 
+on the complementary strand.
+A sequence position scale is shown at the end of each table of block
+diagrams.  Very long sequences are shown with thick lines connecting the
+motifs and are <B>not</B> drawn to scale.
+
+<P>
+<LI> <A NAME=BLOCKS_doc2 HREF=#BLOCKS1><H4>
+Motif in BLOCKS format or FASTA format</H4>
+</A>
+
+For use with 
+<A HREF="http://blocks.fhcrc.org/blocks">BLOCKS tools</A>, 
+MEME prints the occurrences of the motif in BLOCKS format. 
+<P>
+You can convert these blocks to 
+PSSMs (position-specific scoring matrices), LOGOS (color representations
+of the motifs), phylogeny trees and search them against a database of other
+blocks by pasting everything from the "BL" line to the "//" line (inclusive)
+into the  
+<A HREF=http://blocks.fhcrc.org/blocks/process_blocks.html>
+Multiple Alignment Processor.</A> 
+If you include the <B>-print_fasta</B> switch on the command line, MEME prints
+the motif sites in FASTA format instead of BLOCKS format.
+
+<P>
+<LI> <A NAME=pssm_doc2 HREF=#pssm1><H4>Position-Specific Scoring Matrix</H4></A>
+
+The position-specific scoring matrix corresponding to the motif is printed
+for use by database search programs such as MAST.  This matrix is a
+log-odds matrix calculated
+by taking the log (base 2) of the ratio <I>p/f</I> at each position in
+the motif where <I>p</I> is the probability of a particular letter at that
+position in the motif, and <I>f</I> is the background frequency of the
+letter (given in the <A HREF=#command_doc>command line summary</A> section.)
+This is the same matrix that is used above in computing the <I>p</I>-values
+of the occurrences of the motif in the <A HREF=#sites_doc2>Occurrences of the
+Motif</A> and <A HREF=#diagrams_doc2>Block Diagrams of Motif Occurrences</A>
+sections.  
+The scoring matrix is printed "sideways"--columns
+correspond to the letters in the alphabet (in the same order as shown in
+the simplified motif) and rows corresponding to the positions of the motif,
+position one first.  The scoring matrix is preceded by a line starting with
+"log-odds matrix:" and containing the length of the alphabet, width
+of the motif, number of characters in the training set, the scoring 
+threshold (obsolete) and the motif <I>E</I>-value.
+<P>
+<B>Note:</B> The probability <I>p</I> used to compute the PSSM
+is <I>not</I> exactly the same as the corresponding value in the 
+Position Specific Probability Matrix (PSPM).  
+The values of <I>p</I> used to compute the PSSM take
+into account the motif prior, whereas the values in the PSPM are just
+the <I>observed</I> frequencies of letters in the motif sites.
+
+<P>
+<LI> <A NAME=pspm_doc2 HREF=#pspm1><H4>
+Position-Specific Probability Matrix</H4></A>
+
+The motif itself is a position-specific probability matrix giving,
+for each position in the pattern, the observed frequency 
+("probability") of each possible letter.  
+The probability matrix is printed "sideways"--columns
+correspond to the letters in the alphabet (in the same order as shown in
+the simplified motif) and rows corresponding to the positions of the motif,
+position one first.
+The motif is preceded by a line starting with
+"letter-probability matrix:" and containing the length of the alphabet, width
+of the motif, number of occurrences of the motif, and the <I>E</I>-value of the
+motif.
+<p>
+<b>Note:</b> Earlier versions
+of MEME gave the posterior probabilities--the probability after applying
+a prior on letter frequencies--rather than the observed frequencies.
+These versions of MEME also gave the number of <I>possible</I>
+positions for the motif rather than the actual number of occurrences.
+The output from these earlier versions of MEME can be distinguished
+by "n=" rather than "nsites=" in the line preceding the matrix.
+
+</UL>

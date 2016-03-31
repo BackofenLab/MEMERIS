@@ -1,0 +1,227 @@
+#!/bin/csh -f
+#
+## $Id: make_logodds.txt,v 1.2.4.1 2006/01/31 20:50:43 nadya Exp $
+## $Log: make_logodds.txt,v $
+## Revision 1.2.4.1  2006/01/31 20:50:43  nadya
+## add '-f' flag to prevent sourcing init files
+## was causing problem on cygwin
+##
+## Revision 1.2  2005/10/04 17:46:58  nadya
+## use full path for "rm". Some systems set rm alias that ask for confirmation.
+##
+## Revision 1.1.1.1  2005/07/28 23:55:47  nadya
+## Importing from meme-3.0.14, and adding configure/make
+##
+#
+
+set perl = @WHICHPERL@
+# tlb 3-28-00; add support of new GCG profile format; change count to 100000
+if ($#argv < 2) then
+  cat << "USAGE"
+ USAGE:
+	make_logodds <mfile> <logodds> [-c count] [-D dir]
+
+		<mfile>		name of file containing motifs
+		<logodds>	name of file for output
+		[-c count]	output only the first -c motifs
+
+	Read the log-odds matrices from a meme, blockmaker or GCG profile file.
+	Profile files may be concatenated together.
+
+	The file output has format:
+		[<w> <alength> <evalue> [<pair>]\n
+                <column 1 of motif log-odds matrix>
+                <column 2 of motif log-odds matrix>
+                ...
+                <column w of motif log-odds matrix>
+                ]+
+
+	Prints:
+		<alphabet> [<sequence dataset>]
+
+"USAGE"
+  exit 1
+endif
+
+# get input
+set mfile = $1
+shift
+set logodds = $1
+shift
+echo -n "" >! $logodds
+if ($logodds != "/dev/null") then 
+  chmod 744 $logodds
+endif
+set count = 100000
+while ("$1" != "")
+  switch ($1)
+  case -c:
+    	shift
+    	set count = $1
+	breaksw
+  endsw
+  shift
+end
+
+# make awk script to get stuff from mfile
+set awk = make_logodds.awk.$$.tmp
+onintr cleanup
+
+cat << "END" > $awk
+  NR == 1 {			# don't use BEGIN due to bug in awk
+    count=count + 0;		# make numeric
+    width=0; 			# default value
+    alpha = "";			# default value
+    evalue=0; 			# default value
+    pair=0;			# default value
+    old_alpha = "";
+    dataset = "";		# default value
+    nmatrices=0; 		# number of matrices read
+  }
+  $1 == "DATAFILE=" {dataset = $2;}
+  $1 == "ALPHABET=" {alpha = $2;}
+  $1 == "data:" {n = $3; N = $5;}
+  $1 == "(best)" && $4 == "e_ll" { evalue = $9; }
+
+  # meme format
+  $1 == "log-odds" && $2 == "matrix:" {
+    if (nmatrices++ >= count) next;	# skip this matrix
+    # parse the log-odds matrix line
+    for (i=3; i<=NF; i++) {
+      if ($i == "alength=") {
+        i++; alength = $i + 0;		# add 0 in case garbage
+      } else if ($i == "w=") {
+        i++; w = $i + 0;
+      } else if ($i == "E=") {
+        i++; evalue = $i + 0;
+      } else if ($i == "pair") {
+        pair = 1;
+      }
+    } # parse header line
+
+    # print the header line for the matrix
+    print w, alength, evalue, pair > logodds
+
+    # copy the matrix to the logodds file; allow for rows to be contain newlines
+    tot = 0;				# total fields read
+    while (tot < w * alength) {		# read lines until alength fields read
+      if (!(getline)) {			# read next line; extra parens for some
+					# versions of awk/gawk (eg, gnu)
+	printf \
+	  "End of file reached while reading score matrix %s.\n", nmatrices;
+	status = 1; exit;
+      }
+      #print "tot = ", tot, "NF = ", NF;
+      for (i=0; i<NF; i++) lo[tot++] = $(i+1);	# store fields in matrix
+      if (tot > w * alength) {
+	printf \
+	  "Number of entries not correct for matrix %s.\n", nmatrices;
+	status = 1; exit;
+      }
+    }
+    k = 0;
+    for (i=0; i<w; i++) {		# row of logodds matrix
+      for (j=0; j<alength; j++) {	# column of logodds matrix
+        printf "%s ", lo[k] > logodds;
+        k++;
+      }
+      printf "\n" > logodds;
+    }
+  }
+
+  # new profile format
+  $1 == "Cons" && $(NF-1) == "Gap" {
+    if (nmatrices++ >= count) next;     # skip this matrix
+    alength = NF - 3;                   # length of alphabet
+    # get the alphabet from the first line
+    alpha = "";
+    for (i=2; i<NF-1; i++) alpha = alpha $(i);
+    # check that alphabet hasn't changed
+    if (old_alpha != "" && alpha != old_alpha) {
+      print "All profiles must use exactly the same alphabet."
+      print "The first " nmatrices-1 " motif(s) use " old_alpha;
+      print " but motif " nmatrices " uses " alpha ".";
+      status = 1; exit;
+    }
+    old_alpha = alpha;					# save alphabet
+    # read the matrix
+    for (line = 0; getline && $1 != "*"; line++) {
+      # skip comments and blank lines and "}"
+      first = substr($1,1,1);
+      if (first == "!" || first == "}" || NF == 0 ) {line--; continue;}	
+      if (NF != alength+3) {
+        printf \
+	  "Alphabet length does not match number of scores in matrix %s.\n", \
+          nmatrices;
+	status = 1; exit;
+      }
+      matrix[line] = "";
+      # save line skipping consensus letter
+      for (i=0; i<alength; i++) matrix[line] = matrix[line] " " $(i+2);
+    }
+    w = line;		 		# width of motif
+    # print the header line for the matrix
+    print w, alength, evalue, pair > logodds
+    # copy the matrix to the logodds file
+    for (i=0; i<w; i++) { print matrix[i] > logodds }
+  }
+
+  # old profile format
+  $1 == "Cons" && $NF == ".." {
+    if (nmatrices++ >= count) next;	# skip this matrix
+    alength = NF - 4;			# length of alphabet
+    # get the alphabet from the first line
+    alpha = "";
+    for (i=0; i<alength; i++) alpha = alpha $(i+2);
+    # check that alphabet hasn't changed
+    if (old_alpha != "" && alpha != old_alpha) {
+      print "All profiles must use exactly the same alphabet."
+      print "The first " nmatrices-1 " motif(s) use " old_alpha;
+      print " but motif " nmatrices " uses " alpha ".";
+      status = 1; exit;
+    }
+    old_alpha = alpha;					# save alphabet
+    # read the matrix
+    for (line = 0; getline && $1 != "*"; line++) {
+      # skip comments and blank lines
+      if (substr($1,1,1) == "!" || NF == 0) {line--; continue;}	
+      if (NF != alength+3) {
+        printf \
+	  "Alphabet length does not match number of scores in matrix %s.\n", \
+          nmatrices;
+	status = 1; exit;
+      }
+      matrix[line] = "";
+      # save line skipping consensus letter
+      for (i=0; i<alength; i++) matrix[line] = matrix[line] " " $(i+2);
+    }
+    w = line;		 		# width of motif
+    # print the header line for the matrix
+    print w, alength, evalue, pair > logodds
+    # copy the matrix to the logodds file
+    for (i=0; i<w; i++) { print matrix[i] > logodds }
+  }
+   
+  END {
+    if (status) exit status;
+    if (alpha == "") {
+      print "Could not find the motif alphabet.";
+      print "The motif file must contain a line starting with \"ALPHABET= \"";
+      print "followed by 'alphabet', a list containing the letters used in";
+      print "the motifs. The order of the letters in 'alphabet' must be the";
+      print "same as the order of the columns of scores in the motifs.";
+      exit 1;
+    }
+    print alpha, dataset;
+    exit 0;
+  }
+
+"END"
+
+# get the logodds matrices and stuff
+$perl -ne 's/\r$//; print;' $mfile | awk -f $awk logodds=$logodds count=$count
+set sav_status = $status
+
+cleanup:
+/bin/rm -f make_logodds.*.$$.tmp
+exit $sav_status

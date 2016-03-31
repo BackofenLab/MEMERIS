@@ -1,0 +1,365 @@
+<!---
+##
+## $Id: mast-databases.html,v 1.3 2005/12/09 06:52:56 tbailey Exp $
+##
+## $Log: mast-databases.html,v $
+## Revision 1.3  2005/12/09 06:52:56  tbailey
+## Added detailed instructions for downloading upstream databases.
+## Put "K12" after E. coli database name to make clear which strain it is.
+##
+## Revision 1.2  2005/08/24 05:28:16  nadya
+## update links
+##
+## Revision 1.1.1.1  2005/07/31 20:13:30  nadya
+## Importing from meme-3.0.14, and adding configure/make
+##
+##
+--->
+
+<HTML>
+<HEAD>
+<BODY BACKGROUND="images/bkg.jpg">
+<TITLE>Databases available for MAST search</TITLE> 
+</HEAD>
+<H1>MAST -- Motif Alignment and Search Tool</H1>
+<H2><I>Motif search tool</I></H2>
+<HR>
+
+<H1 ALIGN = center>Sequence databases available for MAST search</H1>
+<HR>
+
+<H3>
+The sequence databases that MAST can search are grouped into three categories:
+<UL>
+  <LI> <A HREF=#assorted>Assorted Databases</A>
+    <BR> Various peptide and nucleotide databases, including those searchable
+	by NCBI BLAST.
+  <LI> <A HREF=#genbank>Genbank Single Organism Databases</A>
+    <BR> Single organism peptide and nucleotide databases from Genbank.
+  <LI> <A HREF=#upstream>Upstream Sequence Databases</A>
+    <BR>Nucleotide sequences located upstream from known genes.
+</UL>
+</H3>
+
+<A NAME=assorted>
+<HR>
+<H3> Assorted Databases</H3>
+&nbsp&nbsp&nbsp&nbsp
+<B>Various peptide and nucleotide databases, including those 
+searchable by NCBI BLAST.</B>
+<HR>
+<DL>
+
+<P>
+<dt><b>alu</b>
+<dd>Select Alu repeats from REPBASE, suitable for masking Alu repeats from quer
+y sequences.  It is available by anonymous FTP from ncbi.nih.gov (under the
+ /pub/jmc/alu directory).  See "Alu alert" by Claverie and Makalowski, Nature v
+ol. 371, page 752 (1994).
+
+<P>
+<DT><B>C. elegans (coding)</B>
+<dd>Wormpep: predicted proteins from the Caenorhabditis elegans genome 
+sequencing project; 
+<A HREF = "http://www.sanger.ac.uk/Projects/C_elegans/wormpep/">
+http://www.sanger.ac.uk/Projects/C_elegans/wormpep</A>
+for more information
+
+<P>
+<DT><B>C. elegans - coding</B>
+<dd>the DNA sequences from which the Wormpep protein sequences are derived
+(effectively the cDNA sequence BUT with no UTRs); see
+<A HREF = "http://www.sanger.ac.uk/Projects/C_elegans/wormpep/">
+http://www.sanger.ac.uk/Projects/C_elegans/wormpep</A>
+for more information
+<P>
+
+
+<P>
+<dt><b>Drosophila</b>
+<dd>Drosophila genome proteins and nucleotides provided by Celera and Berkeley 
+<A href="http://www.fruitfly.org">Drosophila Genome Project (BDGP)</A>.
+
+<P>
+<DT><B>E. coli</B>
+<dd>Complete E. coli genome proteins and nucleotides 
+from <A HREF=ftp://ftp.ncbi.nih.gov/blast/db/> NCBI BLAST databases</A>.
+
+<P>
+<DT><B>epd</B>
+<dd>Eucaryotic Promoter Database found on the web at
+<a href="http://www.genome.ad.jp/dbget-bin/www_bfind?epd">http://www.genome.ad.jp/dbget-bin/www_bfind?epd</a>
+
+<P>
+<DT><B>est</B>
+<dd> Non-redundant Database of GenBank+EMBL+DDBJ EST Divisions
+
+<P>
+<DT><B>mouse ESTs</B>
+
+<P>
+<DT><B>human ESTs</B>
+
+<P>
+<DT><B>other ESTs</B>
+
+<P>
+<DT><B>genpept</B>
+<DD>GENPEPT peptide database
+
+<P>
+<DT><B>gss</B>
+<dd>Genome Survey Sequence, includes single-pass genomic data, exon-trapped
+sequences, and Alu PCR sequences.
+
+<P>
+<dt><b>htgs</b>
+<dd> High Throughput Genomic Sequences
+
+<P>
+<dt><b>kabat</b>
+<dd>Kabat's database of peptide and nucleotide
+sequences of immunological interest.
+
+<P>
+<dt><b>mito</b>
+<dd>Database of mitochondrial sequences
+
+<P>
+<DT><B>month</B>
+<DD>Peptide: All new or revised GenBank CDS translation+PDB+SwissProt+PIR released in 
+the last 30 days.
+<DD>Nucleotide: All new or revised GenBank+EMBL+DDBJ+PDB sequences released in the last
+30 days.
+
+<P>
+<DT><B>nr</B>
+<dd>Peptide: All non-redundant GenBank CDS translations+PDB+SwissProt+PIR
+<DD>Nucleotide: All Non-redundant GenBank+EMBL+DDBJ+PDB sequences (but
+no EST's or STS's)
+
+<P>
+<DT><B>pdb</B>
+<dd>Sequences (peptide and nucleotide) derived from the 3-dimensional structure
+<A HREF=http://www.rcsb.org/pdb>Protein Data Bank</A>.
+
+<P>
+<DT><B>sts</B>
+<dd>Non-redundant Database of GenBank+EMBL+DDBJ STS Divisions
+
+<P>
+<DT><B>S. cerevisiae (yeast)</B>
+<dd>Yeast (Saccharomyces cerevisiae) peptide and nucleotide sequences.
+
+<P>
+<DT><B>swissprot</B> 
+<dd>The last major release of the SWISS-PROT peptide sequence 
+database (no updates).
+
+<P>
+<dt><b>vector</b>
+<dd>Vector subset of GenBank(R), NCBI, in 
+<A HREF=ftp://ftp.ncbi.nih.gov/blast/db/> ftp://ftp.ncbi.nih.gov/blast/db/</A>.
+
+
+</DL>
+
+<A NAME=genbank>
+<HR>
+<H3> Genbank Single Organism Databases</H3>
+&nbsp&nbsp&nbsp&nbsp
+<B>Single organism peptide (*.faa files) and nucleotide (*.fna files) from 
+<A HREF=ftp://ftp.ncbi.nih.gov/genbank/genomes/README> Genbank.</A></B>
+<HR>
+
+<P>
+<DT><B>Aeropyrum pernix K1</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Aeropyrum pernix K1</I>.
+
+<P>
+<DT><B>Archaeoglobus fulgidus</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Archaeoglobus fulgidus</I>.
+
+<P>
+<DT><B>Aquifex aeolicus</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Aquifex aeolicus</I>.
+
+<P>
+<DT><B>Aquifex aeolicus ece1</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Aquifex aeolicus ece1</I>.
+
+<P>
+<DT><B>Borrelia burgdorferi</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Borrelia burgdorferi</I>.
+
+<P>
+<DT><B>Borrelia burgdorferi 11 plasmids</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Borrelia burgdorferi 11 plasmids</I>.
+
+<P>
+<DT><B>Bacillus subtilis</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Bacillus subtilis</I>.
+
+<P>
+<DT><B>Chlamydia trachomatis</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Chlamydia trachomatis</I>.
+
+<P>
+<DT><B>Chlamydia muridarum</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Chlamydia muridarum</I>.
+
+<P>
+<DT><B>Chlamydia pneumoniae</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Chlamydia pneumoniae</I>.
+
+<P>
+<DT><B>Chlamydophila pneumoniae AR39</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Chlamydophila pneumoniae AR39</I>.
+
+<P>
+<DT><B>Chlamydophila pneumoniae J138</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Chlamydophila pneumoniae J138</I>.
+
+<P>
+<DT><B>Deinococcus radiodurans R1 chromosome 1</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Deinococcus radiodurans R1 chromosome 1</I>.
+
+<P>
+<DT><B>Escherichia coli</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Escherichia coli</I>.
+
+<P>
+<DT><B>Haemophilus influenzae </B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Haemophilus influenzae </I>.
+
+<P>
+<DT><B>Helicobacter pylori 26695</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Helicobacter pylori 26695</I>.
+
+<P>
+<DT><B>Helicobacter pylori strain J99</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Helicobacter pylori strain J99</I>.
+
+<P>
+<DT><B>Mycoplasma genitalium</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Mycoplasma genitalium</I>.
+
+<P>
+<DT><B>Methanococcus jannaschii</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Methanococcus jannaschii</I>.
+
+<P>
+<DT><B>Methanococcus jannaschii large extrachromosomal element</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Methanococcus jannaschii large extrachromosomal element</I>.
+
+<P>
+<DT><B>Methanococcus jannaschii small extrachromosomal element</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Methanococcus jannaschii small extrachromosomal element</I>.
+
+<P>
+<DT><B>Mycoplasma pneumoniae</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Mycoplasma pneumoniae</I>.
+
+<P>
+<DT><B>Methanobacterium thermoautotrophicum</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Methanobacterium thermoautotrophicum</I>.
+
+<P>
+<DT><B>Mycobacterium tuberculosis H37Rv</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Mycobacterium tuberculosis H37Rv</I>.
+
+<P>
+<DT><B>Neisseria meningitidis serogroup B strain MC58</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Neisseria meningitidis serogroup B strain MC58</I>.
+
+<P>
+<DT><B>Neisseria meningitidis serogroup A strain Z2491</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Neisseria meningitidis serogroup A strain Z2491</I>.
+
+<P>
+<DT><B>Pyrococcus abyssi</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Pyrococcus abyssi</I>.
+
+<P>
+<DT><B>Pyrococcus horikoshii</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Pyrococcus horikoshii</I>.
+
+<P>
+<DT><B>Rhizobium sp. NGR234 complete plasmid sequence</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Rhizobium sp. NGR234 complete plasmid sequence</I>.
+
+<P>
+<DT><B>Rickettsia prowazekii strain Madrid E</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Rickettsia prowazekii strain Madrid E</I>.
+
+<P>
+<DT><B>Synechocystis PCC6803</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Synechocystis PCC6803</I>.
+
+<P>
+<DT><B>Thermotoga maritima</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Thermotoga maritima</I>.
+
+<P>
+<DT><B>Treponema pallidum</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Treponema pallidum</I>.
+
+<P>
+<DT><B>Ureaplasma urealyticum</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Ureaplasma urealyticum</I>.
+
+<P>
+<DT><B>Xylella fastidiosa</B>
+<DD>Peptide and nucleotide sequences from Genbank for <I>Xylella fastidiosa</I>.
+
+
+<A NAME=upstream>
+<HR>
+<H3> Upstream Sequence Databases </H3> 
+&nbsp&nbsp&nbsp&nbsp
+<B>Nucleotide sequences located upstream from the coding region of a gene. 
+Each database contains one sequence for each known gene in a particular organism.  
+The origin is at the start codon.  The given range of sequence was extracted using
+the <A HREF=http://rsat.scmbb.ulb.ac.be/rsat/>
+"retrieve sequence"</A> tool (except for Mouse and Human which are from
+<A HREF="http://arep.med.harvard.edu/labgc/adnan/hsmmupstream/"> George Church Lab
+</A> at Harvard Medical School.)
+Negative numbers refer to base pairs upstream of the origin, positive numbers to
+base pairs downstream from the origin. </B>
+<HR>
+
+<P>
+<DT><B> B. subtilis (upstream) </B>
+<DD> Sequence in the range of -500 to +50 relative to the start codon of each gene.
+
+<P>
+<DT><B> E. coli K12 (upstream) </B>
+<DD>Sequence in the range of -500 to +50 relative to the start codon of each gene.
+
+<P>
+<DT><B> S. cerevisiae (upstream) </B>
+<DD> Sequence in the range of -950 to +50 relative to the start codon of each gene.
+
+<P>
+<DT><B> S. cerevisiae (upstream) </B>
+<DD> Sequence in the range of -950 to +50 relative to the start codon of each gene.
+
+<P>
+<DT><B> Human (upstream) </B>
+<DD> 5-kb upstream sequences (promoter regions)
+
+<P>
+<DT><B> Mouse (upstream) </B>
+<DD> 5-kb upstream sequences (promoter regions)
+
+
+<HR>
+
+<A HREF="mast.html"><B>Search using MAST</B></A>
+<BR>
+<A href="mast-intro.html"><B>MAST introduction</B></A>
+<BR>
+<A HREF="intro.html"><B>MEME SYSTEM introduction</B></A>
+
+</BODY>
+</HTML>

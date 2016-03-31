@@ -1,0 +1,104 @@
+<!---
+##
+## $Id: meme-faq.html,v 1.2 2005/09/16 02:09:50 wilfred Exp $
+##
+## $Log: meme-faq.html,v $
+## Revision 1.2  2005/09/16 02:09:50  wilfred
+## updated URL for meme support
+##
+## Revision 1.1.1.1  2005/07/31 20:17:15  nadya
+## Importing from meme-3.0.14, and adding configure/make
+##
+##
+--->
+
+<HTML>
+
+<HEAD>
+<TITLE> MEME - FAQ</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="images/bkg.jpg">
+
+<HR>
+
+<H3>Frequently Asked Questions</H3>
+
+<!-- 
+Developers: When you add a new question, 
+1) Update next available tag section by adding 1.
+2) Add the question first to the table of contents. 
+3) Add the question and answer to the answers section.
+-->
+
+<!--
+Next available tag: Q002
+-->
+
+<HR>
+
+<!-- Table of Contents -->
+<UL>
+  <LI> <A HREF="#Q001"> 
+    <B>Q.</B> Why don't the motif  occurrences in the "Summary of Motifs" block
+    diagrams match the occurrences shown in the individual motif block diagrams?
+</UL>
+
+<HR>
+
+<!-- Answers -->
+
+<UL>
+
+<A NAME="#Q001"></A>
+  <LI> 
+    <B>Q.</B> Why don't the motif  occurrences in the "Summary of Motifs" block
+    diagrams match the occurrences shown in the individual motif block diagrams?
+    <P>
+    <B>A.</B> This is a feature, not a bug.  The motif occurrences shown for a motif
+    in its section of the output are the ones discovered by the MEME algorithm.  These
+    occurrences are then used to create a position specific scoring matrix (PSSM) for the motif.
+    The PSSMs for all of the motifs discovered by MEME are then used to search for
+    non-overlapping sets of occurrences of motifs with p-values under 0.0001 using the MAST
+    algorithm.  These are displayed in the "Summary of Motifs" block diagram.   Individual
+    motif occurrences will sometimes be missing from the "Summary of Motifs" block diagram
+    because of the non-overlapping or minimum p-value requirements.  Conversely, there may
+    be motif occurrences in the summary diagram that were not discovered by the MEME 
+    algorithm.
+
+</UL>
+
+</TABLE>
+<HR>
+Click here for 
+<A HREF="mast-intro.html"><B>more information</B></A> 
+on <B>MAST</B>.
+
+<BR>
+Return to 
+<A HREF="intro.html"><B>MEME SYSTEM introduction</B></A>.
+
+<HR>
+<TABLE>
+<B>Developed and maintained by: </B>
+<TR>
+<TD><a href="http://infopath.ucsd.edu">
+<img src="images/ucsd_logo.png" border="0" alt="[UCSD logo]" hspace="10"></a>
+<TD><a href="http://www.sdsc.edu">
+<img src="images/sdsc_logo.png" border="0" alt="[SDSC logo]" hspace="10"></a>
+<TD><a href="http://www.uq.edu.au">
+<img src="images/uq_logo.png" border="0" alt="[UQ logo]" hspace="10"></a>
+<TD><a href="http://nbcr.net">
+<img src="images/host_logo.png" border="0" alt="[HOST logo]" hspace="10"></a>
+</TR>
+</TABLE>
+
+<P>
+<I>Please send comments and questions to:
+<A HREF="mailto:meme@nbcr.net">MEME support</A>.</B>
+
+<HR>
+
+</FORM>
+</BODY>
+</HTML>

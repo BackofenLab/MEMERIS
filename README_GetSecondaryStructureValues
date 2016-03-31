@@ -1,0 +1,292 @@
+=============================================================================
+                           Requirements
+=============================================================================
+
+
+Vienna RNA package
+   If not already installed, download the package from http://www.tbi.univie.ac.at/~ivo/RNA/ and install it using the instructions given in the package. 
+	Then set the $RNAfold variable in GetSecondaryStructureValues.perl to the directory that contains the RNAfold binary.
+	MEMERIS was tested with version 1.4., but newer versions should work as well. 
+	
+
+=============================================================================
+                           Usage
+=============================================================================
+
+call: perl -w GetSecondaryStructureValues.perl -f inputfile [-o outputfile -l motiflen -flankUp sequence -flankDown sequence -method [EF,PU] ]
+
+	You have to give an input filename. The input file has to have the following format:
+   	 >name
+	    sequence
+   	 >name2
+	    sequence2
+   	 ...
+	If outputfile is not specified, the output is written to 'inputfile + .sec'.
+	Parameter 'l' gives the length of the motif (you have to use this parameter later for MEME -w)
+	Parameter 'flankUp' specifies a sequence as a constant upstream flank for all sequences in inputfile that should be included for the folding but not for the motif search 
+	(this can be for example a constant primer annealing site).  
+	Parameter 'flankDown' specifies a sequence as a constant downstream flank
+	Parameter 'method' gives the probabilites to be computed; either the expected fraction of a motif that is paired (EF) or the probability that the complete motif is unpaired (PU)
+
+	All sequences (from inputfile, flankUp and flankDown) are converted to upper case and U is replaced by T. There is no check for characters other than ACGTU. 
+
+Default parameters:
+	outputfile: 'inputfile + .sec'.
+	motiflen:   6
+	flankUp:    ""
+	flankUDown: ""
+	method:     EF
+
+
+
+=============================================================================
+                           Example 1
+=============================================================================
+
+The input file is test.fa:
+>seq1
+CGTGTACCGGACACTGGAGTCCGGTGTGCATCG
+>seq2
+ACGGTCGAGTATCACTGGAGGTGTACGATCGCACG
+>seq3
+CAATGGTGTGTACACTGGAGAACACTATTTGCG
+>seq4
+GGTGTACCTCGCACTGGAGTGAGGTGTGCTGCCACGA
+
+Call GetSecondaryStructureValues using a motif length of 5 nt, output file test.fa.sec and 'expected fraction' as the method
+
+	perl -w GetSecondaryStructureValues.perl -f test.fa -o test.fa.sec -l 5 -method EF
+
+Output: 
+
+reading:          test.fa
+write results to: test.fa.sec
+upstream flank:   ""
+downstream flank: ""
+motif length:     5
+method:           EF
+
+>seq1: CGTGTACCGGACACTGGAGTCCGGTGTGCATCG
+motif_start: 0  motif_end: 4  EF: 0.5911
+motif_start: 1  motif_end: 5  EF: 0.3914
+motif_start: 2  motif_end: 6  EF: 0.3913
+motif_start: 3  motif_end: 7  EF: 0.2086
+motif_start: 4  motif_end: 8  EF: 0.0121
+motif_start: 5  motif_end: 9  EF: 0.0002
+motif_start: 6  motif_end: 10  EF: 0.0002
+motif_start: 7  motif_end: 11  EF: 0.0042
+motif_start: 8  motif_end: 12  EF: 0.2042
+motif_start: 9  motif_end: 13  EF: 0.4042
+motif_start: 10  motif_end: 14  EF: 0.6042
+motif_start: 11  motif_end: 15  EF: 0.8040
+motif_start: 12  motif_end: 16  EF: 0.9999
+motif_start: 13  motif_end: 17  EF: 0.9999
+motif_start: 14  motif_end: 18  EF: 0.8040
+motif_start: 15  motif_end: 19  EF: 0.6042
+motif_start: 16  motif_end: 20  EF: 0.4042
+motif_start: 17  motif_end: 21  EF: 0.2042
+motif_start: 18  motif_end: 22  EF: 0.0042
+motif_start: 19  motif_end: 23  EF: 0.0002
+motif_start: 20  motif_end: 24  EF: 0.0004
+motif_start: 21  motif_end: 25  EF: 0.0127
+motif_start: 22  motif_end: 26  EF: 0.2095
+motif_start: 23  motif_end: 27  EF: 0.3923
+motif_start: 24  motif_end: 28  EF: 0.3923
+motif_start: 25  motif_end: 29  EF: 0.5915
+motif_start: 26  motif_end: 30  EF: 0.7790
+motif_start: 27  motif_end: 31  EF: 0.7819
+motif_start: 28  motif_end: 32  EF: 0.7990
+>seq2: ACGGTCGAGTATCACTGGAGGTGTACGATCGCACG
+motif_start: 0  motif_end: 4  EF: 0.2278
+motif_start: 1  motif_end: 5  EF: 0.0286
+motif_start: 2  motif_end: 6  EF: 0.0152
+motif_start: 3  motif_end: 7  EF: 0.2103
+motif_start: 4  motif_end: 8  EF: 0.3860
+motif_start: 5  motif_end: 9  EF: 0.4025
+motif_start: 6  motif_end: 10  EF: 0.4176
+motif_start: 7  motif_end: 11  EF: 0.4384
+motif_start: 8  motif_end: 12  EF: 0.2572
+motif_start: 9  motif_end: 13  EF: 0.2490
+motif_start: 10  motif_end: 14  EF: 0.3997
+motif_start: 11  motif_end: 15  EF: 0.5718
+motif_start: 12  motif_end: 16  EF: 0.7412
+motif_start: 13  motif_end: 17  EF: 0.9253
+motif_start: 14  motif_end: 18  EF: 0.9553
+motif_start: 15  motif_end: 19  EF: 0.8199
+motif_start: 16  motif_end: 20  EF: 0.6333
+motif_start: 17  motif_end: 21  EF: 0.4347
+motif_start: 18  motif_end: 22  EF: 0.2384
+motif_start: 19  motif_end: 23  EF: 0.2098
+motif_start: 20  motif_end: 24  EF: 0.3604
+motif_start: 21  motif_end: 25  EF: 0.3606
+motif_start: 22  motif_end: 26  EF: 0.3630
+motif_start: 23  motif_end: 27  EF: 0.3632
+motif_start: 24  motif_end: 28  EF: 0.1939
+motif_start: 25  motif_end: 29  EF: 0.0104
+motif_start: 26  motif_end: 30  EF: 0.0303
+motif_start: 27  motif_end: 31  EF: 0.2257
+motif_start: 28  motif_end: 32  EF: 0.4213
+motif_start: 29  motif_end: 33  EF: 0.6171
+motif_start: 30  motif_end: 34  EF: 0.8150
+>seq3: CAATGGTGTGTACACTGGAGAACACTATTTGCG
+motif_start: 0  motif_end: 4  EF: 0.2111
+motif_start: 1  motif_end: 5  EF: 0.0607
+motif_start: 2  motif_end: 6  EF: 0.0221
+motif_start: 3  motif_end: 7  EF: 0.0079
+motif_start: 4  motif_end: 8  EF: 0.0104
+motif_start: 5  motif_end: 9  EF: 0.2075
+motif_start: 6  motif_end: 10  EF: 0.3758
+motif_start: 7  motif_end: 11  EF: 0.5746
+motif_start: 8  motif_end: 12  EF: 0.6945
+motif_start: 9  motif_end: 13  EF: 0.8859
+motif_start: 10  motif_end: 14  EF: 0.8827
+motif_start: 11  motif_end: 15  EF: 0.9118
+motif_start: 12  motif_end: 16  EF: 0.9032
+motif_start: 13  motif_end: 17  EF: 0.9251
+motif_start: 14  motif_end: 18  EF: 0.9219
+motif_start: 15  motif_end: 19  EF: 0.8863
+motif_start: 16  motif_end: 20  EF: 0.8858
+motif_start: 17  motif_end: 21  EF: 0.7027
+motif_start: 18  motif_end: 22  EF: 0.5621
+motif_start: 19  motif_end: 23  EF: 0.3684
+motif_start: 20  motif_end: 24  EF: 0.2099
+motif_start: 21  motif_end: 25  EF: 0.0151
+motif_start: 22  motif_end: 26  EF: 0.0123
+motif_start: 23  motif_end: 27  EF: 0.0418
+motif_start: 24  motif_end: 28  EF: 0.0960
+motif_start: 25  motif_end: 29  EF: 0.2607
+motif_start: 26  motif_end: 30  EF: 0.4096
+motif_start: 27  motif_end: 31  EF: 0.6042
+motif_start: 28  motif_end: 32  EF: 0.7728
+>seq4: GGTGTACCTCGCACTGGAGTGAGGTGTGCTGCCACGA
+motif_start: 0  motif_end: 4  EF: 0.4116
+motif_start: 1  motif_end: 5  EF: 0.3831
+motif_start: 2  motif_end: 6  EF: 0.3830
+motif_start: 3  motif_end: 7  EF: 0.2051
+motif_start: 4  motif_end: 8  EF: 0.0125
+motif_start: 5  motif_end: 9  EF: 0.0006
+motif_start: 6  motif_end: 10  EF: 0.0008
+motif_start: 7  motif_end: 11  EF: 0.0033
+motif_start: 8  motif_end: 12  EF: 0.2030
+motif_start: 9  motif_end: 13  EF: 0.4027
+motif_start: 10  motif_end: 14  EF: 0.6026
+motif_start: 11  motif_end: 15  EF: 0.8022
+motif_start: 12  motif_end: 16  EF: 0.9996
+motif_start: 13  motif_end: 17  EF: 0.9998
+motif_start: 14  motif_end: 18  EF: 0.8025
+motif_start: 15  motif_end: 19  EF: 0.6027
+motif_start: 16  motif_end: 20  EF: 0.4028
+motif_start: 17  motif_end: 21  EF: 0.2030
+motif_start: 18  motif_end: 22  EF: 0.0030
+motif_start: 19  motif_end: 23  EF: 0.0007
+motif_start: 20  motif_end: 24  EF: 0.0013
+motif_start: 21  motif_end: 25  EF: 0.0148
+motif_start: 22  motif_end: 26  EF: 0.2107
+motif_start: 23  motif_end: 27  EF: 0.3924
+motif_start: 24  motif_end: 28  EF: 0.3958
+motif_start: 25  motif_end: 29  EF: 0.4281
+motif_start: 26  motif_end: 30  EF: 0.6086
+motif_start: 27  motif_end: 31  EF: 0.6067
+motif_start: 28  motif_end: 32  EF: 0.6189
+motif_start: 29  motif_end: 33  EF: 0.8151
+motif_start: 30  motif_end: 34  EF: 0.9814
+motif_start: 31  motif_end: 35  EF: 0.9870
+motif_start: 32  motif_end: 36  EF: 0.9930
+
+
+The output file test.fa.sec contains the name of each sequence and for all positions 0 .. seqlen - motiflen + 1 the computed value. 
+
+seq1;0.5911;0.3914;0.3913;0.2086;0.0121;0.0002;0.0002;0.0042;0.2042;0.4042;0.6042;0.8040;0.9999;0.9999;0.8040;0.6042;0.4042;0.2042;0.0042;0.0002;0.0004;0.0127;0.2095;0.3923;0.3923;0.5915;0.7790;0.7819;0.7990;
+seq2;0.2278;0.0286;0.0152;0.2103;0.3860;0.4025;0.4176;0.4384;0.2572;0.2490;0.3997;0.5718;0.7412;0.9253;0.9553;0.8199;0.6333;0.4347;0.2384;0.2098;0.3604;0.3606;0.3630;0.3632;0.1939;0.0104;0.0303;0.2257;0.4213;0.6171;0.8150;
+seq3;0.2111;0.0607;0.0221;0.0079;0.0104;0.2075;0.3758;0.5746;0.6945;0.8859;0.8827;0.9118;0.9032;0.9251;0.9219;0.8863;0.8858;0.7027;0.5621;0.3684;0.2099;0.0151;0.0123;0.0418;0.0960;0.2607;0.4096;0.6042;0.7728;
+seq4;0.4116;0.3831;0.3830;0.2051;0.0125;0.0006;0.0008;0.0033;0.2030;0.4027;0.6026;0.8022;0.9996;0.9998;0.8025;0.6027;0.4028;0.2030;0.0030;0.0007;0.0013;0.0148;0.2107;0.3924;0.3958;0.4281;0.6086;0.6067;0.6189;0.8151;0.9814;0.9870;0.9930;
+
+
+
+=============================================================================
+                           Example 2
+=============================================================================
+
+Assume there are constant primer annealing sites 
+upstream: "GGGAGAATTCAACTGCCATCTAGGC"
+downstream: "AGTACTACAAGCTTCTGGACTCGGT"
+These sequences may participate in folding but should be not used in the motif search. Therefore, include these flanks for computing the secondary structure values but not in the motif search. 
+You can also include either the upstream or downstream flank. 
+
+Call: 
+	perl -w GetSecondaryStructureValues.perl -f test.fa -o test.fa.sec -l 5 -method EF -flankUp GGGAGAATTCAACTGCCATCTAGGC -flankDown AGTACTACAAGCTTCTGGACTCGGT                           
+
+
+Output: 
+
+reading:          test.fa
+write results to: test.fa.sec
+upstream flank:   "GGGAGAATTCAACTGCCATCTAGGC"
+downstream flank: "AGTACTACAAGCTTCTGGACTCGGT"
+motif length:     5
+method:           EF
+
+>seq1: GGGAGAATTCAACTGCCATCTAGGCCGTGTACCGGACACTGGAGTCCGGTGTGCATCGAGTACTACAAGCTTCTGGACTCGGT
+motif_start: 0  motif_end: 4  EF: 0.6085
+motif_start: 1  motif_end: 5  EF: 0.4617
+motif_start: 2  motif_end: 6  EF: 0.4615
+motif_start: 3  motif_end: 7  EF: 0.3001
+motif_start: 4  motif_end: 8  EF: 0.1261
+motif_start: 5  motif_end: 9  EF: 0.1155
+motif_start: 6  motif_end: 10  EF: 0.1154
+motif_start: 7  motif_end: 11  EF: 0.1190
+motif_start: 8  motif_end: 12  EF: 0.2958
+motif_start: 9  motif_end: 13  EF: 0.4726
+motif_start: 10  motif_end: 14  EF: 0.6495
+motif_start: 11  motif_end: 15  EF: 0.8262
+motif_start: 12  motif_end: 16  EF: 0.9995
+motif_start: 13  motif_end: 17  EF: 0.9996
+motif_start: 14  motif_end: 18  EF: 0.8264
+motif_start: 15  motif_end: 19  EF: 0.6497
+motif_start: 16  motif_end: 20  EF: 0.4729
+motif_start: 17  motif_end: 21  EF: 0.2960
+motif_start: 18  motif_end: 22  EF: 0.1190
+motif_start: 19  motif_end: 23  EF: 0.1154
+motif_start: 20  motif_end: 24  EF: 0.1154
+motif_start: 21  motif_end: 25  EF: 0.1261
+motif_start: 22  motif_end: 26  EF: 0.3001
+motif_start: 23  motif_end: 27  EF: 0.4620
+motif_start: 24  motif_end: 28  EF: 0.4624
+motif_start: 25  motif_end: 29  EF: 0.5806
+motif_start: 26  motif_end: 30  EF: 0.6718
+motif_start: 27  motif_end: 31  EF: 0.5916
+motif_start: 28  motif_end: 32  EF: 0.5033
+>seq2: GGGAGAATTCAACTGCCATCTAGGCACGGTCGAGTATCACTGGAGGTGTACGATCGCACGAGTACTACAAGCTTCTGGACTCGGT
+motif_start: 0  motif_end: 4  EF: 0.2820
+motif_start: 1  motif_end: 5  EF: 0.2543
+motif_start: 2  motif_end: 6  EF: 0.1727
+motif_start: 3  motif_end: 7  EF: 0.2666
+motif_start: 4  motif_end: 8  EF: 0.3549
+....
+
+
+The output file test.fa.sec contains:
+
+seq1;0.6085;0.4617;0.4615;0.3001;0.1261;0.1155;0.1154;0.1190;0.2958;0.4726;0.6495;0.8262;0.9995;0.9996;0.8264;0.6497;0.4729;0.2960;0.1190;0.1154;0.1154;0.1261;0.3001;0.4620;0.4624;0.5806;0.6718;0.5916;0.5033;
+seq2;0.2820;0.2543;0.1727;0.2666;0.3549;0.3565;0.3850;0.4381;0.3625;0.4164;0.5119;0.5991;0.7028;0.7795;0.7401;0.6527;0.4955;0.3339;0.2124;0.1962;0.2966;0.3138;0.3708;0.4267;0.3459;0.2486;0.3128;0.4046;0.5278;0.5769;0.5883;
+seq3;0.4782;0.3592;0.3507;0.3482;0.3477;0.4754;0.5842;0.7115;0.7888;0.9128;0.9108;0.9296;0.9268;0.9373;0.9368;0.9152;0.9149;0.7955;0.7083;0.5849;0.4847;0.3618;0.3603;0.3599;0.3663;0.4900;0.5007;0.5033;0.5123;
+seq4;0.5400;0.5399;0.5399;0.4013;0.2522;0.2433;0.2434;0.2454;0.3967;0.5479;0.6992;0.8504;0.9998;0.9999;0.8505;0.6993;0.5479;0.3966;0.2452;0.2433;0.2432;0.2522;0.4013;0.5399;0.5399;0.5402;0.5314;0.3823;0.2438;0.3940;0.5381;0.5386;0.5412;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

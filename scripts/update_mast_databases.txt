@@ -1,0 +1,124 @@
+#!/bin/csh
+#
+# $Id: update_mast_databases.txt,v 1.2 2005/10/05 06:18:35 nadya Exp $
+# $Log: update_mast_databases.txt,v $
+# Revision 1.2  2005/10/05 06:18:35  nadya
+# use full path for "rm". Asssume everybody has /bin/rm.
+#
+# Revision 1.1.1.1  2005/07/28 23:57:35  nadya
+# Importing from meme-3.0.14, and adding configure/make
+#
+#
+
+set pgm = $0; set pgm = $pgm:t
+set args = ($*)
+if ($#argv < 2 || $#argv > 2) then
+  usage:
+  more << USAGE
+  USAGE:
+        $pgm <email> <scratch>
+
+	<email>		your email address
+	<scratch>	a scratch directory with lots of space
+
+	Read list of
+		[<url> <new_name>]+
+	and ftp <url> into file <new_name>.
+	Uncompreses file if <url> ends in .Z or .gz and <new_name> does not.
+	Creates a fasta index file if the database is uncompressed.
+
+	Reads standard input.
+
+	Comment lines in standard input start with "# ".
+	A blank line terminates reading of standard input.
+
+USAGE
+  exit 1
+endif
+
+# get input arguments
+set email = $1; shift
+# scratch space to hold compressed db and during uncompress
+set scratch = $1; shift
+
+onintr cleanup
+
+#
+# create a log file
+#
+set log = $pgm.$$.log.tmp
+touch $log
+
+# count errors
+@ errors = 0
+
+#
+# download the latest databases
+#
+df . >> $log
+while (1)
+  #
+  # read a line
+  #
+  set words = (`echo $<`)			
+
+  if ($#words == 0) break;				# all done
+
+  if( $words[1] == "#" ) continue			# skip comment
+
+  #
+  # get the name of the source and target files
+  #
+  set db = $words[1]
+  set newname = $words[2]
+
+  #
+  # get the ftp site and file path; split path into directory and file name
+  #
+  set fp = $db:t
+  set sp = $db:h
+  while ($sp != $sp:t)
+    set tail = $sp:t
+    set fp = $tail/$fp
+    set sp = $sp:h
+  end
+  set site = $sp
+  set dir = $fp:h
+  set file = $fp:t
+
+  #
+  # download the file
+  #
+  echo "" >> $log
+  # echo Downloading $db 
+  echo Downloading $db >> $log
+  date >> $log
+  download $db $email $scratch $newname -f >>& $log
+  set save_status = $status
+  # echo status = $save_status >> $log
+  if ($save_status == 1) then
+    echo Mast database $newname not updated >> $log
+    @ errors++
+  else
+    if ($save_status == 0 && -e $newname && $newname:e != gz && $newname:e != Z) then
+      #fasta-make-index $newname -f -gi
+    endif
+  endif
+end
+echo "" >> $log
+df . >> $log
+
+echo "There were $errors errors." >> $log
+
+#
+# notify the person in charge by email
+#
+if ($errors != 0) then
+  @mail@ -s "Mast databases NOT updated" $email < $log 
+else
+  @mail@ -s "Mast databases updated succesfully" $email < $log 
+endif
+
+# cleanup
+cleanup:
+/bin/rm -f $log

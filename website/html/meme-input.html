@@ -1,0 +1,247 @@
+<!---
+##
+## $Id: meme-input.html,v 1.1.1.1 2005/07/31 20:17:46 nadya Exp $
+##
+## $Log: meme-input.html,v $
+## Revision 1.1.1.1  2005/07/31 20:17:46  nadya
+## Importing from meme-3.0.14, and adding configure/make
+##
+##
+--->
+
+<HTML> <HEAD> <BODY BACKGROUND="images/bkg.jpg"> 
+  <TITLE> MEME - Introduction</TITLE> 
+</HEAD> 
+<H1>MEME -- Multiple EM for Motif Elicitation </H1> 
+<H2><I>Motif discovery tool</I></H2> 
+<HR> 
+<P> 
+<B>The input to MEME contains the following fields.</B> 
+<UL> 
+<A NAME="email"> 
+<LI>	<B>e-mail address</B> 
+	<BR> 
+	This is the address where the confirmation message and motifs will be 
+	sent.  Make sure this is a valid e-mail address.  
+
+<A NAME="description"> 
+<LI>	<B>description</B>[optional] 
+	<BR> 
+	This will be included in the subject lines of the messages MEME will 
+	send you.  
+	You may only use the following characters in your description:
+<UL>
+		<B>a-zA-Z0-9:;-_"()<>%</B>
+</UL>
+	All other characters will be converted to blanks.
+	This field is optional so you may leave it blank if you wish.
+
+<A NAME="sequences">
+<LI>	<B>sequences</B>
+	<BR> 
+	This is the group of sequences (the "training set")
+	which you want MEME to analyze for
+	patterns that are shared among the sequences and/or repeat within
+	individual sequences.  All of the sequences must be either protein
+	or DNA.  You may not mix different types of sequences in the same group.
+	MEME supports a large number of sequence
+	<A HREF="help_format.html"><B>formats</B></A>.  The Web version
+	of MEME requires that the sequences in your group have fewer than 60,000
+	<A HREF="help_alphabet.html"><B>characters</B></A> in total. 
+	To specify the sequences you wish MEME to analyze, 
+	you can enter either a file name or the actual sequences.  Do not
+	enter both.
+
+	<UL>
+
+	<A NAME="filename">
+	<LI> <B>file name</B>
+	This should be the name of a file on your computer containing
+	a group of related sequences in an appropriate sequence
+        <A HREF="help_format.html"><B>format</B></A>.
+
+	<A NAME="actual-sequences">
+	<LI> <B>actual sequences</B>
+	You may type or cut-and-paste the sequences in an appropriate
+	sequence <A HREF="help_format.html"><B>format</B></A>
+	in the window provided here.
+
+	</UL>
+
+<A NAME="distribution">
+<LI>	<B>motif distribution</B>
+	<BR>
+	This is where you tell MEME how you believe occurrences of the
+	motifs are 
+  	<A HREF ="help_distribution.html"><B>distributed</B></A>
+	among the sequences.  Selecting the correct type of distribution
+	improves the sensitivity and quality of the motif search.
+
+<A NAME="nmotifs">
+<LI>	<B>number of motifs</B>
+	<BR>
+	MEME will look for up to this number of distinct motifs in the
+	training set.  MEME will stop when this number of motifs has been
+	found, or when none can be found with <I>E</I>-value less than 10000.
+
+<A NAME="nsites">
+<LI>	<B>number of sites</B>[optional]
+	<BR>
+	This is the total number of sites in the <I>training set</I>
+	where a single motif occurs.
+	You can choose different limits for 
+	the <B>minimum</B> and <B>maximum</B> number of occurrences that 
+	MEME will consider.  If you have prior knowledge about the number
+	of occurrences that motifs have in your trainig set, limiting
+	MEME's search in this way can can increase the likelihood of MEME
+	finding true motifs.  
+	<BR>
+	For example, if you know that each motif is 
+	likely to occur at least 5 times but no more than 8 times in the
+	training set, you could specify:
+	<UL>
+	<B>Minimum</B> sites =  5
+	<BR>
+	<B>Maximum</B> sites</B> = 8
+	</UL>
+	MEME will then only report motifs with between 5 and 8 occurrences,
+	inclusive, in the training set.  (The same range [5,...,8] 
+	will apply, separately, to each motif MEME finds.) 
+	MEME may still find motifs with slightly fewer or more occurrences
+	then those you specify.
+	In the above example, if there is a motif in the training set 
+	with only 4 occurrences, MEME may still find it, but it will 
+	report 5 occurrences, one of which will be erroneous.  
+	Likewise, if a 
+	motif in the training set has 9 occurrences, MEME will probably 
+	still find it, but it will report only 8 of its occurrences.
+	<BR>
+	MEME chooses the number of occurrences to report for each motif
+	by optimizing a statistical heuristic function, restricting the
+	number of occurrences to the range you give here, or using 
+	defaults described below if you leave these fields blank.
+	<BR>
+	<B>Note 1:</B> 
+	<BR>Leave these fields blank if you have selected
+	"<B>One</B> per sequence" in the 
+	"How you think the occurrences...  are <B>distributed</B>" field.  
+	In that case, each sequence must have exactly one occurrence of
+	each motif.  It also doesn't make any sense to 
+	set the maximum number of sites to a number larger than the 
+	number of sequences if you have chosen the "<B>Zero or one</B> per
+	sequence distribution.  In that case, there can never be more
+	occurrences of a motif than there are sequences.
+	<BR>
+	<B>Note 2:</B> 
+	<BR>These fields are optional.  If you leave them blank,
+	MEME will choose limits depending on the type of occurrence 
+	distribution you have specified and the number of sequences 
+	(<I>n</I>)
+	in the training set.  
+	MEME will also override your settings if
+	they conflict with the type of distribution you have chosen (see
+	<B>Note 1</B>, above).
+
+	<TABLE BORDER>
+	  <TR> <TH COLSPAN=3> Default Numbers of Sites for each Motif
+	  <TR>
+	    <TH> type of distribution
+	    <TH> minimum sites
+	    <TH> maximum sites
+	  <TR>
+	    <TD> <B>one</B> occurrence per sequence
+	    <TD> <I>n</I>
+	    <TD> <I>n</I>
+	  <TR>
+	    <TD> <B>zero or one</B> occurrence per sequence
+	    <TD> sqrt(<I>n</I>)
+	    <TD> <I>n</I>
+	  <TR>
+	    <TD> <B>any number</B> of repetitions per sequence
+	    <TD> sqrt(<I>n</I>)
+	    <TD> min(5*<I>n</I>, 50)
+	</TABLE>
+ 
+<A NAME="width">
+<LI>	<B>motif width</B>
+	<BR>
+	This is the width (number of characters in the sequence
+	pattern) of a single motif. MEME chooses the optimal
+	width of each motif individually using a statistical heuristic function.
+	You can choose different limits for the <B>minimum</B> 
+	and <B>maximum</B> motif widths that MEME will consider.  
+	The width of each motif that MEME reports will lie within the limits
+	you choose.
+ 
+<A NAME="text">
+<LI>    <B>text output format</B>
+        <BR>
+        Choosing this option will cause MEME to produce plain text (ASCII)
+        output.  By default, MEME output is in hypertext (HTML) format.
+
+<A NAME="shuffle">
+<LI>    <B>shuffle letters in input sequences</B>
+        <BR>
+        You can ask MEME to shuffle the letters in each of your input
+        sequences.  This can be useful for determining if the motifs
+        found by MEME using your (unshuffled) sequences are not
+        statistically significant.  To determine this, compare the MAST output
+        you received from MEME for your original sequences with that received
+        using the "Shuffle letters in input sequences" option.  (Keep all other
+        MEME parameter settings the same so that the comparison will be valid.)
+        Compare the best p-values for the first motif in the original
+        run to the best p-values for the first motif in the shuffled run.
+        If they are similar (or the p-values in the shuffled run tend to
+        be smaller), then the motif is probably not significant.
+        Repeat this process for each motif bearing in mind that the earlier
+        motifs are most likely to be significant.
+        Concluding that a motif is significant is more problematic.
+        Low p-value occurrences of the motif in many sequences and in
+        a conserved position relative to other motifs (or the ends of the
+        sequence) is evidence that it is statistically significant.
+        You can use the shuffle option to help determine what "low" is for the
+        particular set of sequences and MEME parameters you are using.
+
+<A NAME="posonly">
+<LI>    <B>search given strand only</B>
+        <BR>
+	MEME searches for motifs on both the given DNA strand <B>and</B>
+	the reverse complement strand by default.  Checking this box
+	will cause MEME to search the given DNA strand only.
+
+<A NAME="pal">
+<LI>    <B>look for palindromes only</B>
+        <BR>
+	Checking this box causes MEME to search only for DNA palindromes.
+        This causes MEME to average the letter frequencies in corresponding 
+        motif columns together. For instance, if the width of the 
+        motif is 10, columns 1 and 10, 2 and 9, 3 and 8, etc., 
+        are averaged together.  The averaging combines the 
+        frequency of A in one column with T in the other, 
+        and the frequency of C in one column with G in the other.  
+	If this box is <B>not</B> checked, the columns are <B>not</B> averaged
+	together. 
+
+
+<P>
+	Clicking on the <B>Start search</B> button causes your sequences to 
+	be sent to
+	<A HREF="http://www.sdsc.edu/">San Diego Supercomputer Center</A> 
+	(SDSC) and analyzed by MEME for repeated patterns.
+<P>
+	The results of the MEME analysis are sent to you by e-mail.
+<P>
+	No copies of your sequences or analysis results are saved at SDSC after
+	the results have been sent to you.
+
+<P>
+<HR>
+	<A HREF="meme.html"><B>Discover motifs using MEME</B></A>
+<BR>
+	<A href="meme-intro.html"><B>MEME introduction</B></A>
+<BR>
+	<A href="intro.html"><B>MEME SYSTEM introduction</B></A>
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,113 @@
+<!---
+##
+## $Id: help_format.html,v 1.1.1.1 2005/07/31 20:12:45 nadya Exp $
+##
+## $Log: help_format.html,v $
+## Revision 1.1.1.1  2005/07/31 20:12:45  nadya
+## Importing from meme-3.0.14, and adding configure/make
+##
+##
+--->
+
+<HTML>
+<HEAD>
+<TITLE> MEME - Input formats</TITLE>
+</HEAD>
+
+<BODY BACKGROUND="images/bkg.jpg">
+
+<HR>
+The preferred sequence format for MEME is Pearson/Fasta format.  
+For example,
+<UL>
+                        ><B>ICYA_MANSE</B> INSECTICYANIN A FORM 
+			(BLUE BILIPROTEIN) <BR>
+                        GDIFYPGYCPDVKPVNDFDLSAFAGAWHEIAK <BR>
+                        LPLENENQGKCTIAEYKYDGKKASVYNSFVSNGVKEYMEGDLEIAPDA <BR>
+                        ><B>LACB_BOVIN</B> BETA-LACTOGLOBULIN PRECURSOR 
+			(BETA-LG) <BR>
+                        MKCLLLALALTCGAQALIVTQTMKGLDI <BR>
+                        QKVAGTWYSLAMAASDISLLDAQSAPLRVYVEELKPTPEGDLEILLQKW <BR>
+</UL>
+                        Sequences start with a header line followed by
+                        sequence lines.  A header line has
+                        the character ``>'' in position one, followed by
+                        an unique name without any spaces, followed by 
+			(optional) descriptive text.  After the header line come
+                        the actual sequence lines.  Spaces and blank lines are
+                        ignored.  Sequences may be in capital or lowercase or
+                        both.
+<P> 
+                        MEME uses the first word in the header line of each
+                        sequence, truncated to 24 characters if necessary,
+                        as the name of the sequence. This name must be unique.
+                        Sequences with duplicate names will be ignored. 
+                        (The first word in the title line is
+                        everything following the ">" up to the first blank.)
+<P> 
+                        Sequence weights may be specified in the dataset
+                        file by special header lines where the unique name
+                        is ``WEIGHTS'' (all caps) and the discriptive
+                        text is a list of sequence weights.
+                        Sequence weights are numbers in the range 0 < w <=1.
+                        All weights are assigned in order to the
+                        sequences in the file. If there are more sequences
+                        than weights, the remainder are given weight one.
+                        Weights must be greater than zero and less than
+                        or equal to one.  Weights may be specified by
+                        more than one "WEIGHT" entry which may appear
+                        anywhere in the file, but you must not put weights
+                        on lines that don't start with ">WEIGHT".  
+			When weights are used,
+                        sequences will contribute to motifs in proportion
+                        to their weights.  Here is an example for a file
+                        of three sequences where the first two sequences are
+                        very similar and it is desired to down-weight them:
+<UL> 
+                        >WEIGHTS 0.5 .5 <BR>
+                        >WEIGHTS 1.0 <BR>
+                        >seq1 <BR>
+                        GDIFYPGYCPDVKPVNDFDLSAFAGAWHEIAK <BR>
+                        >seq2 <BR>
+                        GDMFCPGYCPDVKPVGDFDLSAFAGAWHELAK <BR>
+                        >seq3 <BR>
+                        QKVAGTWYSLAMAASDISLLDAQSAPLRVYVEELKPTPEGDLEILLQKW <BR>
+</UL>
+The web version of MEME also accepts protein and DNA sequences in any of the 
+following formats by converting them to Pearson/Fasta format.  When using
+these formats, it is not possible to specify sequence weights.
+<UL>
+<B>Sequence formats that allow one or more sequences:</B>
+<P>
+<LI>	 IG/Stanford, used by Intelligenetics and others
+<LI>	 GenBank/GB, genbank flatfile format
+<LI>	 NBRF format
+<LI>	 EMBL, EMBL flatfile format
+<LI>	 DNAStrider, for common Mac program
+<LI>	 Fitch format, limited use
+<LI>	 Pearson/Fasta, a common format used by Fasta programs and others
+<LI>	 Zuker format, limited use
+<LI>	 Olsen, format printed by Olsen VMS sequence editor
+<LI>	 Phylip3.2, sequential format for Phylip programs
+<LI>	 Phylip, interleaved format for Phylip programs (v3.3, v3.4)
+<LI>	 MSF multi sequence format used by GCG software
+<LI>	 PAUP's multiple sequence (NEXUS) format
+<LI>	 PIR/CODATA format used by PIR
+<LI>	 ASN.1 format used by NCBI
+<P>
+
+<B>Sequence formats that only allow one sequence. These formats cannot
+be used to input multiple sequences.</B>
+<P>
+<LI>	 GCG, single sequence format of GCG software (use MSF format instead)
+<LI>	 Plain/Raw, sequence data only (no name, document, numbering)
+</UL>
+
+<HR>
+
+MEME uses the
+<A HREF="gopher://ftp.bio.indiana.edu:70/11/Molecular-Biology/Molbio%20archive/readseq">
+ReadSeq</A> program to read in sequences. ReadSeq is copyright 1990 by
+D. G. Gilbert, Biology Dept., Indiana University.
+<HR>
+

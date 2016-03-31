@@ -1,0 +1,168 @@
+<!---
+##
+## $Id: motif-format.html,v 1.1.1.1 2005/07/31 20:18:42 nadya Exp $
+##
+## $Log: motif-format.html,v $
+## Revision 1.1.1.1  2005/07/31 20:18:42  nadya
+## Importing from meme-3.0.14, and adding configure/make
+##
+##
+--->
+
+<HTML>
+<HEAD>
+<BODY BACKGROUND="images/bkg.jpg">
+<TITLE> MAST - Motif Format</TITLE>
+</HEAD>
+
+<H1>MAST -- Motif Alignment and Search Tool</H1>
+<H2><I>Motif search tool</I></H2>
+
+<HR>
+
+<H2> MOTIF FORMAT </H2>
+
+<B>MAST can search using (multiple) motifs contained in
+<UL>
+<LI> a MEME output file,
+<LI> a GCG profile file,
+<LI> two or more GCG profile files concatenated together, or
+<LI> a file with the following format.</B>
+</UL>
+
+<P>
+<CENTER>
+<TABLE BORDER>
+<CAPTION><B>Motif file format</B></CAPTION>
+<TR><TD><PRE>
+
+  ALPHABET= <I>alphabet</I>
+  log-odds matrix: alength= <I>alength</I> w= <I>w</I>
+  <I>row_1
+  row_2
+  ...
+  row_w </I> </PRE> </TABLE>
+
+<P>
+</CENTER>
+
+<UL>
+	<LI>A motif is represented by a position-dependent scoring matrix.
+
+	<LI>A scoring matrix is preceded by a line starting with the words
+	<NOBR><TT>log-odds matrix: </TT></NOBR>
+	and specifying <TT><I>alength</I></TT>, the length
+	of the alphabet (number of columns in the scoring matrix), 
+	and the <TT><I>w</I></TT>, the width of the
+	motif (number of rows in the scoring matrix). 
+
+	<LI>The following <TT><I>w</I></TT> lines (no blank lines allowed) 
+	contain the rows of the scoring matrix.
+	Row <I>i</I>, column <I>j</I> of the matrix gives the score
+	for the <I>j-th</I> letter in <TT><I>alphabet</I></TT>
+	appearing at position <I>i</I> in an occurrence of the motif.
+
+	<LI>The spaces after the equals signs and the colon are required.  
+
+	<LI>The number of letters in <TT><I>alphabet</I></TT>
+	must equal <TT><I>alength</I></TT>.
+
+	<LI>Any number of additional motifs may follow the first one.
+
+	<LI>The motif file must contain a line starting with 
+	<PRE>	ALPHABET= </PRE>
+	followed by <I>alphabet</I>, 
+	a list containing the letters used in the motifs.
+	The order of the letters in <I>alphabet</I> must be the same as
+	the order of the columns of scores in the motifs.  The order
+	need not be alphabetical and case does not matter, but there
+	should be no spaces in <I>alphabet</I>.
+	The letters in 
+	<I>alphabet</I> must be a subset of either the IUB/IUPAC 
+		DNA (<B>ABCDGHKMNRSTUVWY*-</B>) or 
+		protein (<B>ABCDEFGHIKLMNPQRSTUVWXYZ*-</B>)
+	alphabets.  DNA alphabets must contain at least the letters
+	<B>ACGT</B>.  Protein alphabets must contain
+	at least the letters <B>ACDEFGHIKLMNPQRSTVWY</B>.  All other letters
+	in the alphabets are optional.  If any of the optional letters
+	are missing from <I>alphabet</I>, MAST automatically
+	generates scores for them by taking the
+	weighted average of the scores for the letters which the missing 
+	letter could match.  (The weights are the frequencies of the
+	replaced letters in the appropriate non-redundant database.)
+	Replacements for the optional letters are given in the following table.
+
+	<P>
+	<CENTER>
+	<TABLE BORDER>
+	<CAPTION><B>Letters matched by optional letters</B></CAPTION>
+	<TR><TH ROWSPAN=2>optional <BR> letter <TH COLSPAN=2> matches
+	<TR>				<TH>DNA 	<TH>protein
+	<TR><TD ALIGN=CENTER> B 	<TD>CGT		<TD>DN
+        <TR><TD ALIGN=CENTER> D 	<TD>AGT		<TD> 
+        <TR><TD ALIGN=CENTER> H 	<TD>ACT		<TD> 
+        <TR><TD ALIGN=CENTER> K 	<TD>GT		<TD> 
+        <TR><TD ALIGN=CENTER> M		<TD>AC		<TD> 
+        <TR><TD ALIGN=CENTER> N 	<TD>ACGT	<TD> 
+        <TR><TD ALIGN=CENTER> R 	<TD>AG		<TD> 
+        <TR><TD ALIGN=CENTER> S 	<TD>CG		<TD> 
+        <TR><TD ALIGN=CENTER> U 	<TD>T		<TD>ACDEFGHIKLMNPQRSTVWY
+        <TR><TD ALIGN=CENTER> V 	<TD>CAG		<TD> 
+        <TR><TD ALIGN=CENTER> W		<TD>AT 		<TD> 
+        <TR><TD ALIGN=CENTER> X 	<TD> 		<TD>ACDEFGHIKLMNPQRSTVWY
+        <TR><TD ALIGN=CENTER> Y 	<TD>CT		<TD> 
+        <TR><TD ALIGN=CENTER> Z 	<TD> 		<TD>EQ
+        <TR><TD ALIGN=CENTER> 
+          <FONT SIZE=+1>*</FONT> 	<TD>ACGT	<TD>ACDEFGHIKLMNPQRSTVWY
+        <TR><TD ALIGN=CENTER>
+          <FONT SIZE=+1>-</FONT> 	<TD>ACGT	<TD>ACDEFGHIKLMNPQRSTVWY
+	</TABLE>
+	</CENTER>
+
+</UL>
+
+<P>
+<H2> EXAMPLE </H2>
+<B>Here is an example of a DNA motif file that contains two motifs.</B>
+<P>
+<CENTER>
+<CAPTION><B>Sample motif file</B></CAPTION>
+<TABLE BORDER>
+<TR><TD><PRE>
+
+  ALPHABET= ACGT
+  log-odds matrix: alength= 4 w= 9
+   -4.275  -0.182  -4.195   1.408
+   -4.296  -1.487   1.880  -0.816
+   -2.160  -1.492  -4.171   1.474
+   -0.810  -4.076   1.872  -2.164
+    1.537  -1.487  -4.195  -4.205
+    0.113   0.340  -0.237  -0.209
+   -0.454   0.923   0.390  -0.834
+   -1.336  -0.082   0.905   0.100
+    0.674  -4.183   0.130  -0.201
+  log-odds matrix: alength= 4 w= 6
+   -2.032   0.324   1.371  -0.781
+   -0.409   0.560  -0.250   0.119
+   -4.274  -0.519  -0.260   1.167
+   -2.188   2.300  -4.191  -2.465
+    1.265  -4.111  -0.267  -2.180
+   -1.977   2.158  -1.661  -2.071 </PRE></TABLE>
+
+<P>
+</CENTER>
+	In the example above, because the order of the letters in
+	<TT><I>alphabet</I></TT> is <I>ACGT</I>, the first column of each motif
+	gives the scores for the letter <I>A</I> at each position in 
+	the motif, the second column gives
+	the scores for <I>C</I> and so forth.
+	
+<P>
+<HR>
+	<A href="mast-input.html"><B>MAST input</B></A>
+<P>
+	<A href="mast-intro.html"><B>MAST introduction</B></A>
+<HR>
+
+</BODY>
+</HTML>

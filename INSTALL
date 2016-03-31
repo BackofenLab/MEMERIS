@@ -1,0 +1,310 @@
+
+                       INSTALL
+
+In prior versions, installation was driven by the interactive 
+install script.  Starting with version 3.5.0 it is done using 
+GNU autoconf and automake tools.
+
+Please read this document in its entirety. While the installation
+and configuration are straight forward, all the features and steps
+needed to customize, compile and install the package are fully 
+explained here.
+
+======================================================================================
+Table of Contents:
+======================================================================================
+A. Installing from a downloaded .tar.gz file (tarball)
+B. Installing from a CVS repository 
+C. Customizing configuration
+D. Installation Examples
+E. Parallel MEME 
+
+======================================================================================
+A. Installing MEME software from a downloaded .tar.gz file (tarball)
+======================================================================================
+The latest release of the MEME/MAST software can be obtained from 
+    http://meme.nbcr.net/meme/meme-download.html
+The file will have a name like: meme_VERSION.tar.gz, where "VERSION"
+is three numbers separated by dots.  This file is called a "tarball".
+In what follows, you should type the actual version numbers in place
+of "VERSION" without any spaces.
+
+Put the tarball you obtained from the web site in a directory where you 
+want to build the software.  If the software distribution was obtained 
+via CVS access please see section "Installing from a CVS repository" 
+
+0. on UNIX machines do
+   $ gunzip -c meme_VERSION.tar.gz | tar xvf -
+   $ cd meme_VERSION 
+
+1. Configure 
+
+   This distribution was build using GNU autotools autoconf-2.59 and automake-1.9.2,
+   and it contains some files relative to these versions. If your system has a 
+   different version of either tool, you will need to recreate some of these files.
+   Run provided script:
+   $ ./bootstrap
+
+   Run configure with specific parameters, see section "Customizing configuration" below
+   for the list of parameters and the default settings. 
+   $ ./configure [parameters here]
+
+   In general, defaults are sufficient except providing installation directory.
+   The default installation will install server and client:
+   $ ./configure --prefix=install.path.here 
+
+   To install everything (server, client and web) :
+   $ ./configure --prefix=install.path.here --enable-web 
+
+   To install only client:
+   $ ./configure --prefix=install.path.here --disable-server
+
+   To install only server:
+   $ ./configure --prefix=install.path.here --disable-client
+
+2. Compiling and installing
+   To compile simply type while at the top directory:
+   $ make
+
+   If there are no errors do a test (tests MEME and MAST output against known output)
+   $ make test
+
+   If there are errors, the output files from each test will be kept in tests/results/
+   and these files can be compared to ones in tests/.  When all tests pass without errors,
+   the results/ directory and the output files it contains is removed automatically. 
+
+   To install the software in the directory specified by "$prefix" do:
+   $ make install
+
+   If you have installed MEME and wish to install it in a new location 
+   or with new configuration parameters, execute:
+   $ make clean
+   and then repeat configuration part of step 1.
+   Then, do the installation starting with the configuration.
+
+3. Starting servers
+   $ <install-path>/bin/memed start
+
+   To check server status 
+   $ <install-path>/bin/memed status
+
+   The servers should be started as user "meme" (or another designated user chosen during
+   configure step). The startup will fail if servers started by the superuser.
+   If not user name were provided during configuration step, the default will be the user
+
+   In order to start servers automatically upon reboot, startup scripts are created
+   during "make install" in install.path.here/etc/startup/. Currently, there are following
+   scripts:    
+
+         Script        Platform
+       ==============================
+       meme.linux      RedHat linux
+       meme.solaris    Solaris
+
+   All commands below are executed by a superuser. 
+
+   For linux: 
+   (1) Copy  meme.linux into /etc/init.d/meme:
+       # cp <install-path>/etc/meme.linux /etc/init.d/meme
+   (2) Add new services for management: 
+       # chkconfig --add meme
+
+   For Solaris: 
+   (1) Copy  meme.solaris into /etc/init.d/meme
+       # cp <install-path>/etc/meme.solaris /etc/init.d/meme
+   (2) Add new services for management, for example:
+       # ln -s /etc/init.d/meme /etc/rc2.d/K57meme
+       # ln -s /etc/init.d/meme /etc/rc3.d/S99meme
+
+4. Installing MAST databases.
+   To download the databases go to the directory that was specified with
+   the --with-db=DBDIR argument during configure step (1).  If none was
+   given, then the default path to the database will be $prefix/db. This 
+   directory is created during "make install".
+
+   Set the environment to get path to newly installed MEME/MAST executables:
+       $ source $prefix/etc/meme.csh     # for csh, tcsh
+   or
+       $ . $prefix/etc/meme.sh           # for bash, sh
+
+   Execute command to download the databases:
+       $ update_mast_databases yourmail@site `pwd` < $prefix/etc/mast_db.list
+
+   The resulting files in the databases directory will use around 26Gb.
+   It can take time to download all the databases, and the connections to some 
+   sites from which files are downloaded may be not always available.  The result 
+   of the download will be emailed, and if there are errors, the command will need 
+   to be repeated. 
+
+   You then need to add the "upstream" (promoter region) databases.  
+   Except as noted in that file, they are retrieved from http://rsat.scmbb.ulb.ac.be/rsat/.
+   The upstream databases are listed in file $prefix/etc/mast_upstream_db.list.
+   Each line in the file gives the name of the database, followed by "#", followed
+   by the name of the organism.  For example, 
+	"bsubtilis_-500_50.na # bacillus subtilis"
+   means the database name is "bsubtilis_-500_50.na", the organism is "bacillus subtilis",
+   and the file contains the -500 to +50 upstream regions of all genes.
+ 
+   To download the upstream database files do the following:
+   First point your browser to http://rsat.scmbb.ulb.ac.be/rsat/.
+   Then, click on "retrieve sequence" on the left side of that web page. 
+   Then, for each line in file $prefix/etc/mast_upstream_db.list that
+   does NOT have a URL following the "#", do the following:
+   	1) choose the organism in the "Organism" window 
+   	2) click "all" in the "Genes" field
+	3) set "Feature type" to "CDS"
+	4) set "Sequence type" to "upstream"
+	5) set "From" to the first value in the database file name
+	6) set "To" to the second value in the database file name
+	7) set "Sequence format" to "FASTA"
+	8) set "Sequence label" to "Gene Name"
+	9) set "Output" to "server"
+	10) save the resulting link target to a file named "x.na"
+		where "x.na" is the database name given 
+		in file $prefix/etc/mast_upstream_db.list
+	11) at the command line type "fasta-get-markov < "x".na > "x".bfile
+		where "x" is the database name without ".na"
+   For lines with a URL following the "#", download the file at the URL, then
+   type:
+	$ gunzip "filename"
+   where "filename" is everything after the last "/" in the URL.
+   Then run "fasta-get-markov" on the resulting file as described in 11), above.
+
+5. Configuring apache web access
+   This part requires  root access to create a symbolic link from the document root
+   directory to the web directory in MEME installation. For example, if MEME software
+   is installed in /home/meme, and the HTTP DocumentRoot is /var/www/html, then create 
+   a link:
+       ln -s /var/www/html/meme <install.path.here>/web
+
+   The URL for web access is typically http://<hostname>/meme/. Virtual hosts may be 
+   configured accordingly.
+
+======================================================================================
+B. Installing from a CVS repository 
+======================================================================================
+
+The read-write access to the CVS is granted at this point only to the developers. 
+We provide the tarball distribution of the latest version on the ftp site. 
+
+If you have CVS access, you can check out the source code by
+    cvs -d cvs.rocksclusters.org:/home/cvs/CVSROOT co nbcr/apps/meme-rocks
+
+To start working with the distribution on needs to create a "configure" script:
+    cd nbcr/apps/meme-rocks
+    ./bootstrap
+
+At this point, proceed with the installation as outlined in section A step 1.
+
+======================================================================================
+C. Customizing configuration
+======================================================================================
+
+Customization is done via the command line arguments to configure.
+To find out a list and the syntax of the configurable arguments, type:
+   ./configure --help
+
+This command will print information on stdout.
+
+A list of parameters :
+
+Installation location
+  --prefix               Provide the installation path (defaults to $HOME)
+
+Optional Features:
+  --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
+  --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --enable-debug          Produce an executable with debugging symbols. Default none.
+  --enable-opt            Produce an executable with optimization. Default compiler dependent.
+  --enable-serial         Produce only serial executables. Default parallel and serial.
+                          Parallel will be disabled if no mpicc is found or if no batch
+                          scheduler is found.
+  --enable-server         Produce server executables. Default is enabled
+  --enable-client         Produce client executables. Default is enabled
+  --enable-web            Build website applications. Default is disabled
+
+Optional localization features:
+  --with-queue=QUEUE      QUEUE type (SGE or PBS). Defaults to the type of found qstat.
+  --with-mpicc=MPICC      Set MPICC to use. Default is found mpicc.
+  --with-mpidir=MPIDIR    Set MPI installation path. Default is path of found mpicc.
+  --with-url=URL          Set url for the website. Default http://`hostname`/meme.
+  --with-user=USER        Set user for starting the servers. Default `whoami`.
+  --with-contact=EMAIL    Set email of website administrator. Default `whoami`@`hostname`.
+  --with-webdir=DIR       Set path to website part. Default $prefix/web.
+  --with-db=DBDIR         Set path to databases. Default $prefix/db.
+  --with-logs=LOGDIR      Set path to logs. Default $prefix/LOGS.
+  --with-meme-port=PORT   Set port to use for MEME. Default 3012.
+  --with-mast-port=PORT   Set port to use for MEME. Default 3013.
+  --with-procs=PROCS      Set number of processors to use for parallel jobs. Default 2.
+  --with-maxtime=TIME     Set wall time limit (sec) a job may use. Default 7200.
+  --with-qname=NAME       Set queue name (needed only for PBS scheduler). Default is empty string.
+
+
+======================================================================================
+D. Installation Examples
+======================================================================================
+
+Example 1: Installing MEME servers and clients, including the web services in /home/meme
+    $ gunzip -c meme_3.5.0.tar.gz | tar xvf -
+    $ cd meme_3.5.0
+    $ ./configure --prefix=/home/meme --enable-web
+    $ make
+    $ make test
+    $ make install
+
+After execution of these commands, provided none resulted in error, 
+the following structure will be created in /home/meme:
+    bin/  db/  etc/  lib/  LOGS/    tests/  web/
+
+Example 2: installing MEME servers and clients without the web server in /opt/meme
+    $ gunzip -c meme_3.5.0.tar.gz | tar xvf -
+    $ cd meme_3.5.0
+    $ ./configure --prefix=/opt/meme 
+    $ make
+    $ make check
+    $ make install
+
+After execution of these commands, provided none resulted in error, 
+the following structure will be created in /opt/meme:
+    bin/  db/  etc/  lib/  LOGS/    tests/
+
+Directories contents:
+bin/  - MEME and MAST executables and scripts.
+db/   - this directory or DIR specified by --with-db=DIR option is created.
+        Initially, the database directory is empty, and is filled with the databases
+        after running update_mast_databases command. 
+etc/  - contains the following files
+        mast_db.list - databases list, for running update_mast_databases command
+        mast.doc, meme.doc - text files used by a few commands to provide usage info 
+        meme_config - localization file, holds the variables needed for running scripts
+        prior1.plib, prior30.plib - these files are used by MEME  
+        meme.csh - used for setting user environment for tcsh or csh 
+        meme.sh - used for setting user environment for sh or bash
+lib/  - contains common Perl modules
+LOGS/ - directory for temporary files created by MAST or MEME when jobs are
+        submitted via web.
+tests/ - known correct output of MEME and MAST for specific sequences and databases.
+         These files are used when running "make test" during installation or bin/runtests
+web/   - contains files necessary to setup up a web-based access to MEME/MAST servers. 
+
+
+======================================================================================
+E. Parallel MEME  
+======================================================================================
+
+By default, configure will establish if your system has the right software to produce
+parallel version of MEME. Parallel compilation is disabled if no mpicc is found or if 
+no batch scheduler is found. Currently, parallel version of MEME is known to work with:
+
+     MPI distributions                  Batch schedulers
+     -----------------      and         ----------------
+       LAM MPI                              SGE
+       MPICH                                PBS
+
+If your mpicc is installed in non-standard place, use --with-mpidir=MPIDIR option when
+running 'configure' to specify the installation directory.  If you have a custom 
+version of mpicc (for example, one from Sun HPC ClusterTools) that provides wrappers 
+use --with-mpicc=MPICC to specify mpicc or its wrapper by full path. The configure 
+looks by default only for names 'mpicc' and 'mpcc'.
+
+

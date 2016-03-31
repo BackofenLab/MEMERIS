@@ -1,0 +1,61 @@
+<!---
+##
+## $Id: help_distribution.html,v 1.1.1.1 2005/07/31 20:12:22 nadya Exp $
+##
+## $Log: help_distribution.html,v $
+## Revision 1.1.1.1  2005/07/31 20:12:22  nadya
+## Importing from meme-3.0.14, and adding configure/make
+##
+##
+--->
+
+<HTML>
+<HEAD>
+<TITLE> MEME - Motif Distribution </TITLE>
+</HEAD>
+
+<BODY BACKGROUND="images/bkg.jpg">
+
+<HR>
+MEME searches for similarities among the sequences you give it.
+How those similarities (motifs) may be shared is determined by
+the <b>motif distribution menu</b>.  
+<ol>
+<li>One per sequence
+<li>Zero or one per sequence
+<li>Any number of repetitions
+</ol>
+
+If you choose the first option,
+MEME assumes that each sequence in the
+dataset contains <B>exactly</B> one occurrence
+of each motif.  This option is the <I>fastest</I> and most <I>sensitive</I> 
+but the motifs returned by MEME may be "blurry" if any of the sequences 
+is missing them.
+
+<P>
+If you choose the second option,
+MEME assumes that each sequence may contain <B>at most</B> one
+occurrence of each motif.  This option is useful when you suspect that
+some motifs may be missing from some of the sequences.
+In that case, the motifs found will be more accurate than using the 
+first option.  This option takes more computer time than the
+first option (about twice as much) and is slightly less sensitive to 
+weak motifs present in all of the sequences.
+
+<P>
+If you choose the third option,
+MEME assumes each sequence may contain <B>any number</B> of
+non-overlapping occurrences of each motif.  
+This option is useful when you suspect that motifs repeat multiple
+times within a single sequence.  In that case, the motifs found 
+will be much more accurate than using one of the other options.
+This option can also be used to discover repeats within
+a single sequence.  
+This option takes the much more computer time than the first option
+(about ten times as much) and is somewhat less sensitive to weak motifs which
+do not repeat within a single sequence than the other two options.
+</UL>
+<HR>
+
+

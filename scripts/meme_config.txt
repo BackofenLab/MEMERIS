@@ -1,0 +1,111 @@
+#
+# meme_config  - created from meme_config.txt by configure
+# holds site localization variables for running meme and mast
+#
+# $Id: meme_config.txt,v 1.7.4.2 2006/01/24 01:58:17 nadya Exp $
+#
+# $Log: meme_config.txt,v $
+# Revision 1.7.4.2  2006/01/24 01:58:17  nadya
+# export environ variables
+# add variable EXT to handle echo ouput in scripts, differs by platform
+#
+# Revision 1.7.4.1  2006/01/23 02:05:45  nadya
+# change export so it works in sh on solaris
+#
+# Revision 1.7  2005/10/28 23:48:51  nadya
+# set MEME_LOGS and MEME_DB to user provided
+# need both environment settings when starting servers.
+#
+# Revision 1.6  2005/10/07 05:33:55  nadya
+# keep uniform name MEME_LOGS throughout scripts.
+#
+# Revision 1.5  2005/10/05 23:13:14  nadya
+# move job.out file into LOGS/
+#
+# Revision 1.4  2005/10/02 05:40:10  nadya
+# add variable for meme-client executable
+#
+# Revision 1.3  2005/10/02 05:18:22  nadya
+# change $bin to $MEME_BIN.
+# add variables for meme/mas shell scripts and meme/mast executables.
+#
+# Revision 1.2  2005/08/12 17:50:30  nadya
+# add variables
+#
+# Revision 1.1  2005/08/09 23:05:55  nadya
+# localization file. Holds all the variabls needed for runnign scripts
+
+# installation path
+MEME_DIRECTORY=@MEMEDIR@
+export MEME_DIRECTORY
+
+# installation bin/
+MEME_BIN=$MEME_DIRECTORY/bin
+export MEME_BIN
+
+# directory where log files for meme/mast servers and the output 
+# of the meme/mat programs are kept. 
+MEME_LOGS="@MEMELOGS@"
+export MEME_LOGS
+
+# database directory
+MEME_DB="@MEMEDB@"
+export MEME_DB
+
+# UID to start servers
+MEME_USER=@MEMEUSER@
+
+# server scripts
+MEME_SERVER=$MEME_BIN/start-meme
+MAST_SERVER=$MEME_BIN/start-mast
+
+# port for meme and mast servers and clients
+MEME_PORT=@MEMEPORT@
+MAST_PORT=@MASTPORT@
+
+# executables to use when starting servers. 
+# Curernlty, meme and mast are shell scripts.
+MEME_SH=meme
+MAST_SH=mast
+
+# true binary executables
+MEME_EXEC=meme.bin
+MAST_EXEC=mast.bin
+MEME_CLIENT_EXEC=meme-client.bin
+
+# server hostname
+HOST=@HOST_NAME@
+
+# number of processors to run MEME jobs on.
+nprocs=@N_PROCS@
+
+# amount of wall time that jobs may take.  This should
+# be 10% larger than $MAXTIME used in cgi-bin/meme.cgi
+WALL=@MAX_TIME@
+maxtime=`expr $WALL + $WALL / 10`
+
+# name of the queue that MEME jobs are submitted to if there is one
+queue="@Q_NAME@"
+
+# Set the type of queueing system. Possible values: sge, pbs.
+qsystem=@Q_TYPE@
+
+# place for standard output and error from jobs.
+# Can set jobout to /dev/null, but this may not work on some PBS systems
+jobout="$MEME_LOGS/job.out"
+
+# MPI type. Possible values : mpich, mpich_mpd and lam.
+mpi=@MPI_TYPE@
+
+# shell and temporary location used for meme runs. Needed by mpi.
+shell='/bin/csh'
+tmpdir='$TMPDIR'
+
+# variable for echo output of tests
+EXT="@EXT_STR@"
+
+if [ -d $MEME_BIN ]; then
+    PATH=$PATH:$MEME_BIN
+	export PATH
+fi
+

@@ -1,0 +1,30 @@
+#########################################################
+#
+# $Id: mast_upstream_db.list,v 1.4 2005/12/13 00:55:32 nadya Exp $
+# $Log: mast_upstream_db.list,v $
+# Revision 1.4  2005/12/13 00:55:32  nadya
+# add Id and Log macros, and entries for previous revisions
+#
+#
+# revision 1.3
+# date: 2005/12/09 06:59:59;  author: tbailey;  state: Exp;  lines: +2 -2
+# Added more clarification to INSTALL for upstream database downloading.
+# revision 1.2
+#
+# date: 2005/12/09 06:52:56;  author: tbailey;  state: Exp;  lines: +3 -3
+# Added detailed instructions for downloading upstream databases.
+# Put "K12" after E. coli database name to make clear which strain it is.
+#
+# revision 1.1
+# date: 2005/12/08 02:01:02;  author: tbailey;  state: Exp;
+# Created list of mast upstream (promoter) database file names.  This
+# must be updated along with http://meme.sdsc.edu/meme/mast-databases.html
+# whenever databases are added to mast.html.
+
+#########################################################
+
+bsubtilis_-500_50.na 	# bacillus subtilis
+ecoli_-500_50.na	# eschericia coli K12
+yeast_-950_50.na 	# saccharomyces cerevisiae
+hs.upstream.na		# homo sapiens (http://arep.med.harvard.edu/labgc/adnan/hsmmupstream/hs.upstream.gz)
+mouse.upstream.na	# mouse (http://arep.med.harvard.edu/labgc/adnan/hsmmupstream/mouse.upstream.gz)
